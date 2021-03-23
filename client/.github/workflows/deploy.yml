@@ -1,5 +1,5 @@
 name: Deploy Project
-
+# test automatic analysation
 on:
   push:
     branches:
