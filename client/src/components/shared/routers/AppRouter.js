@@ -4,6 +4,13 @@ import { GameGuard } from "../routeProtectors/GameGuard";
 import GameRouter from "./GameRouter";
 import { LoginGuard } from "../routeProtectors/LoginGuard";
 import Login from "../../login/Login";
+import MainMenu from "../../main/MainMenu";
+import Registration from "../../registration/Registration";
+import Title from "../../title/Title";
+import UserSettings from "../../userSettings/UserSettings";
+import Singleplayer from "../../singleplayer/Singleplayer";
+import Multiplayer from "../../multiplayer/Multiplayer";
+import Game from "../../game/Game";
 
 /**
  * Main router of your application.
@@ -20,14 +27,14 @@ class AppRouter extends React.Component {
       <BrowserRouter>
         <Switch>
           <div>
-            <Route
+             {/* <Route
               path="/game"
               render={() => (
                 <GameGuard>
                   <GameRouter base={"/game"} />
                 </GameGuard>
               )}
-            />
+            /> */}
             <Route
               path="/login"
               exact
@@ -37,7 +44,65 @@ class AppRouter extends React.Component {
                 </LoginGuard>
               )}
             />
-            <Route path="/" exact render={() => <Redirect to={"/game"} />} />
+              {/* # */}
+              <Route
+                  path="/main"
+                  exact
+                  render={() => (
+                      <MainMenu />
+                  )}
+              />
+              {/* # */}
+              <Route
+                  path="/registration"
+                  exact
+                  render={() => (
+                      <Registration />
+                  )}
+              />
+              {/* # */}
+              <Route
+                  path="/title"
+                  exact
+                  render={() => (
+                      <Title />
+                  )}
+              />
+              {/* # */}
+              <Route
+                  path="/settings"
+                  exact
+                  render={() => (
+                      <UserSettings />
+                  )}
+              />
+              {/* # */}
+              <Route
+                  path="/singleplayer"
+                  exact
+                  render={() => (
+                      <Singleplayer />
+                  )}
+              />
+              {/* # */}
+              <Route
+                  path="/multiplayer"
+                  exact
+                  render={() => (
+                      <Multiplayer />
+                  )}
+              />
+              {/* # */}
+              <Route
+                  path="/game"
+                  exact
+                  render={() => (
+                      <Game />
+                  )}
+              />
+
+              {/* Entry point */}
+            <Route path="/" exact render={() => <Redirect to={"/title"} />} />
           </div>
         </Switch>
       </BrowserRouter>

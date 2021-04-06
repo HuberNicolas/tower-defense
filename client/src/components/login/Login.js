@@ -132,7 +132,7 @@ class Login extends React.Component {
           <Form>
             <Label>Username</Label>
             <InputField
-              placeholder="Enter here.."
+              placeholder="Enter here..."
               onChange={e => {
                 this.handleInputChange('username', e.target.value);
               }}
@@ -156,10 +156,20 @@ class Login extends React.Component {
                 disabled={!this.state.username || !this.state.name}
                 width="50%"
                 onClick={() => {
-                  this.login();
+                  //this.login();
+                  this.props.history.push(`/main`);
                 }}
               >
                 Login
+              </Button>
+              <Button
+                  width="50%"
+                  onClick={() => {
+                    //this.login();
+                    this.props.history.push(`/registration`);
+                  }}
+              >
+                Registration
               </Button>
             </ButtonContainer>
           </Form>
