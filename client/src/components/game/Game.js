@@ -13,51 +13,13 @@ import Statusbar from "./Statusbar";
 import Shop from "./Shop";
 
 
-
-
-/*class Game extends React.Component {
-    board = {
-        tiles : [
-            {
-                id: 1,
-                empty: true
-            },
-            {
-                id: 2,
-                empty: true
-            }
-        ]
-    }
-
-    render() {
-        console.log(this.board.tiles)
-        const elements = [1,2,3,4];
-        const items = [];
-
-        for (const [index, value] of elements.entries()) {
-            items.push(<li key={index}>{value}</li>)
-        }
-
-
-
-
-        return(
-            <div>
-                <Tile />
-                <Board />
-                <Tile tiles={this.board.tiles}/>
-                <Tile tiles={this.board.tiles}/>
-                {items}
-
-
-            </div>
-        );
-    }
-}*/
-
-
-
 export default class Game extends React.Component {
+
+    printHello = () => {
+        return <h1> Hello </h1>
+    }
+
+
     createTable = () => {
         let table = []
 
@@ -73,6 +35,10 @@ export default class Game extends React.Component {
         }
         return table
     }
+
+
+
+
     render() {
         return(
 
@@ -82,7 +48,8 @@ export default class Game extends React.Component {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        float: "center"
+                        float: "center",
+                        backgroundColor: "red"
                     }}
                 > <Statusbar/> </div>
                 <div
@@ -99,17 +66,14 @@ export default class Game extends React.Component {
                         display: "flex",
                         //justifyContent: "center",
                         //alignItems: "center",
-                        float: "right"
+                        float: "right",
+                        backgroundColor: "red"
                     }}
                 > <table> <Shop /></table> </div>
-
-
-
-
+                <div> {this.printHello()}</div>
 
                 {/* <Tile />  */}
-
             </div>
-            );
+        );
     }
 }

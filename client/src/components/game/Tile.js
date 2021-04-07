@@ -7,12 +7,12 @@ export default function Tile() {
         <div
             style={{
                 display: "table-cell",
-                height: "100px",
-                width: "100px",
+                height: "60px",
+                width: "60px",
                 backgroundColor: "blue",
                 border: "5px solid transparent",
                 borderCollapse: "separate",
-                backgroundImage: "url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/7.png')",
+                backgroundImage: "url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/4.png')",
                 //backgroundImage: "url('https://www.transparentpng.com/thumb/winnie-the-pooh/images-about-winnie-the-pooh-pictures-32.png')",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
