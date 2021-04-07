@@ -28,6 +28,10 @@ button {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
-#canvas {
+#statusbar {
   background-color: aqua;
+}
+#shop {
+  display: inline;
+  background-color: aquamarine;
 }

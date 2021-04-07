@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 
 
+
 export default function Tile() {
     return (
         <div
             style={{
                 display: "table-cell",
-                height: "50px",
-                width: "50px",
+                height: "100px",
+                width: "100px",
                 backgroundColor: "blue",
                 border: "5px solid transparent",
                 borderCollapse: "separate",

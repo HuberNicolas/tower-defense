@@ -9,6 +9,8 @@ import { Button } from '../../views/design/Button';
 import { withRouter } from 'react-router-dom';
 import Tile from "./Tile";
 import Board from "./Board";
+import Statusbar from "./Statusbar";
+import Shop from "./Shop";
 
 
 
@@ -75,8 +77,38 @@ export default class Game extends React.Component {
         return(
 
             <div>
-                <table> {this.createTable()}</table>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        float: "center"
+                    }}
+                > <Statusbar/> </div>
+                <div
+                    style={{
+                        display: "flex",
+                        //justifyContent: "center",
+                        //alignItems: "center",
+                        float: "left"
+                    }}
+                > <table> {this.createTable()}</table> </div>
+
+                <div
+                    style={{
+                        display: "flex",
+                        //justifyContent: "center",
+                        //alignItems: "center",
+                        float: "right"
+                    }}
+                > <table> <Shop /></table> </div>
+
+
+
+
+
                 {/* <Tile />  */}
+
             </div>
             );
     }
