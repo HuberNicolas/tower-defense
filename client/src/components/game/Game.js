@@ -11,6 +11,7 @@ import Tile from "./Tile";
 import Board from "./Board";
 import Statusbar from "./Statusbar";
 import Shop from "./Shop";
+import "./Game.css";
 
 
 export default class Game extends React.Component {
@@ -41,38 +42,13 @@ export default class Game extends React.Component {
 
     render() {
         return(
-
             <div>
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        float: "center",
-                        backgroundColor: "red"
-                    }}
-                > <Statusbar/> </div>
-                <div
-                    style={{
-                        display: "flex",
-                        //justifyContent: "center",
-                        //alignItems: "center",
-                        float: "left"
-                    }}
-                > <table> {this.createTable()}</table> </div>
 
-                <div
-                    style={{
-                        display: "flex",
-                        //justifyContent: "center",
-                        //alignItems: "center",
-                        float: "right",
-                        backgroundColor: "red"
-                    }}
-                > <table> <Shop /></table> </div>
-                <div> {this.printHello()}</div>
-
-                {/* <Tile />  */}
+                <section id="grid">
+                    <header>Statusbar</header>
+                    <nav>Shop</nav>
+                    <main>Gameboard</main>
+                </section>
             </div>
         );
     }
