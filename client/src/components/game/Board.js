@@ -1,16 +1,17 @@
-import React, {Component} from 'react';
-import Tile from "./Tile";
+import React from 'react';
+import { StyledBoard } from './styles/StyledBoard';
+import Tile from './Tile';
 
-
-
-class Board extends Component {
-
-
-    render() {
-        return(
-            <canvas id={"canvas"} width={"50px"} height={"50px"} />
-        );
-    }
-}
+const Board = ({ board }) => (
+    <StyledBoard width={board[0].length} height={board.length}>
+        {board.map(row => row.map((tile, x) => <Tile key={x} type={tile[0]} />))}     
+    </StyledBoard>
+    
+   /* 
+   <div> 
+       {board.map(row => row.map((tile, x) => <Tile key={x} type={tile[0]} />))}
+    </div>
+    */
+)
 
 export default Board;

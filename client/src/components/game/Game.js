@@ -1,55 +1,107 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
-import { api, handleError } from '../../helpers/api';
-import Player from '../../views/Player';
-import { Spinner } from '../../views/design/Spinner';
-import { Button } from '../../views/design/Button';
-import { withRouter } from 'react-router-dom';
-import Tile from "./Tile";
-import Board from "./Board";
-import Statusbar from "./Statusbar";
-import Shop from "./Shop";
+import React, { useState, useCallback } from 'react';
 import "./Game.css";
 
+import { createBoard, checkCollision } from './gameHelpers';
 
-export default class Game extends React.Component {
 
-    printHello = () => {
-        return <h1> Hello </h1>
+// Componenets
+import Board from './Board';
+import Display from './Display';
+import SpawnButton from './SpawnButton';
+
+// Custom Hooks
+import { useWave } from './hooks/useWave';
+import { useBoard } from './hooks/useBoard';
+import { useInterval } from './hooks/useInterval';
+
+const Game = () => {
+
+    // define states
+    const [currHP, setCurrHP] = useState(100);
+    const [spawnRate, setSpawnRate] = useState(null); // drop time
+    const [gameOver, setGameOver] = useState(false);
+
+    const [wave, updateWavePos, resetWave] = useWave();
+    const [board, setBoard] = useBoard(wave, resetWave); // 1h 20min
+    // <Board board={createBoard()}/>
+
+    // functions
+    const decreaseHP = () => {
+        setCurrHP(currHP - 1)
     }
 
+    // movement
 
-    createTable = () => {
-        let table = []
+    const moveWave = dir => { // movePlayer
+        updateWavePos({x: 0, y: 0});
+    }
 
-        // Outer loop to create parent
-        for (let i = 0; i < 10; i++) {
-            let children = []
-            //Inner loop to create children
-            for (let j = 0; j < 10; j++) {
-                children.push(<Tile/>)
-            }
-            //Create the parent and add the children
-            table.push(<tr>{children}</tr>)
+    const spawnWave = () => { // startGame
+        // reset everything
+        setSpawnRate(1000);
+        setBoard(createBoard());
+        resetWave();
+    }
+
+    const walk = () => { // drop
+        if(!checkCollision(wave, board, {x: 0, y: 1})) {
+            updateWavePos({x: 0, y: 1, collided: false });
         }
-        return table
+        else {
+            updateWavePos({x: 0, y:0, collided: true});
+        }
+        
     }
 
-
-
-
-    render() {
-        return(
-            <div>
-
-                <section id="grid">
-                    <header>Statusbar</header>
-                    <nav>Shop</nav>
-                    <main>Gameboard</main>
-                </section>
-            </div>
-        );
+    const walkPath = () => { // dropPlayer
+        walk();
     }
+
+    const move = ({ keyCode }) => {
+
+    }
+
+    useInterval(() => {
+        walk();
+    }, spawnRate) 
+
+    console.log("re-render")
+    console.log(createBoard());
+    return(
+        
+        <div>
+            <section id="grid">
+                <header>
+                    <h3> Statusbar </h3>
+                    <div>
+                        <div>{currHP}</div>
+                        <button onClick={decreaseHP}> Decrease HP </button>
+
+                    </div>
+                </header>
+                    
+                <nav>
+                        <h1> Shop </h1>
+                        <aside>
+                            <Display text="Info1" />
+                            <Display text="Info2" />
+                            <Display text="Info3" />
+                        </aside>
+
+                </nav>
+                
+                <main>
+                    <h1>Gameboard</h1>
+                    <Board board={board}/>
+                    
+                    <SpawnButton callback={spawnWave}/>
+                    
+                
+                </main>
+             </section>
+         </div>
+    )
+    
 }
+
+export default Game;
