@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
+import {BaseContainer, DESKTOP_WIDTH} from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
+import LogoSrc from '../../TowerDefense.png';
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -13,6 +14,12 @@ const FormContainer = styled.div`
   align-items: center;
   min-height: 300px;
   justify-content: center;
+`;
+
+const Logo = styled.img`
+    width: 669px;
+    height: 557px;
+    margin: 20px;
 `;
 
 const Form = styled.div`
@@ -56,6 +63,12 @@ const ButtonContainer = styled.div`
   margin-top: 20px;
 `;
 
+const Text = styled.h1`
+  font-weight: bold;
+  color: white;
+  text-align: center;
+`;
+
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
  * You should have a class (instead of a functional component) when:
@@ -65,7 +78,7 @@ const ButtonContainer = styled.div`
  * https://reactjs.org/docs/react-component.html
  * @Class
  */
-class Login extends React.Component {
+class Title extends React.Component {
   /**
    * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
    * The constructor for a React component is called before it is mounted (rendered).
@@ -127,21 +140,22 @@ class Login extends React.Component {
 
   render() {
     return (
-      <BaseContainer>
-        <FormContainer>
-          <Button
-              width="50%"
-              onClick={() => {
-                //this.login();
-                this.props.history.push(`/login`);
-              }}
-          >
-            Login
-          </Button>
+        <body style = {{height: '100%', position: 'absolute', left: '0px', width: '100%', overflow: 'hidden'}}
+             onClick={() => {
+          //this.login();
+          this.props.history.push(`/login`);
+        }}>
+          <BaseContainer>
+            <FormContainer>
+              <FormContainer>
+                <Logo src={LogoSrc} />
+              </FormContainer>
+              <Text>Click anywhere to launch the game!</Text>
 
 
-        </FormContainer>
-      </BaseContainer>
+            </FormContainer>
+          </BaseContainer>
+        </body>
     );
   }
 }
@@ -150,4 +164,4 @@ class Login extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default withRouter(Login);
+export default withRouter(Title);
