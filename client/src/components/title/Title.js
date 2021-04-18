@@ -85,38 +85,13 @@ class Title extends React.Component {
    * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
    * These fields are then handled in the onChange() methods in the resp. InputFields
    */
-  constructor() {
-    super();
-    this.state = {
-      name: null,
-      username: null
-    };
-  }
+
   /**
    * HTTP POST request is sent to the backend.
    * If the request is successful, a new user is returned to the front-end
    * and its token is stored in the localStorage.
    */
-  async login() {
-    try {
-      const requestBody = JSON.stringify({
-        username: this.state.username,
-        name: this.state.name
-      });
-      const response = await api.post('/users', requestBody);
 
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
-
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
-
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      this.props.history.push(`/game`);
-    } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
-    }
-  }
 
   /**
    *  Every time the user enters something in the input field, the state gets updated.
@@ -142,7 +117,7 @@ class Title extends React.Component {
     return (
         <body style = {{height: '100%', position: 'absolute', left: '0px', width: '100%', overflow: 'hidden'}}
              onClick={() => {
-          //this.login();
+
           this.props.history.push(`/login`);
         }}>
           <BaseContainer>
