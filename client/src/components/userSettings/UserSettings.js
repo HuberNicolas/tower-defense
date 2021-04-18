@@ -97,7 +97,6 @@ class UserSettings extends React.Component {
   constructor() {
     super();
     this.state = {
-      id: localStorage.getItem('id'),
       username: null,
       password: null,
       location: null
@@ -112,17 +111,16 @@ class UserSettings extends React.Component {
     try {
       const requestBody = JSON.stringify({
         username: this.state.username,
-        id: this.state.id,
         password: this.state.password,
         location: this.state.location,
         token: localStorage.getItem('token')
       });
-      const response = await api.patch(`/users/${this.state.id}/${localStorage.getItem('token')}`, requestBody);
+      const response = await api.patch(`/users/profiles/${localStorage.getItem('token')}`, requestBody);
 
       // User settings changed successfully --> navigate back to /main
       this.props.history.push(`/main`);
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+      alert(`Something went wrong while changing usersettings: \n${handleError(error)}`);
     }
   }
 
@@ -154,28 +152,28 @@ class UserSettings extends React.Component {
             <Form>
               <Label>Username</Label>
               <InputField
-                  placeholder="Enter here.."
+                  placeholder="Enter new username..."
                   onChange={e => {
                     this.handleInputChange('username', e.target.value);
                   }}
               />
               <Label>Password</Label>
               <PasswordInputField
-                  placeholder="Enter here.."
+                  placeholder="Enter new password.."
                   onChange={e => {
                     this.handleInputChange('password', e.target.value);
                   }}
               />
               <Label>Location</Label>
               <InputField
-                  placeholder="Enter here.."
+                  placeholder="Enter new location..."
                   onChange={e => {
                     this.handleInputChange('location', e.target.value);
                   }}
               />
               <ButtonContainer>
                 <Button
-                    disabled={!this.state.username || !this.state.password || !this.state.location}
+                    disabled={!this.state.username && !this.state.password && !this.state.location}
                     width="50%"
                     onClick={() => {
                       this.submit();
