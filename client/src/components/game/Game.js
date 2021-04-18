@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import "./Game.css";
 
+
 import { createBoard, checkCollision } from './gameHelpers';
 
 
@@ -8,11 +9,13 @@ import { createBoard, checkCollision } from './gameHelpers';
 import Board from './Board';
 import Display from './Display';
 import SpawnButton from './SpawnButton';
+import MinionWave from './MinionWave';
 
 // Custom Hooks
 import { useWave } from './hooks/useWave';
 import { useBoard } from './hooks/useBoard';
 import { useInterval } from './hooks/useInterval';
+import TowerShot from './TowerShots';
 
 const Game = () => {
 
@@ -63,7 +66,9 @@ const Game = () => {
 
     useInterval(() => {
         walk();
-    }, spawnRate) 
+    }, spawnRate)
+    
+    
 
     console.log("re-render")
     console.log(createBoard());
@@ -92,11 +97,14 @@ const Game = () => {
                 
                 <main>
                     <h1>Gameboard</h1>
+                    {/*
                     <Board board={board}/>
-                    
                     <SpawnButton callback={spawnWave}/>
+                    <div class="animatedWave"></div>
+                    */}
+                    <TowerShot/>
+                    <MinionWave/>
                     
-                
                 </main>
              </section>
          </div>

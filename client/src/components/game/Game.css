@@ -9,17 +9,25 @@
     grid-template-columns: 70%;
   }
   
-  #grid > header {
+#grid > header {
     grid-area: head;
     background-color: #8ca0ff;
   }
   
-  #grid > nav {
+#grid > nav {
     grid-area: nav;
     background-color: #ffa08c;
   }
   
-  #grid > main {
+#grid > main {
     grid-area: main;
     background-color: #ffff64;
   }
+
+
+
+
+
+
+
+

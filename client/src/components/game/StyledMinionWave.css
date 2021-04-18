@@ -1,0 +1,21 @@
+.animatedWave {
+    background-color: aqua;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: 150px;
+    left: 150px;
+    animation-name: spawnWave;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-delay: 2s;
+  }
+
+  @keyframes spawnWave {
+    0% {background-color: aqua; left: 0px; top: 0px; border-radius: 0 0 0 0;}
+    20% {background-color: green; left: 0px; top: 100px; border-radius: 0 0 0 0;}
+    60% {background-color: pink; left: 150px; top: 100px; border-radius: 0 0 0 0;}
+    80% {background-color: royalblue; left: 150px; top: 200px; border-radius: 0 0 0 0;}
+    100% {background-color: red; left: 0px; top: 300px; border-radius: 0 0 0 0;}
+
+  }
