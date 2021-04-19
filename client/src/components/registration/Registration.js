@@ -55,6 +55,11 @@ const ButtonContainer = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
+const Title = styled.h1`
+  font-weight: bold;
+  color: white;
+  text-align: center;
+`;
 
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
@@ -131,7 +136,9 @@ class Login extends React.Component {
   render() {
     return (
       <BaseContainer>
+
         <FormContainer>
+        <Title>Registration</Title>
           <Form>
             <Label>Username</Label>
             <InputField
@@ -149,6 +156,14 @@ class Login extends React.Component {
             />
 
             <ButtonContainer>
+            <Button
+                              width="50%"
+                              onClick={() => {
+                                this.props.history.push(`/login`);
+                              }}
+                          >
+                            Back to login
+                          </Button>
               <Button
               disabled={!this.state.username || !this.state.password}
                 width="50%"

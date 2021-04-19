@@ -11,7 +11,7 @@ import UserSettings from "../../userSettings/UserSettings";
 import Singleplayer from "../../singleplayer/Singleplayer";
 import Multiplayer from "../../multiplayer/Multiplayer";
 import Game from "../../game/Game";
-
+import Lobby from "../../lobby/Lobby";
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
@@ -100,7 +100,14 @@ class AppRouter extends React.Component {
                       <Game />
                   )}
               />
-
+              {/* # */}
+                            <Route
+                                path="/lobby"
+                                exact
+                                render={() => (
+                                    <Lobby />
+                                )}
+                            />
               {/* Entry point */}
             <Route path="/" exact render={() => <Redirect to={"/title"} />} />
           </div>

@@ -55,6 +55,11 @@ const ButtonContainer = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
+const Title = styled.h1`
+  font-weight: bold;
+  color: white;
+  text-align: center;
+`;
 
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
@@ -84,26 +89,7 @@ class Login extends React.Component {
    * If the request is successful, a new user is returned to the front-end
    * and its token is stored in the localStorage.
    */
-  async login() {
-    try {
-      const requestBody = JSON.stringify({
-        username: this.state.username,
-        name: this.state.name
-      });
-      const response = await api.post('/users', requestBody);
 
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
-
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
-
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      this.props.history.push(`/game`);
-    } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
-    }
-  }
 
   /**
    *  Every time the user enters something in the input field, the state gets updated.
@@ -128,11 +114,13 @@ class Login extends React.Component {
   render() {
     return (
       <BaseContainer>
+      <Title>Main Menu</Title>
+
             <ButtonContainer>
               <Button
                 width="50%"
                 onClick={() => {
-                  //this.login();
+
                   this.props.history.push(`/singleplayer`);
                 }}
               >
@@ -141,7 +129,7 @@ class Login extends React.Component {
               <Button
                   width="50%"
                   onClick={() => {
-                    //this.login();
+
                     this.props.history.push(`/multiplayer`);
                   }}
               >
@@ -150,12 +138,20 @@ class Login extends React.Component {
               <Button
                   width="50%"
                   onClick={() => {
-                    //this.login();
+
                     this.props.history.push(`/settings`);
                   }}
               >
                 Edit User Settings
               </Button>
+              <Button
+                                width="50%"
+                                onClick={() => {
+                                  this.props.history.push(`/login`);
+                                }}
+                            >
+                              logout
+                            </Button>
             </ButtonContainer>
       </BaseContainer>
     );

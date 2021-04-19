@@ -55,7 +55,11 @@ const ButtonContainer = styled.div`
   justify-content: center;
   margin-top: 20px;
 `;
-
+const Title = styled.h1`
+  font-weight: bold;
+  color: white;
+  text-align: center;
+`;
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
  * You should have a class (instead of a functional component) when:
@@ -129,6 +133,7 @@ class Login extends React.Component {
     return (
       <BaseContainer>
         <FormContainer>
+        <Title>Login</Title>
           <Form>
             <Label>Username</Label>
             <InputField
