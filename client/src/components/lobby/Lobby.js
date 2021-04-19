@@ -26,7 +26,7 @@ const Player1 = styled.div`
   justify-content: center;
   color: white;
   border: 1px solid black;
-  width: 530px;
+  width: 560px;
 `;
 const Player2 = styled.div`
   margin-top: 2em;
@@ -35,6 +35,9 @@ const Player2 = styled.div`
   align-items: center;
   min-height: 300px;
   justify-content: center;
+  border: 1px solid black;
+  width: 560px;
+  color: white;
 `;
 
 const Form = styled.div`
@@ -151,18 +154,35 @@ class Login extends React.Component {
           <div id="wide">Host</div>
           <div id="narrow">Player2</div>
         </div>
-        <Player1>
-        <h1>Invite here</h1>
-        </Player1>
-        <ButtonNext>
-                      <Button
-                        width="50%"
-                        onClick={() => {
-                        }}
-                      >
-                        Invite Player
-                      </Button>
+        <div id="parent">
+          <Player1>
+              <h1>Invite here</h1>
+          </Player1>
+          <Player2>
+              <p>Readystatus</p>
+              <p>Kick Player</p>
+          </Player2>
+                </div>
 
+        <ButtonNext>
+        <div id="parent">
+                  <div id="wide2"><Button
+                                                         width="50%"
+                                                         onClick={() => {
+                                                         //here comes directory
+                                                         }}
+                                                       >
+                                                         Invite Player
+                                                       </Button></div>
+                  <div id="narrow2"><Button
+                                                           width="50%"
+                                                           onClick={() => {
+                                                           //here comes directory
+                                                           }}
+                                                         >
+                                                           Reload
+                                                         </Button></div>
+                </div>
                     </ButtonNext>
           <FormContainer>
           <Button
@@ -173,6 +193,8 @@ class Login extends React.Component {
                               >
                                 Leave Lobby
                               </Button>
+
+
           </FormContainer>
 
         </BaseContainer>
