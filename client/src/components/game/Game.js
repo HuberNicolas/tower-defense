@@ -102,8 +102,11 @@ const Game = () => {
                     <SpawnButton callback={spawnWave}/>
                     <div class="animatedWave"></div>
                     */}
+                    
                     <TowerShot/>
                     <MinionWave/>
+                    <div class="p p-1"></div>
+                   
                     
                 </main>
              </section>
