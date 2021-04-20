@@ -7,6 +7,8 @@ function double(i) {
     return i*2;
   }
 
+
+// default jsx export 
 const Field = ({i}) => (
     <div>
         <Square value={double(i)}></Square>
@@ -15,6 +17,8 @@ const Field = ({i}) => (
 
 export default Field;
 
+
+// function that renders the field depending on size
 export const renderField = (size) => {
     var board = new Array(size);
 
