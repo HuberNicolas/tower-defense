@@ -1,0 +1,16 @@
+ol {
+    background: mediumaquamarine;
+    padding: 2px;
+    margin-left: 10%;
+    margin-right: 30%;
+    
+}
+  
+  ol li {
+    margin-left: 10px;
+    width: 50%;
+    border: 3px solid orange;
+    background: blue;
+    padding: 2px;
+    display: inline;
+  }

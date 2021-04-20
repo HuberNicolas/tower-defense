@@ -10,12 +10,15 @@ import Board from './Board';
 import Display from './Display';
 import SpawnButton from './SpawnButton';
 import MinionWave from './MinionWave';
+import TowerShot from './TowerShots';
+import Square from './Square';
+import Field, { renderField, renderRow } from './Field';
 
 // Custom Hooks
 import { useWave } from './hooks/useWave';
 import { useBoard } from './hooks/useBoard';
 import { useInterval } from './hooks/useInterval';
-import TowerShot from './TowerShots';
+
 
 const Game = () => {
 
@@ -68,10 +71,11 @@ const Game = () => {
         walk();
     }, spawnRate)
     
+
     
 
     console.log("re-render")
-    console.log(createBoard());
+    //console.log(createBoard());
     return(
         
         <div>
@@ -106,7 +110,8 @@ const Game = () => {
                     <TowerShot/>
                     <MinionWave/>
                     <div class="p p-1"></div>
-                   
+                    <Field i={2}/>
+                    <div>{renderField(10)}</div>
                     
                 </main>
              </section>
