@@ -4,10 +4,29 @@ import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
+import Player from '../../views/Player';
+import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
+import { component } from "react";
 
 import "./Lobby.css"
 
+const Container = styled(BaseContainer)`
+  color: white;
+  text-align: center;
+`;
+
+const Users = styled.ul`
+  list-style: none;
+  padding-left: 0;
+`;
+
+const PlayerContainer = styled.li`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -115,16 +134,16 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: null,
-      username: null
+        bgColor: ""
     };
+
+
   }
   /**
    * HTTP POST request is sent to the backend.
    * If the request is successful, a new user is returned to the front-end
    * and its token is stored in the localStorage.
    */
-
 
   /**
    *  Every time the user enters something in the input field, the state gets updated.
@@ -137,6 +156,16 @@ class Login extends React.Component {
     this.setState({ [key]: value });
   }
 
+  highlight = (e) => {
+    this.setState({
+        bgColor: "red"
+    })
+  }
+  reload(){
+    window.location.reload(false);
+  }
+
+
   /**
    * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
    * Initialization that requires DOM nodes should go here.
@@ -144,7 +173,29 @@ class Login extends React.Component {
    * You may call setState() immediately in componentDidMount().
    * It will trigger an extra rendering, but it will happen before the browser updates the screen.
    */
-  componentDidMount() {}
+   async componentDidMount() {
+         try {
+           const response = await api.get('/users');
+           // delays continuous execution of an async operation for 1 second.
+           // This is just a fake async call, so that the spinner can be displayed
+           // feel free to remove it :)
+           await new Promise(resolve => setTimeout(resolve, 1000));
+
+           // Get the returned users and update the state.
+           this.setState({ users: response.data });
+
+           //tracking error
+           console.log('request to:', response.request.responseURL);
+           console.log('status code:', response.status);
+           console.log('status text:', response.statusText);
+           console.log('requested data:', response.data);
+           console.log(response);
+
+         } catch (error) {
+           alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
+         }
+       }
+
 
   render() {
     return (
@@ -156,7 +207,32 @@ class Login extends React.Component {
         </div>
         <div id="parent">
           <Player1>
-              <h1>Invite here</h1>
+              <Container>
+                      <h2>Userlist</h2>
+
+                      {!this.state.users ? (
+                        <Spinner />
+                      ) : (
+                        <div>
+                          <Users>
+                            {this.state.users.map(user => {
+                              return (
+                                <PlayerContainer key={user.id}
+                                style={{backgroundColor: this.state.bgColor}}
+                                onClick={() => {
+                                                this.highlight();//highlight it;
+
+                                              }}
+                                >
+                                  <Player user={user} />
+
+                                </PlayerContainer>
+                              );
+                            })}
+                          </Users>
+                        </div>
+                      )}
+                    </Container>
           </Player1>
           <Player2>
               <p>Readystatus</p>
@@ -177,7 +253,7 @@ class Login extends React.Component {
                   <div id="narrow2"><Button
                                                            width="50%"
                                                            onClick={() => {
-                                                           //here comes directory
+                                                           this.reload()
                                                            }}
                                                          >
                                                            Reload
