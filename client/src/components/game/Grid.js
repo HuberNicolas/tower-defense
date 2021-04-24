@@ -30,7 +30,7 @@ class Grid extends Component {
     render() {
         return (
             <div>
-                <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight}/>
+                <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight} id={"layer1"}/>
             </div>
         );
     }
