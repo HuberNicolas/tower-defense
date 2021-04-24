@@ -13,6 +13,7 @@ import MinionWave from './MinionWave';
 import TowerShot from './TowerShots';
 import Square from './Square';
 import Field, { renderField, renderRow } from './Field';
+import Grid from "./Grid";
 
 // Custom Hooks
 import { useWave } from './hooks/useWave';
@@ -97,7 +98,8 @@ const Game = () => {
             </section>
 
             <section class="board">
-                Board
+                {/* Board */}
+                <Grid></Grid>           
             </section>
 
             <section class="shop">
