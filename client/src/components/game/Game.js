@@ -76,45 +76,33 @@ const Game = () => {
 
     console.log("re-render")
     //console.log(createBoard());
+    // 1366px x 768px
+
+    var win = window,
+    doc = document,
+    docElem = doc.documentElement,
+    body = doc.getElementsByTagName('body')[0],
+    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
+    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+    //alert(x + ' × ' + y);
+    
     return(
         
         <div>
-            <section id="grid">
-                <header>
-                    <h3> Statusbar </h3>
-                    <div>
-                        <div>{currHP}</div>
-                        <button onClick={decreaseHP}> Decrease HP </button>
+            
 
-                    </div>
-                </header>
-                    
-                <nav>
-                        <h1> Shop </h1>
-                        <aside>
-                            <Display text="Info1" />
-                            <Display text="Info2" />
-                            <Display text="Info3" />
-                        </aside>
+            <section class="statusbar">
+                Statusbar
+                <div>x:{x} y:{y}</div>
+            </section>
 
-                </nav>
-                
-                <main>
-                    <h1>Gameboard</h1>
-                    {/*
-                    <Board board={board}/>
-                    <SpawnButton callback={spawnWave}/>
-                    <div class="animatedWave"></div>
-                    */}
-                    
-                    <TowerShot/>
-                    <MinionWave/>
-                    <div class="p p-1"></div>
-                    <Field i={2}/>
-                    <div>{renderField(10)}</div>
-                    
-                </main>
-             </section>
+            <section class="board">
+                Board
+            </section>
+
+            <section class="shop">
+                Shop
+            </section>
          </div>
     )
     
