@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 
-class Sample extends Component {
+class Grid extends Component {
 
     state = {
-        canvasWidth: 1200,
-        canvasHeight: 668
+        canvasWidth: 960,
+        canvasHeight: 640
     }
     canvasRef = React.createRef();
 
@@ -12,17 +12,17 @@ class Sample extends Component {
         const canvas = this.canvasRef.current;
         var ctx = canvas.getContext("2d");
 
-        // horicontal
-        for(var i = 0; i<120; i++) {
-            ctx.moveTo(10*i, 0);
-            ctx.lineTo(10*i, 668);
+        // horicontal: 15 lines
+        for(var i = 0; i<16; i++) {
+            ctx.moveTo(64*i, 0);
+            ctx.lineTo(64*i, 640);
             ctx.stroke();
         }
 
-        // vertical
-        for(var i = 0; i<100; i++) {
-            ctx.moveTo(0, 10*i);
-            ctx.lineTo(1200, 10*i);
+        // vertical: 10 lines
+        for(var i = 0; i<11; i++) {
+            ctx.moveTo(0, 64*i);
+            ctx.lineTo(960, 64*i);
             ctx.stroke();
         }
     }
@@ -31,10 +31,9 @@ class Sample extends Component {
         return (
             <div>
                 <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight}/>
-
             </div>
         );
     }
 }
 
-export default Sample
+export default Grid
