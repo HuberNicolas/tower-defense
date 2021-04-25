@@ -5,6 +5,29 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
+import Lobby from '../shared/models/Lobby';
+import "./Multiplayer.css"
+import Player from '../../views/Player';
+import { Spinner } from '../../views/design/Spinner';
+
+
+
+const Container = styled(BaseContainer)`
+  color: white;
+  text-align: center;
+`;
+
+const Users = styled.ul`
+  list-style: none;
+  padding-left: 0;
+`;
+
+const PlayerContainer = styled.li`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -13,6 +36,28 @@ const FormContainer = styled.div`
   align-items: center;
   min-height: 300px;
   justify-content: center;
+`;
+const Player1 = styled.div`
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 300px;
+  justify-content: center;
+  color: white;
+  border: 1px solid black;
+  width: 560px;
+`;
+const Player2 = styled.div`
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 300px;
+  justify-content: center;
+  border: 1px solid black;
+  width: 560px;
+  color: white;
 `;
 
 const Form = styled.div`
@@ -60,6 +105,15 @@ const Title = styled.h1`
   color: white;
   text-align: center;
 `;
+const ButtonNext = styled.div`
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+  justify-content: right;
+  //border: 1px solid black;
+  width: 530px;
+`;
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
  * You should have a class (instead of a functional component) when:
@@ -79,8 +133,7 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: null,
-      username: null
+      id: Math.random(100)
     };
   }
   /**
@@ -88,6 +141,38 @@ class Login extends React.Component {
    * If the request is successful, a new user is returned to the front-end
    * and its token is stored in the localStorage.
    */
+   async createLobby() {//creating a Lobby
+          try {
+            const requestBody = JSON.stringify({
+              id: this.state.id
+            });
+            const response = await api.post("/lobbies", requestBody);
+
+            // Get the returned lobby and update a new object.
+            const lobby = new Lobby(response.data);
+
+            // creation successfully worked --> navigate to the next page lul
+            this.props.history.push(`/lobby`);
+          } catch (error) {
+            alert(`Something went wrong during the creation of lobby: \n${handleError(error)}`);
+          }
+        }
+   reload(){
+       window.location.reload(false);
+     }
+   highlight = (e) => {
+       this.setState({
+           bgColor: "red"
+       })
+     }
+   async selectLobby(LobbyId) {
+             try {
+
+               this.highlight(LobbyId);
+             } catch (error) {
+               alert(`Something went wrong during selecting user: \n${handleError(error)}`);
+             }
+           }
 
 
 
@@ -109,12 +194,105 @@ class Login extends React.Component {
    * You may call setState() immediately in componentDidMount().
    * It will trigger an extra rendering, but it will happen before the browser updates the screen.
    */
-  componentDidMount() {}
+  async componentDidMount() {
+           try {
+             const response = await api.get("/lobbies");
+             // delays continuous execution of an async operation for 1 second.
+             // This is just a fake async call, so that the spinner can be displayed
+             // feel free to remove it :)
+             await new Promise(resolve => setTimeout(resolve, 1000));
+
+             // Get the returned users and update the state.
+             this.setState({ lobbies: response.data });
+
+             //tracking error
+             console.log('request to:', response.request.responseURL);
+             console.log('status code:', response.status);
+             console.log('status text:', response.statusText);
+             console.log('requested data:', response.data);
+             console.log(response);
+
+           } catch (error) {
+             alert(`Something went wrong while fetching lobbies: \n${handleError(error)}`);
+           }
+         }
 
   render() {
     return (
         <BaseContainer>
         <Title>Multiplayer</Title>
+        <div id="parent">
+                  <div id="wide">Create Lobby</div>
+                  <div id="narrow">Open Lobbies</div>
+        </div>
+        <div id="parent">
+                  <Player1>
+                  <Button
+                                                width="50%"
+                                                onClick={() => {
+                                                  this.createLobby();
+                                                }}
+                                            >
+                                              Create a new lobby
+                                            </Button>
+                                    </Player1>
+                  <Player2>
+                         <Container>
+                                               <h2>Lobbylist</h2>
+
+                                               {!this.state.lobbies ? (
+                                                 <Spinner />
+                                               ) : (
+                                                 <div>
+                                                   <Users>
+                                                     {this.state.lobbies.map(lobby => {
+                                                       return (
+                                                         <PlayerContainer key={lobby.id}
+                                                         style={{backgroundColor: this.state.bgColor}}
+                                                         onClick={() => {
+                                                                         this.selectLobby();//highlight it;
+
+                                                                       }}
+                                                         >
+                                                           <Player lobby={lobby} />
+
+                                                         </PlayerContainer>
+                                                       );
+                                                     })}
+                                                   </Users>
+                                                 </div>
+                                               )}
+                                             </Container>
+                  </Player2>
+        </div>
+        <div id="parent">
+                  <div id="wide"></div>
+                  <div id="narrow">
+                  <div id="parent">
+                  <ButtonNext>
+                  <div id="parent">
+                                    <div id="wide2"><Button
+                                                                           width="50%"
+                                                                           onClick={() => {
+                                                                           //here comes directory
+                                                                           }}
+                                                                         >
+                                                                           Join lobby
+                                                                         </Button></div>
+                                    <div id="narrow2"><Button
+                                                                             width="50%"
+                                                                             onClick={() => {
+                                                                             this.reload()
+                                                                             }}
+                                                                           >
+                                                                             Reload
+                                                                           </Button></div>
+                                  </div>
+                  </ButtonNext>
+                          </div>
+                  </div>
+        </div>
+
           <FormContainer>
             <Button
                 width="50%"
@@ -124,14 +302,7 @@ class Login extends React.Component {
             >
               Back to Main Menu
             </Button>
-            <Button
-                              width="50%"
-                              onClick={() => {
-                                this.props.history.push(`/lobby`);
-                              }}
-                          >
-                            Create new lobby
-                          </Button>
+
           </FormContainer>
 
         </BaseContainer>
