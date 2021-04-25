@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
+import Lobby from '../shared/models/Lobby';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 
@@ -80,8 +81,7 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      name: null,
-      username: null
+      nothing: null
     };
   }
   /**
@@ -89,6 +89,26 @@ class Login extends React.Component {
    * If the request is successful, a new user is returned to the front-end
    * and its token is stored in the localStorage.
    */
+
+   highlight = (e) => {
+       this.setState({
+           bgColor: "red"
+       })
+     }
+     reload(){
+       window.location.reload(false);
+     }
+
+   async selectLobby(id) {
+             try {
+
+               this.highlight(id);
+             } catch (error) {
+               alert(`Something went wrong during selecting user: \n${handleError(error)}`);
+             }
+           }
+
+
 
 
   /**
@@ -124,16 +144,17 @@ class Login extends React.Component {
                   this.props.history.push(`/singleplayer`);
                 }}
               >
-                Play
+                Singleplayer
               </Button>
               <Button
                   width="50%"
                   onClick={() => {
 
                     this.props.history.push(`/multiplayer`);
+
                   }}
               >
-                Go to Lobby
+                Multiplayer
               </Button>
               <Button
                   width="50%"
