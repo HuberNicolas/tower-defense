@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import "./StyledMinion.css"
-
 
 class Minion extends Component {
 
     state = {
+        // size of minion canvas
         canvasWidth: 64,
         canvasHeight: 64
     }

@@ -1,110 +1,87 @@
+// General imports
 import React, { useState, useCallback } from 'react';
-import "./Game.css";
-
-
-import { createBoard, checkCollision } from './gameHelpers';
-
+import "./styles/StyledGame.css";
 
 // Componenets
-import Board from './Board';
-import Display from './Display';
-import SpawnButton from './SpawnButton';
-import MinionWave from './MinionWave';
-import TowerShot from './TowerShots';
-import Square from './Square';
-import Field, { renderField, renderRow } from './Field';
 import Grid from "./Grid";
 import Minion from "./Minion";
+import Wave from "./Wave";
+import Tower from "./Tower";
+import TowerPlacer from "./TowerPlacer"
+import Path from "./Path"
 
 // Custom Hooks
-import { useWave } from './hooks/useWave';
-import { useBoard } from './hooks/useBoard';
-import { useInterval } from './hooks/useInterval';
 
 
 const Game = () => {
 
-    // define states
+    // Define states
     const [currHP, setCurrHP] = useState(100);
-    const [spawnRate, setSpawnRate] = useState(null); // drop time
-    const [gameOver, setGameOver] = useState(false);
 
-    const [wave, updateWavePos, resetWave] = useWave();
-    const [board, setBoard] = useBoard(wave, resetWave); // 1h 20min
-    // <Board board={createBoard()}/>
-
-    // functions
+    // Functions
     const decreaseHP = () => {
         setCurrHP(currHP - 1)
     }
 
-    // movement
-
-    const moveWave = dir => { // movePlayer
-        updateWavePos({x: 0, y: 0});
-    }
-
-    const spawnWave = () => { // startGame
-        // reset everything
-        setSpawnRate(1000);
-        setBoard(createBoard());
-        resetWave();
-    }
-
-    const walk = () => { // drop
-        if(!checkCollision(wave, board, {x: 0, y: 1})) {
-            updateWavePos({x: 0, y: 1, collided: false });
-        }
-        else {
-            updateWavePos({x: 0, y:0, collided: true});
-        }
-        
-    }
-
-    const walkPath = () => { // dropPlayer
-        walk();
-    }
-
-    const move = ({ keyCode }) => {
-
-    }
-
-    useInterval(() => {
-        walk();
-    }, spawnRate)
-    
-
-    
-
-    console.log("re-render")
-    //console.log(createBoard());
+    // Resolution
     // 1366px x 768px
-
-    var win = window,
-    doc = document,
-    docElem = doc.documentElement,
-    body = doc.getElementsByTagName('body')[0],
-    x = win.innerWidth || docElem.clientWidth || body.clientWidth,
-    y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
+    var win = window;
+    var doc = document;
+    var docElem = doc.documentElement;
+    var body = doc.getElementsByTagName('body')[0];
+    var x = win.innerWidth || docElem.clientWidth || body.clientWidth;
+    var y = win.innerHeight|| docElem.clientHeight|| body.clientHeight;
     //alert(x + ' × ' + y);
+    console.log('current resolution : ' + x + ' × ' + y)
     
     return(
-        
         <div>
-            
-
             <section class="statusbar">
                 Statusbar
                 <div>x:{x} y:{y}</div>
+                <section class="healthbar">
+                    <div>{currHP}</div>
+                    <button onClick={decreaseHP}>Decrese HP</button> 
+                </section>
             </section>
 
             <section class="board">
                 {/* Board */}
                 <section class="grid">
                     <Grid></Grid>
-                    <Minion></Minion>
+                    <Wave numberOfMinions = {3}></Wave>
+                    {/* Towers */}
+                    <div style={{position : 'relative', left: '0px', top : '384px'}}><Tower></Tower></div>
+                    <div style={{position : 'relative', left: '64px', top : '384px'}}><Tower></Tower></div>
+                    <div style={{position : 'relative', left: '128px', top : '384px'}}><Tower></Tower></div>
+                    
+                    {/* 6 Down */}
+                    <div style={{position : 'relative', left: '0px', top : '0px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '0px', top : '64px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '0px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '0px', top : '192px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '0px', top : '256px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '0px', top : '320px'}}><Path></Path></div>
+
+                    {/* 9 Right */}
+                    <div style={{position : 'relative', left: '64px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '128px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '192px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '256px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '320px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '384px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '448px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '512px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '576px', top : '320px'}}><Path></Path></div>
+
+                    {/* 6 Down */}
+                    <div style={{position : 'relative', left: '576px', top : '384px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '576px', top : '448px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '576px', top : '512px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '576px', top : '576px'}}><Path></Path></div>
+                    
+                    
                 </section>
-                
             </section>
 
             <section class="shop">
