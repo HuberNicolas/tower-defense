@@ -165,6 +165,17 @@ class Login extends React.Component {
     window.location.reload(false);
   }
 
+  async selectUser(userid) {
+          try {
+
+            this.highlight(userid);
+          } catch (error) {
+            alert(`Something went wrong during selecting user: \n${handleError(error)}`);
+          }
+        }
+
+
+
 
   /**
    * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
@@ -220,7 +231,7 @@ class Login extends React.Component {
                                 <PlayerContainer key={user.id}
                                 style={{backgroundColor: this.state.bgColor}}
                                 onClick={() => {
-                                                this.highlight();//highlight it;
+                                                this.selectUser();//highlight it;
 
                                               }}
                                 >
