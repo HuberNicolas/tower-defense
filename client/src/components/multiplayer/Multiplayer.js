@@ -9,7 +9,12 @@ import Lobby from '../shared/models/Lobby';
 import "./Multiplayer.css"
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
-
+import multiplayer from "../../multiplayer.jpg";
+var sectionStyle = {
+  width: "100%",
+  height: "768px",
+  backgroundImage: "url(" +  multiplayer  + ")"
+};
 
 
 const Container = styled(BaseContainer)`
@@ -141,6 +146,7 @@ class Login extends React.Component {
    * If the request is successful, a new user is returned to the front-end
    * and its token is stored in the localStorage.
    */
+   //redirecting token
    async createLobby() {//creating a Lobby
           try {
             const requestBody = JSON.stringify({
@@ -173,7 +179,18 @@ class Login extends React.Component {
                alert(`Something went wrong during selecting user: \n${handleError(error)}`);
              }
            }
+   async joinByClick(LobbyId) {
+           try {
 
+
+             localStorage.setItem('redirectedId', LobbyId);//sent the userid to check later if it matches the profile to be edited
+
+
+             this.props.history.push("/lobby"); //redirect to profile
+           } catch (error) {
+             alert(`Something went wrong during viewing the profilepage: \n${handleError(error)}`);
+           }
+         }
 
 
   /**
@@ -219,6 +236,7 @@ class Login extends React.Component {
 
   render() {
     return (
+    <div style={sectionStyle}>
         <BaseContainer>
         <Title>Multiplayer</Title>
         <div id="parent">
@@ -306,6 +324,7 @@ class Login extends React.Component {
           </FormContainer>
 
         </BaseContainer>
+        </div>
     );
   }
 }

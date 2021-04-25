@@ -5,7 +5,12 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
-
+import singleplayer from "../../singleplayer.jpg";
+var sectionStyle = {
+  width: "100%",
+  height: "768px",
+  backgroundImage: "url(" +  singleplayer  + ")"
+};
 const FormContainer = styled.div`
   margin-top: 2em;
   display: flex;
@@ -112,6 +117,7 @@ class Login extends React.Component {
 
   render() {
     return (
+    <div style={sectionStyle}>
       <BaseContainer>
       <Title>Singleplayer</Title>
         <FormContainer>
@@ -135,6 +141,7 @@ class Login extends React.Component {
           </Button>
         </FormContainer>
       </BaseContainer>
+      </div>
     );
   }
 }

@@ -8,11 +8,15 @@ import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
 import { component } from "react";
-
 import "./Lobby.css"
-
+import lobby from "../../lobby.jpg";
+var sectionStyle = {
+  width: "100%",
+  height: "768px",
+  backgroundImage: "url(" +  lobby  + ")"
+};
 const Container = styled(BaseContainer)`
-  color: white;
+  color: black;
   text-align: center;
 `;
 
@@ -43,7 +47,7 @@ const Player1 = styled.div`
   align-items: center;
   min-height: 300px;
   justify-content: center;
-  color: white;
+  color: black;
   border: 1px solid black;
   width: 560px;
 `;
@@ -56,7 +60,7 @@ const Player2 = styled.div`
   justify-content: center;
   border: 1px solid black;
   width: 560px;
-  color: white;
+  color: black;
 `;
 
 const Form = styled.div`
@@ -101,7 +105,7 @@ const ButtonContainer = styled.div`
 `;
 const Title = styled.h1`
   font-weight: bold;
-  color: white;
+  color: black;
   text-align: center;
 `;
 const ButtonNext = styled.div`
@@ -210,6 +214,7 @@ class Login extends React.Component {
 
   render() {
     return (
+    <div style={sectionStyle}>
         <BaseContainer>
         <Title>Lobby</Title>
         <div id="parent">
@@ -285,6 +290,7 @@ class Login extends React.Component {
           </FormContainer>
 
         </BaseContainer>
+        </div>
     );
   }
 }

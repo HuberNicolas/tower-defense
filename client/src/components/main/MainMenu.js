@@ -6,7 +6,7 @@ import User from '../shared/models/User';
 import Lobby from '../shared/models/Lobby';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
-
+import mainmenu from "../../mainmenu.jpg";
 const FormContainer = styled.div`
   margin-top: 2em;
   display: flex;
@@ -55,13 +55,33 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  //border: 1px solid black;
+  flex-direction: column;
+  align-items: center;
+  height: 400px;
+
 `;
 const Title = styled.h1`
   font-weight: bold;
-  color: white;
+  color: yellow;
   text-align: center;
 `;
+var sectionStyle = {
+  width: "100%",
+  height: "768px",
+  backgroundImage: "url(" +  mainmenu  + ")"
+};
+const background = styled.img`
+  display: flex;
+  justify-content: center;
+  backgroundImage: mainmenu;
+`;
 
+const Logo = styled.img`
+    width: 669px;
+    height: 557px;
+    margin: 20px;
+`;
 /**
  * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
  * You should have a class (instead of a functional component) when:
@@ -129,14 +149,22 @@ class Login extends React.Component {
    * You may call setState() immediately in componentDidMount().
    * It will trigger an extra rendering, but it will happen before the browser updates the screen.
    */
+
+
   componentDidMount() {}
 
   render() {
     return (
+    <div style={sectionStyle}>
+
       <BaseContainer>
+
       <Title>Main Menu</Title>
 
+
+
             <ButtonContainer>
+
               <Button
                 width="50%"
                 onClick={() => {
@@ -146,6 +174,7 @@ class Login extends React.Component {
               >
                 Singleplayer
               </Button>
+              <h1> </h1>
               <Button
                   width="50%"
                   onClick={() => {
@@ -156,6 +185,7 @@ class Login extends React.Component {
               >
                 Multiplayer
               </Button>
+              <h1> </h1>
               <Button
                   width="50%"
                   onClick={() => {
@@ -165,6 +195,7 @@ class Login extends React.Component {
               >
                 Edit User Settings
               </Button>
+              <h1> </h1>
               <Button
                                 width="50%"
                                 onClick={() => {
@@ -174,7 +205,9 @@ class Login extends React.Component {
                               logout
                             </Button>
             </ButtonContainer>
+
       </BaseContainer>
+      </div>
     );
   }
 }

@@ -5,14 +5,14 @@
   width: 600px;
   font-size: 40px;
   text-align: right;
-  color: white;
+  color: black;
 
   /* Just so it's visible */
 }
 #wide {
   flex: 1;
   font-size: 40px;
-  color: white;
+  color: black;
 
   /* Grow to rest of container */
 

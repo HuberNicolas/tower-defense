@@ -5,7 +5,12 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
-
+import login from "../../login.jpg";
+var sectionStyle = {
+  width: "100%",
+  height: "768px",
+  backgroundImage: "url(" +  login  + ")"
+};
 const FormContainer = styled.div`
   margin-top: 2em;
   display: flex;
@@ -131,6 +136,7 @@ class Login extends React.Component {
 
   render() {
     return (
+    <div style={sectionStyle}>
       <BaseContainer>
         <FormContainer>
         <Title>Login</Title>
@@ -173,6 +179,7 @@ class Login extends React.Component {
           </Form>
         </FormContainer>
       </BaseContainer>
+      </div>
     );
   }
 }
