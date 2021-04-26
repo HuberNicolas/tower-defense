@@ -50,7 +50,7 @@ canvas {
   z-index: 1;
   background-color: aqua;
   animation-name: minionWalk;
-  animation-duration: 5s;
+  animation-duration: 10s;
   animation-iteration-count: infinite;
 }
 
@@ -60,9 +60,146 @@ canvas {
 }
 
 @keyframes minionWalk {
-  0% {background-color: aqua; left: 64px; top: 0px; border-radius: 0 0 0 0;}
-  25% {background-color: green; left: 64px; top: 320px; border-radius: 0 0 0 0;}
-  50% {background-color: greenyellow; left: 320px; top: 320px; border-radius: 0 0 0 0;}
-  75% {background-color: aqua; left: 576px; top: 320px; border-radius: 0 0 0 0;}
-  100% {background-color: blue; left: 576px; top: 576px; border-radius: 0 0 0 0;}
+  0% {background-color: aqua; left: 80px; top: 0px; border-radius: 0 0 0 0;}
+  25% {background-color: green; left: 80px; top: 336px; border-radius: 0 0 0 0;}
+  75% {background-color: aqua; left: 592px; top: 336px; border-radius: 0 0 0 0;}
+  100% {background-color: blue; left: 592px; top: 608px; border-radius: 0 0 0 0;}
+}
+
+#layer4 {
+  z-index: 3;
+  background-color: red;
+  animation-name: minionWalk2;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes minionWalk2 {
+  0% {background-color: aqua; left: 90px; top: 0px; border-radius: 0 0 0 0;}
+  40% {background-color: green; left: 90px; top: 336px; border-radius: 0 0 0 0;}
+  60% {background-color: aqua; left: 492px; top: 336px; border-radius: 0 0 0 0;}
+  100% {background-color: blue; left: 692px; top: 608px; border-radius: 0 0 0 0;}
+}
+
+#layer17 {
+  z-index: 3;
+  background-color: red;
+  animation-name: minionWalk3;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes minionWalk3 {
+  0% {background-color: red; left: 90px; top: 0px; border-radius: 0 0 0 0;}
+  100% {background-color: yellow; left: 692px; top: 608px; border-radius: 0 0 0 0;}
+}
+
+
+#layer11 {
+  z-index: 3;
+  background-color: red;
+  animation-name: minionWalk3;
+  animation-duration: 10s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+#layer12 {
+  z-index: 3;
+  background-color: red;
+  animation-name: minionWalk3;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+#layer13 {
+  z-index: 3;
+  background-color: red;
+  animation-name: minionWalk3;
+  animation-duration: 10s;
+  animation-delay: 3s;
+  animation-iteration-count: infinite;
+}
+#layer14 {
+  z-index: 3;
+  background-color: red;
+  animation-name: minionWalk3;
+  animation-duration: 10s;
+  animation-delay: 4s;
+  animation-iteration-count: infinite;
+}
+
+
+
+#m1 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+}
+#m2 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 2s;
+  animation-iteration-count: infinite;
+}
+#m3 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 3s;
+  animation-iteration-count: infinite;
+}
+#m4 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 4s;
+  animation-iteration-count: infinite;
+}
+#m5 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 5s;
+  animation-iteration-count: infinite;
+}
+#m6 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 6s;
+  animation-iteration-count: infinite;
+}
+#m7 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 7s;
+  animation-iteration-count: infinite;
+}
+#m8 {
+  z-index: 1;
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 10s;
+  animation-delay: 8s;
+  animation-iteration-count: infinite;
+}
+
+
+
+
+@keyframes wave {
+  0% {background-color: aqua; left: 80px; top: 0px; border-radius: 0 0 0 0;}
+  25% {background-color: green; left: 80px; top: 336px; border-radius: 0 0 0 0;}
+  75% {background-color: aqua; left: 592px; top: 336px; border-radius: 0 0 0 0;}
+  100% {background-color: blue; left: 592px; top: 608px; border-radius: 0 0 0 0;}
 }

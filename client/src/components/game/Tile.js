@@ -17,7 +17,7 @@ const Tile = (tile) => {
 	return (
 		<div>
             <StyledTile background={tile.background} color={tile.color} width={tile.width} height={tile.height} left={tile.left} top={tile.top}></StyledTile>
-            <div>{tile.name}</div>
+            <div></div>
         </div>
 	)
 }

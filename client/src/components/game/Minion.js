@@ -4,8 +4,8 @@ class Minion extends Component {
 
     state = {
         // size of minion canvas
-        canvasWidth: 64,
-        canvasHeight: 64
+        canvasWidth: 32,
+        canvasHeight: 32
     }
     canvasRef = React.createRef();
 
@@ -21,12 +21,12 @@ class Minion extends Component {
         minion.onload = function () {
 
             // calculate width and height of the scaled image
-            var wrh = minion.width / minion.height; // ratio
+            var ratio = minion.width / minion.height; // ratio
             var newWidth = canvas.width;
-            var newHeight = newWidth / wrh;
+            var newHeight = newWidth / ratio;
             if (newHeight > canvas.height) {
                 newHeight = canvas.height;
-                newWidth = newHeight * wrh;
+                newWidth = newHeight * ratio;
               }
             // calculate offset
             var xOffset = newWidth < canvas.width ? ((canvas.width - newWidth) / 2) : 0;
@@ -37,6 +37,7 @@ class Minion extends Component {
 
         //ctx.fillRect(0, 0, this.state.canvasWidth, this.state.canvasHeight);
     }
+
 
     render() {
         return (
