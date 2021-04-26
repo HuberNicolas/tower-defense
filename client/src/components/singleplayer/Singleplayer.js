@@ -106,6 +106,24 @@ class Login extends React.Component {
     this.setState({ [key]: value });
   }
 
+  // starts a new single player game
+  async start() {
+    try {
+      const requestBody = JSON.stringify({
+        player1Id: localStorage.getItem('userId')
+      });
+      const response = await api.post('/games', requestBody);
+
+      // Store the game id into the local storage.
+      localStorage.setItem('gameId', response.data.gameId);
+
+      // Initialization successfully worked --> navigate to the route /game
+      this.props.history.push(`/game`);
+    } catch (error) {
+      alert(`Something went wrong during the initialization: \n${handleError(error)}`);
+    }
+  }
+
   /**
    * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
    * Initialization that requires DOM nodes should go here.
@@ -133,8 +151,7 @@ class Login extends React.Component {
           <Button
               width="50%"
               onClick={() => {
-
-                this.props.history.push(`/game`);
+                this.start();
               }}
           >
             Start Game

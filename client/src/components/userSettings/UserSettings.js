@@ -125,7 +125,7 @@ class UserSettings extends React.Component {
       // User settings changed successfully --> navigate back to /main
       this.props.history.push(`/main`);
     } catch (error) {
-      alert(`Something went wrong while changing usersettings: \n${handleError(error)}`);
+      alert(`Something went wrong while changing user settings: \n${handleError(error)}`);
     }
   }
 

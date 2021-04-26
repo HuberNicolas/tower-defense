@@ -9,9 +9,11 @@ import Wave from "./Wave";
 import Tower from "./Tower";
 import TowerPlacer from "./TowerPlacer"
 import Path from "./Path"
+import {api, handleError} from "../../helpers/api";
+import User from "../shared/models/User";
+import async from "async";
 
 // Custom Hooks
-
 
 const Game = () => {
 
@@ -21,6 +23,24 @@ const Game = () => {
     // Functions
     const decreaseHP = () => {
         setCurrHP(currHP - 1)
+    }
+
+    async function quitGame() {
+        try {
+            const requestBody = JSON.stringify({
+                gameId: localStorage.getItem('gameId'),
+                token: localStorage.getItem('token')
+            });
+            const response = await api.patch(`/games/quits/${localStorage.getItem('gameId')}/${localStorage.getItem('token')}`, requestBody);
+
+            // Remove game ID from local storage.
+            localStorage.removeItem('gameId');
+
+            // quit successfully worked --> navigate to the route /game in the GameRouter
+            this.props.history.push(`/main`);
+        } catch (error) {
+            alert(`Something went wrong quitting the game: \n${handleError(error)}`);
+        }
     }
 
     // Resolution
@@ -41,7 +61,9 @@ const Game = () => {
                 <div>x:{x} y:{y}</div>
                 <section class="healthbar">
                     <div>{currHP}</div>
-                    <button onClick={decreaseHP}>Decrese HP</button> 
+                    <button onClick={decreaseHP}>Decrease HP</button>
+                    <button onClick={() => {
+                    quitGame();}}>Quit game</button>
                 </section>
             </section>
 
