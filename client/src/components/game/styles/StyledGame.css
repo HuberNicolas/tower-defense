@@ -60,8 +60,8 @@ canvas {
 }
 
 @keyframes minionWalk {
-  0% {background-color: aqua; left: 0px; top: 0px; border-radius: 0 0 0 0;}
-  25% {background-color: green; left: 0px; top: 320px; border-radius: 0 0 0 0;}
+  0% {background-color: aqua; left: 64px; top: 0px; border-radius: 0 0 0 0;}
+  25% {background-color: green; left: 64px; top: 320px; border-radius: 0 0 0 0;}
   50% {background-color: greenyellow; left: 320px; top: 320px; border-radius: 0 0 0 0;}
   75% {background-color: aqua; left: 576px; top: 320px; border-radius: 0 0 0 0;}
   100% {background-color: blue; left: 576px; top: 576px; border-radius: 0 0 0 0;}
