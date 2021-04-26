@@ -1,11 +1,12 @@
 import React, {Component} from "react";
 import Tower from "./Tower";
+import styled from "styled-components";
 
 
-export const TowerPlacer = (xCoord, yCoord) => {
+export const TowerPlacer = (text) => {
     return ( 
-            <div> 
-                hi 
+            <div style={{backgroundColor: 'blue'}}> 
+                {text.text}
             </div>
          );  
   }
