@@ -6,6 +6,7 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import Lobby from '../shared/models/Lobby';
+import Lobby1 from '../../views/Lobby1';
 import "./Multiplayer.css"
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
@@ -138,7 +139,7 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      id: Math.random(100)
+      token: localStorage.getItem("token")
     };
   }
   /**
@@ -150,12 +151,13 @@ class Login extends React.Component {
    async createLobby() {//creating a Lobby
           try {
             const requestBody = JSON.stringify({
-              id: this.state.id
+              token: localStorage.getItem('token')
             });
             const response = await api.post("/lobbies", requestBody);
 
             // Get the returned lobby and update a new object.
             const lobby = new Lobby(response.data);
+            console.log(lobby);
 
             // creation successfully worked --> navigate to the next page lul
             this.props.history.push(`/lobby`);
@@ -265,14 +267,14 @@ class Login extends React.Component {
                                                    <Users>
                                                      {this.state.lobbies.map(lobby => {
                                                        return (
-                                                         <PlayerContainer key={lobby.id}
+                                                         <PlayerContainer key={lobby.lobbyId}
                                                          style={{backgroundColor: this.state.bgColor}}
                                                          onClick={() => {
                                                                          this.selectLobby();//highlight it;
 
                                                                        }}
                                                          >
-                                                           <Player lobby={lobby} />
+                                                           <Lobby1 lobby={lobby} />
 
                                                          </PlayerContainer>
                                                        );

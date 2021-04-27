@@ -5,6 +5,7 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import Player from '../../views/Player';
+import Lobby from "../shared/models/Lobby"
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
 import { component } from "react";
@@ -114,7 +115,7 @@ const ButtonNext = styled.div`
   flex-direction: column;
   align-items: left;
   justify-content: left;
-
+  //border: 1px solid black;
   width: 530px;
 `;
 
@@ -163,6 +164,7 @@ class Login extends React.Component {
   highlight = (e) => {
     this.setState({
         bgColor: "red"
+
     })
   }
   reload(){
@@ -177,8 +179,19 @@ class Login extends React.Component {
             alert(`Something went wrong during selecting user: \n${handleError(error)}`);
           }
         }
+  async leaveLobby(lobbyId) {
+          try {
+            const requestBody = JSON.stringify({
+                    lobbyId: localStorage.getItem("lobbyId")
+                  });
+            //const response = await api.put("lobbies/"+lobbyId, requestBody);
+            //const lobby = new Lobby(response.data);
 
-
+            this.props.history.push("/multiplayer"); //redirect to profile
+          } catch (error) {
+            alert(`Something went wrong during leaving the lobby: \n${handleError(error)}`);
+          }
+        }
 
 
   /**
@@ -280,7 +293,7 @@ class Login extends React.Component {
           <Button
                                   width="50%"
                                   onClick={() => {
-                                    this.props.history.push(`/multiplayer`);
+                                    this.leaveLobby();
                                   }}
                               >
                                 Leave Lobby

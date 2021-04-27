@@ -118,6 +118,10 @@ class Login extends React.Component {
      reload(){
        window.location.reload(false);
      }
+     logout() {
+         localStorage.removeItem('token');
+         this.props.history.push('/login');
+       }
 
    async selectLobby(id) {
              try {
@@ -199,7 +203,7 @@ class Login extends React.Component {
               <Button
                                 width="50%"
                                 onClick={() => {
-                                  this.props.history.push(`/login`);
+                                  this.logout();
                                 }}
                             >
                               logout

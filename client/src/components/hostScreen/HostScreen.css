@@ -1,0 +1,37 @@
+#parent {
+  display: flex;
+}
+#narrow {
+  width: 600px;
+  font-size: 40px;
+  text-align: right;
+  color: black;
+
+  /* Just so it's visible */
+}
+#wide {
+  flex: 1;
+  font-size: 40px;
+  color: black;
+
+  /* Grow to rest of container */
+
+  /* Just so it's visible */
+}
+#narrow2 {
+  width: 275px;
+  font-size: 40px;
+  text-align: right;
+  color: white;
+
+  /* Just so it's visible */
+}
+#wide2 {
+  flex: 1;
+  font-size: 40px;
+  color: white;
+
+  /* Grow to rest of container */
+
+  /* Just so it's visible */
+}
