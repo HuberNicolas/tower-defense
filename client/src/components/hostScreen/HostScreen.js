@@ -128,7 +128,8 @@ class Login extends React.Component {
     this.state = {
         lobbyOwner: null,
         player2: null,
-        lobbyId: null
+        lobbyId: null,
+        player2Status: null
     };
 
 
@@ -155,12 +156,10 @@ class Login extends React.Component {
 
   async displayPlayers(){
         try{
-            const response = await api.get("lobbies"+localStorage.getItem("lobbyId"));
+            const response = await api.get("lobbies/"+localStorage.getItem("lobbyId"));
             const lobby = new Lobby(response.data);
-            const lobbyOwner = new lobbyOwner(response.data);
-            const player2 = new player2(response.data);
-            console.log(lobby.lobbyOwner)
-            this.setState({lobbyOwner: lobbyOwner.getUserName(), player2: lobby.player2})
+            this.setState({lobbyOwner: lobby.lobbyOwner, player2: lobby.player2, player2Status: lobby.player2Status})
+            //console.log(this.state.lobbyOwner)
         }
         catch(error){
          alert(`Something went wrong during displaying the players: \n${handleError(error)}`);
@@ -169,7 +168,7 @@ class Login extends React.Component {
 
 
    componentDidMount() {
-        //this.displayPlayers(lobbyId);
+        this.displayPlayers();
    }
 
 
@@ -180,15 +179,29 @@ class Login extends React.Component {
         <Title>HostScreen</Title>
         <div id="parent">
           <div id="wide">
+          <h1>Hostname: </h1>
           <p>{this.state.lobbyOwner}</p>
           </div>
           <div id="narrow">
+          <h1> player2 name: </h1>
           <p>{this.state.player2}</p>
           </div>
         </div>
+        <ButtonContainer>
 
+                      <Button
+                      disabled={!this.state.player2Status}
+                        width="50%"
+                        onClick={() => {
+                          //push to multiplayer game!
+                        }}
+                      >
+                        Start Game!
+                      </Button>
+                    </ButtonContainer>
         </BaseContainer>
         </div>
+
     );
   }
 }

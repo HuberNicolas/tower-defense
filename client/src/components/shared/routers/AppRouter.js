@@ -13,7 +13,7 @@ import Multiplayer from "../../multiplayer/Multiplayer";
 import Game from "../../game/Game";
 import Lobby from "../../lobby/Lobby";
 import HostScreen from "../../hostScreen/HostScreen";
-
+//import PlayerScreen from "../../playerScreen/PlayerScreen";
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"

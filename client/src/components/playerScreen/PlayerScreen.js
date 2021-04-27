@@ -5,11 +5,11 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import Player from '../../views/Player';
-
+import "./HostScreen.css"
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
 import { component } from "react";
-import "./Lobby.css"
+import Lobby from "../shared/models/Lobby"
 import lobby from "../../lobby.jpg";
 var sectionStyle = {
   width: "100%",
@@ -120,188 +120,88 @@ const ButtonNext = styled.div`
 `;
 
 
-/**
- * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
- * You should have a class (instead of a functional component) when:
- * - You need an internal state that cannot be achieved via props from other parent components
- * - You fetch data from the server (e.g., in componentDidMount())
- * - You want to access the DOM via Refs
- * https://reactjs.org/docs/react-component.html
- * @Class
- */
+
 class Login extends React.Component {
-  /**
-   * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
-   * The constructor for a React component is called before it is mounted (rendered).
-   * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
-   * These fields are then handled in the onChange() methods in the resp. InputFields
-   */
+
   constructor() {
     super();
     this.state = {
-        bgColor: ""
+        lobbyOwner: null,
+        player2: null,
+        lobbyId: null,
+        player2Status: null
     };
 
 
   }
-  /**
-   * HTTP POST request is sent to the backend.
-   * If the request is successful, a new user is returned to the front-end
-   * and its token is stored in the localStorage.
-   */
 
-  /**
-   *  Every time the user enters something in the input field, the state gets updated.
-   * @param key (the key of the state for identifying the field that needs to be updated)
-   * @param value (the value that gets assigned to the identified state key)
-   */
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
     this.setState({ [key]: value });
   }
 
-  highlight = (e) => {
-    this.setState({
-        bgColor: "red"
-
-    })
-  }
-  reload(){
-    window.location.reload(false);
-  }
-
-  async selectUser(userid) {
-          try {
-
-            this.highlight(userid);
-          } catch (error) {
-            alert(`Something went wrong during selecting user: \n${handleError(error)}`);
-          }
-        }
   async leaveLobby() {
-          try {
-            const requestBody = JSON.stringify({
-                    lobbyId: localStorage.getItem("lobbyId")
-                  });
-
-            this.props.history.push("/multiplayer"); //redirect to profile
-          } catch (error) {
-            alert(`Something went wrong during leaving the lobby: \n${handleError(error)}`);
+            try {
+              const requestBody = JSON.stringify({
+                      lobbyId: localStorage.getItem("lobbyId"),
+                      token: localStorage.getItem('token')
+                    });
+              const response = await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
+              this.props.history.push("/multiplayer");
+            } catch (error) {
+              alert(`Something went wrong during leaving the lobby: \n${handleError(error)}`);
+            }
           }
+
+  async displayPlayers(){
+        try{
+            const response = await api.get("lobbies/"+localStorage.getItem("lobbyId"));
+            const lobby = new Lobby(response.data);
+            this.setState({lobbyOwner: lobby.lobbyOwner, player2: lobby.player2, player2Status: lobby.player2Status})
+            //console.log(this.state.lobbyOwner)
         }
+        catch(error){
+         alert(`Something went wrong during displaying the players: \n${handleError(error)}`);
+        }
+  }
 
 
-  /**
-   * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
-   * Initialization that requires DOM nodes should go here.
-   * If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-   * You may call setState() immediately in componentDidMount().
-   * It will trigger an extra rendering, but it will happen before the browser updates the screen.
-   */
-   async componentDidMount() {
-         try {
-           const response = await api.get('/users');
-           // delays continuous execution of an async operation for 1 second.
-           // This is just a fake async call, so that the spinner can be displayed
-           // feel free to remove it :)
-           await new Promise(resolve => setTimeout(resolve, 1000));
-
-           // Get the returned users and update the state.
-           this.setState({ users: response.data });
-
-           //tracking error
-           console.log('request to:', response.request.responseURL);
-           console.log('status code:', response.status);
-           console.log('status text:', response.statusText);
-           console.log('requested data:', response.data);
-           console.log(response);
-
-         } catch (error) {
-           alert(`Something went wrong while fetching the users: \n${handleError(error)}`);
-         }
-       }
+   componentDidMount() {
+        this.displayPlayers();
+   }
 
 
   render() {
     return (
     <div style={sectionStyle}>
         <BaseContainer>
-        <Title>Lobby</Title>
+        <Title>HostScreen</Title>
         <div id="parent">
-          <div id="wide">Host</div>
-          <div id="narrow">Player2</div>
+          <div id="wide">
+          <h1>Hostname: </h1>
+          <p>{this.state.lobbyOwner}</p>
+          </div>
+          <div id="narrow">
+          <h1> player2 name: </h1>
+          <p>{this.state.player2}</p>
+          </div>
         </div>
-        <div id="parent">
-          <Player1>
-              <Container>
-                      <h2>Userlist</h2>
+        <ButtonContainer>
 
-                      {!this.state.users ? (
-                        <Spinner />
-                      ) : (
-                        <div>
-                          <Users>
-                            {this.state.users.map(user => {
-                              return (
-                                <PlayerContainer key={user.id}
-                                style={{backgroundColor: this.state.bgColor}}
-                                onClick={() => {
-                                                this.selectUser();//highlight it;
-
-                                              }}
-                                >
-                                  <Player user={user} />
-
-                                </PlayerContainer>
-                              );
-                            })}
-                          </Users>
-                        </div>
-                      )}
-                    </Container>
-          </Player1>
-          <Player2>
-              <p>Readystatus</p>
-              <p>Kick Player</p>
-          </Player2>
-                </div>
-
-        <ButtonNext>
-        <div id="parent">
-                  <div id="wide2"><Button
-                                                         width="50%"
-                                                         onClick={() => {
-                                                         //here comes directory
-                                                         }}
-                                                       >
-                                                         Invite Player
-                                                       </Button></div>
-                  <div id="narrow2"><Button
-                                                           width="50%"
-                                                           onClick={() => {
-                                                           this.reload()
-                                                           }}
-                                                         >
-                                                           Reload
-                                                         </Button></div>
-                </div>
-                    </ButtonNext>
-          <FormContainer>
-          <Button
-                                  width="50%"
-                                  onClick={() => {
-                                    this.leaveLobby();
-                                  }}
-                              >
-                                Leave Lobby
-                              </Button>
-
-
-          </FormContainer>
-
+                      <Button
+                      //disabled={!this.state.player2Status}
+                        width="50%"
+                        onClick={() => {
+                          //push to multiplayer game!
+                        }}
+                      >
+                        I am ready!
+                      </Button>
+                    </ButtonContainer>
         </BaseContainer>
         </div>
+
     );
   }
 }
