@@ -120,35 +120,17 @@ const ButtonNext = styled.div`
   //border: 1px solid black;
   width: 530px;
 `;
-/**
- * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
- * You should have a class (instead of a functional component) when:
- * - You need an internal state that cannot be achieved via props from other parent components
- * - You fetch data from the server (e.g., in componentDidMount())
- * - You want to access the DOM via Refs
- * https://reactjs.org/docs/react-component.html
- * @Class
- */
+
 class Login extends React.Component {
-  /**
-   * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
-   * The constructor for a React component is called before it is mounted (rendered).
-   * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
-   * These fields are then handled in the onChange() methods in the resp. InputFields
-   */
+
   constructor() {
     super();
     this.state = {
       token: localStorage.getItem("token")
     };
   }
-  /**
-   * HTTP POST request is sent to the backend.
-   * If the request is successful, a new user is returned to the front-end
-   * and its token is stored in the localStorage.
-   */
-   //redirecting token
-   async createLobby() {//creating a Lobby
+
+   async createLobby() {
           try {
             const requestBody = JSON.stringify({
               token: localStorage.getItem('token')
@@ -157,62 +139,43 @@ class Login extends React.Component {
 
             // Get the returned lobby and update a new object.
             const lobby = new Lobby(response.data);
-            console.log(lobby);
 
+            localStorage.setItem('lobbyId', lobby.lobbyId);
+            console.log(lobby.lobbyId);
             // creation successfully worked --> navigate to the next page lul
             this.props.history.push(`/lobby`);
           } catch (error) {
             alert(`Something went wrong during the creation of lobby: \n${handleError(error)}`);
           }
         }
+//refreshes the website
    reload(){
        window.location.reload(false);
      }
-   highlight = (e) => {
-       this.setState({
-           bgColor: "red"
-       })
-     }
-   async selectLobby(LobbyId) {
-             try {
 
-               this.highlight(LobbyId);
-             } catch (error) {
-               alert(`Something went wrong during selecting user: \n${handleError(error)}`);
-             }
-           }
-   async joinByClick(LobbyId) {
+//prototype join function
+   async joinByClick(lobbyId) {
            try {
+           const requestBody = JSON.stringify({
+                 lobbyId: localStorage.getItem("lobbyId"),
+                 token: localStorage.getItem('token')
+           });
+           const response = await api.patch("lobbies"+lobbyId, requestBody);
 
-
-             localStorage.setItem('redirectedId', LobbyId);//sent the userid to check later if it matches the profile to be edited
-
-
-             this.props.history.push("/lobby"); //redirect to profile
+             this.props.history.push("/hostScreen"); //redirect to profile
            } catch (error) {
-             alert(`Something went wrong during viewing the profilepage: \n${handleError(error)}`);
+             alert(`Something went wrong during joining the lobby: \n${handleError(error)}`);
            }
          }
 
 
-  /**
-   *  Every time the user enters something in the input field, the state gets updated.
-   * @param key (the key of the state for identifying the field that needs to be updated)
-   * @param value (the value that gets assigned to the identified state key)
-   */
+
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
     this.setState({ [key]: value });
   }
-
-  /**
-   * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
-   * Initialization that requires DOM nodes should go here.
-   * If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-   * You may call setState() immediately in componentDidMount().
-   * It will trigger an extra rendering, but it will happen before the browser updates the screen.
-   */
+//displaying lobbies
   async componentDidMount() {
            try {
              const response = await api.get("/lobbies");
@@ -270,7 +233,7 @@ class Login extends React.Component {
                                                          <PlayerContainer key={lobby.lobbyId}
                                                          style={{backgroundColor: this.state.bgColor}}
                                                          onClick={() => {
-                                                                         this.selectLobby();//highlight it;
+                                                                         this.joinByClick(localStorage.getItem("lobbyId"));//highlight it;
 
                                                                        }}
                                                          >
@@ -322,6 +285,7 @@ class Login extends React.Component {
             >
               Back to Main Menu
             </Button>
+
 
           </FormContainer>
 

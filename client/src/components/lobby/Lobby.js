@@ -119,58 +119,36 @@ const ButtonNext = styled.div`
   width: 530px;
 `;
 
-
-/**
- * Classes in React allow you to have an internal state within the class and to have the React life-cycle for your component.
- * You should have a class (instead of a functional component) when:
- * - You need an internal state that cannot be achieved via props from other parent components
- * - You fetch data from the server (e.g., in componentDidMount())
- * - You want to access the DOM via Refs
- * https://reactjs.org/docs/react-component.html
- * @Class
- */
 class Login extends React.Component {
-  /**
-   * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
-   * The constructor for a React component is called before it is mounted (rendered).
-   * In this case the initial state is defined in the constructor. The state is a JS object containing two fields: name and username
-   * These fields are then handled in the onChange() methods in the resp. InputFields
-   */
+
   constructor() {
     super();
     this.state = {
-        bgColor: ""
+        bgColor: "",
+        token: localStorage.getItem("token"),
+        lobbyId: localStorage.getItem("lobbyId")
     };
 
 
   }
-  /**
-   * HTTP POST request is sent to the backend.
-   * If the request is successful, a new user is returned to the front-end
-   * and its token is stored in the localStorage.
-   */
 
-  /**
-   *  Every time the user enters something in the input field, the state gets updated.
-   * @param key (the key of the state for identifying the field that needs to be updated)
-   * @param value (the value that gets assigned to the identified state key)
-   */
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
     this.setState({ [key]: value });
   }
-
+//highlight function, used to invite later on
   highlight = (e) => {
     this.setState({
         bgColor: "red"
 
     })
   }
+  //reloads the website
   reload(){
     window.location.reload(false);
   }
-
+//tbd invite function prototype
   async selectUser(userid) {
           try {
 
@@ -179,28 +157,21 @@ class Login extends React.Component {
             alert(`Something went wrong during selecting user: \n${handleError(error)}`);
           }
         }
-  async leaveLobby(lobbyId) {
+//if you leave the lobby it gets deleted if host else you get redirected to lobbyoverview
+  async leaveLobby() {
           try {
             const requestBody = JSON.stringify({
-                    lobbyId: localStorage.getItem("lobbyId")
+                    lobbyId: localStorage.getItem("lobbyId"),
+                    token: localStorage.getItem('token')
                   });
-            //const response = await api.put("lobbies/"+lobbyId, requestBody);
-            //const lobby = new Lobby(response.data);
-
-            this.props.history.push("/multiplayer"); //redirect to profile
+            const response = await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
+            this.props.history.push("/multiplayer");
           } catch (error) {
             alert(`Something went wrong during leaving the lobby: \n${handleError(error)}`);
           }
         }
 
-
-  /**
-   * componentDidMount() is invoked immediately after a component is mounted (inserted into the tree).
-   * Initialization that requires DOM nodes should go here.
-   * If you need to load data from a remote endpoint, this is a good place to instantiate the network request.
-   * You may call setState() immediately in componentDidMount().
-   * It will trigger an extra rendering, but it will happen before the browser updates the screen.
-   */
+//displaying userlist so that the host can invite
    async componentDidMount() {
          try {
            const response = await api.get('/users');
@@ -298,8 +269,10 @@ class Login extends React.Component {
                               >
                                 Leave Lobby
                               </Button>
+          <Button>
+                                      <a href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}>Testingground (Dont click on it)</a>
 
-
+                                  </Button>
           </FormContainer>
 
         </BaseContainer>
