@@ -17,17 +17,38 @@ import User from "../shared/models/User";
 import async from "async";
 import Crawler from "./Crawler";
 import Walker from "./Walker"
+import EmptyTile from "./EmptyTile";
+import styled from "styled-components";
 
 // Custom Hooks
+
+
+const StyledEmptyTile = styled.canvas`
+    width: ${props => props.width};
+    height: ${props => props.height}; 
+    background: ${props => props.background};
+    background-position: center center;
+    background-color: ${props => props.color}; 
+    position: absolute;
+    left: ${props => props.left};
+    top: ${props => props.top};
+    z-index: 6;
+`;
+
 
 const Game = () => {
 
     // Define states
     const [currHP, setCurrHP] = useState(100);
+    const [towerColor, setTowerColor] = useState(null);
+    const [background, setBackground] = useState(null);
 
     // Functions
     const decreaseHP = () => {
         setCurrHP(currHP - 1)
+    }
+    const change =  () => {
+
     }
 
     async function quitGame() {
@@ -115,7 +136,156 @@ const Game = () => {
                     <div style={{position : 'relative', left: '576px', top : '512px'}}><Path></Path></div>
                     <div style={{position : 'relative', left: '576px', top : '576px'}}><Path></Path></div>
 
+                    {/* Empty Tiles 1st row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
 
+                    {/* Empty Tiles 2nd row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 3rd row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 4th row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 5th row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 6th row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 7th row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 8th row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 9th row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
+
+                    {/* Empty Tiles 10th row */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
                     {/* Spawn Wave*/}
                     <Wave></Wave>
 
@@ -127,12 +297,18 @@ const Game = () => {
             <section class="shop">
                 Shop
                 {/* Towers */}
-                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')"} color={"red"} width={"64px"} height={"64px"} left={"62px"} top={"50px"}></Tile>
-                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')"} color={"yellow"} width={"64px"} height={"64px"} left={"190px"} top={"50px"}></Tile>
-                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')"} color={"blue"} width={"64px"} height={"64px"} left={"62px"} top={"250px"}></Tile>
-                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')"} color={"orange"} width={"64px"} height={"64px"} left={"190px"} top={"250px"}></Tile>
-                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')"} color={"black"} width={"64px"} height={"64px"} left={"62px"} top={"450px"}></Tile>
-                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')"} color={"pink"} width={"64px"} height={"64px"} left={"190px"} top={"450px"}></Tile>
+                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')"} color={"red"} width={"64px"} height={"64px"} left={"62px"} top={"50px"} onClick={() => {setTowerColor("red")}} onClick={() => {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')");}}></Tile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"50px"} onClick={() => {setTowerColor("red"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')")}}} ></StyledEmptyTile>
+                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')"} color={"yellow"} width={"64px"} height={"64px"} left={"190px"} top={"50px"} onClick={() => setTowerColor("yellow")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')")}></Tile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"50px"} onClick={() => {setTowerColor("yellow"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')")}}} ></StyledEmptyTile>
+                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')"} color={"blue"} width={"64px"} height={"64px"} left={"62px"} top={"250px"} onClick={() => setTowerColor("blue")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')")}></Tile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"250px"} onClick={() => {setTowerColor("blue"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')")}}} ></StyledEmptyTile>
+                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')"} color={"orange"} width={"64px"} height={"64px"} left={"190px"} top={"250px"} onClick={() => setTowerColor("orange")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')")}></Tile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"250px"} onClick={() => {setTowerColor("orange"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')")}}} ></StyledEmptyTile>
+                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')"} color={"black"} width={"64px"} height={"64px"} left={"62px"} top={"450px"} onClick={() => setTowerColor("black")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')")}></Tile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"450px"} onClick={() => {setTowerColor("black"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')")}}} ></StyledEmptyTile>
+                <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')"} color={"pink"} width={"64px"} height={"64px"} left={"190px"} top={"450px"} onClick={() => setTowerColor("pink")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')")}></Tile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"450px"} onClick={() => {setTowerColor("pink"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')")}}} ></StyledEmptyTile>
             </section>
          </div>
     )

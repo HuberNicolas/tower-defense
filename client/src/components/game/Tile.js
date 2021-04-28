@@ -13,13 +13,14 @@ const StyledTile = styled.canvas`
     top: ${props => props.top};
 `;
 
-const Tile = (tile) => {
+class Tile extends React.Component {
+    render() {
 	return (
 		<div>
-            <StyledTile background={tile.background} color={tile.color} width={tile.width} height={tile.height} left={tile.left} top={tile.top}></StyledTile>
-            <div></div>
+            <StyledTile background={this.props.background} color={this.props.color} width={this.props.width} height={this.props.height} left={this.props.left} top={this.props.top}></StyledTile>
         </div>
 	)
+}
 }
 
 export default Tile
