@@ -198,8 +198,16 @@ canvas {
 
 
 @keyframes wave {
-  0% {background-color: aqua; left: 80px; top: 0px; border-radius: 0 0 0 0;}
-  25% {background-color: green; left: 80px; top: 336px; border-radius: 0 0 0 0;}
-  75% {background-color: aqua; left: 592px; top: 336px; border-radius: 0 0 0 0;}
-  100% {background-color: blue; left: 592px; top: 608px; border-radius: 0 0 0 0;}
+  0% {background-color: rgb(255, 0, 170); left: 80px; top: 0px; border-radius: 0 0 0 0;}
+  5% {background-color: rgb(247, 0, 255); left: 80px; top: 144px; border-radius: 0 0 0 0;}
+  32% {background-color: rgb(140, 0, 255); left: 848px; top: 144px; border-radius: 0 0 0 0;}
+  37% {background-color: rgb(55, 0, 255); left: 848px; top: 272px; border-radius: 0 0 0 0;}
+  56% {background-color: rgb(0, 102, 255); left: 400px; top: 272px; border-radius: 0 0 0 0;}
+  58% {background-color: rgb(0, 238, 255); left: 400px; top: 336px; border-radius: 0 0 0 0;}
+  60% {background-color: rgb(0, 255, 149); left: 336px; top: 336px; border-radius: 0 0 0 0;}
+  63% {background-color: rgb(0, 126, 21); left: 336px; top: 400px; border-radius: 0 0 0 0;}
+  72% {background-color: rgb(115, 255, 0); left: 80px; top: 400px; border-radius: 0 0 0 0;}
+  76% {background-color: rgb(229, 255, 0); left: 80px; top: 528px; border-radius: 0 0 0 0;}
+  95% {background-color: rgb(255, 123, 0); left: 592px; top: 528px; border-radius: 0 0 0 0;}
+  100% {background-color: rgb(255, 0, 0); left: 592px; top: 608px; border-radius: 0 0 0 0;}
 }

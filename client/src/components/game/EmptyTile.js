@@ -28,17 +28,35 @@ class EmptyTile extends React.Component {
         };
     }
     render() {
-        return (<div>
-                {(!this.state.clicked || this.state.color === null) ? (<div>
-                    <StyledEmptyTile color={this.props.color} width={this.props.width} height={this.props.height}
-                                     left={this.props.left} top={this.props.top} onClick={() => {
-                        this.setState({clicked: true, background: this.props.background, color: this.props.towerColor});
-                    }} onDragEnd={() => {
-                        this.setState({dropped: true});
-                    }}></StyledEmptyTile>
-                </div>) : (
-                    <div><Tile background={this.background} color={this.color} width={this.props.width}
-                               height={this.props.height} left={this.props.left} top={this.props.top} {...this.state}></Tile></div>)}
+        return (
+            <div>
+                {(!this.state.clicked || this.state.color === null) ? (
+                    <div>
+                        <StyledEmptyTile    color={this.props.color} 
+                                            width={this.props.width} 
+                                            height={this.props.height}
+                                            left={this.props.left}
+                                            top={this.props.top} 
+                                            onClick={() => { 
+                                                this.setState({clicked: true, background: this.props.background, color: this.props.towerColor});
+                                            }} 
+                                            onDragEnd={() => {
+                                                this.setState({dropped: true});
+                                            }}>
+                        </StyledEmptyTile>
+                    </div>) : (
+                    <div>
+                        <Tile   background={this.background} 
+                                color={this.color} 
+                                width={this.props.width}
+                                height={this.props.height} 
+                                left={this.props.left}
+                                top={this.props.top} 
+                                {...this.state}>
+
+                        </Tile>
+                </div>)
+                }
             </div>
         )
     }

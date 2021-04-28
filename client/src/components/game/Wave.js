@@ -46,7 +46,7 @@ const spawnWave = (num) => {
         //var l = 128*i + "px"
         //var t = 128*i + "px"
         var layer = "m" + (i)
-      minionWave.push(<StyledWave background={background} color={"pink"} width={"32px"} height={"32px"} left={"80px"} top={"0px"} id={layer}></StyledWave>)
+      minionWave.push(<StyledWave background={background} color={"pink"} width={"32px"} height={"32px"} left={"80px"} top={"0px"} id={layer} ></StyledWave>)
     }
 
     return minionWave

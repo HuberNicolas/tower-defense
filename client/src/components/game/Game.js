@@ -7,21 +7,15 @@ import Grid from "./Grid";
 import Minion from "./Minion";
 import Wave from "./Wave";
 import Tower from "./Tower";
-import TowerPlacer from "./TowerPlacer"
 import Path from "./Path"
-import Square from './Square';
 import Tile from './Tile';
-import TowerTile from './TowerTile';
 import {api, handleError} from "../../helpers/api";
 import User from "../shared/models/User";
 import async from "async";
-import Crawler from "./Crawler";
-import Walker from "./Walker"
 import EmptyTile from "./EmptyTile";
 import styled from "styled-components";
 
 // Custom Hooks
-
 
 const StyledEmptyTile = styled.canvas`
     width: ${props => props.width};
@@ -104,39 +98,92 @@ const Game = () => {
                     <Grid></Grid>
 
                     {/* Towers */}
-                    <div style={{position : 'relative', left: '0px', top : '384px'}}><Tower></Tower></div>
-                    <div style={{position : 'relative', left: '64px', top : '384px'}}><Tower></Tower></div>
-                    <div style={{position : 'relative', left: '128px', top : '384px'}}><Tower></Tower></div>
-                    <div style={{position : 'relative', left: '640px', top : '0px'}}><Tower></Tower></div>
+                    {/* Testing purpose only*/}
+                    {/*
+                    <div style={{position : 'relative', left: '768px', top : '192px'}}><Tower></Tower></div>
+                    <div style={{position : 'relative', left: '704px', top : '192px'}}><Tower></Tower></div>
+
+                    <div style={{position : 'relative', left: '896px', top : '192px'}}><Tower></Tower></div>
+
+                    <div style={{position : 'relative', left: '320px', top : '256px'}}><Tower></Tower></div>
+
+                    <div style={{position : 'relative', left: '128px', top : '448px'}}><Tower></Tower></div>
+                    <div style={{position : 'relative', left: '192px', top : '448px'}}><Tower></Tower></div>
+                    <div style={{position : 'relative', left: '256px', top : '448px'}}><Tower></Tower></div>
+                    */}
 
 
-                    {/* Path*/}
-                    {/* 6 Down */}
+
+                    {/* Set Path */}
+                    {/* TOTAL LENGTH OF PATH: 43 TILES */ }
+                    {/* 2 Down */}
                     <div style={{position : 'relative', left: '64px', top : '0px'}}><Path></Path></div>
                     <div style={{position : 'relative', left: '64px', top : '64px'}}><Path></Path></div>
+                    
+                    {/* 12 Right */}
                     <div style={{position : 'relative', left: '64px', top : '128px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '64px', top : '192px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '64px', top : '256px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '64px', top : '320px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '128px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '192px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '256px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '320px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '384px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '448px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '512px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '576px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '640px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '704px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '768px', top : '128px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '832px', top : '128px'}}><Path></Path></div>
+                    
+                    {/* 2 Down */}
+                    <div style={{position : 'relative', left: '832px', top : '192px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '832px', top : '256px'}}><Path></Path></div>
 
-                    {/* 9 Right */}
-                    <div style={{position : 'relative', left: '64px', top : '320px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '128px', top : '320px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '192px', top : '320px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '256px', top : '320px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '320px', top : '320px'}}><Path></Path></div>
+                    {/* 7 Left */}
+                    <div style={{position : 'relative', left: '768px', top : '256px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '704px', top : '256px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '640px', top : '256px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '576px', top : '256px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '512px', top : '256px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '448px', top : '256px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '384px', top : '256px'}}><Path></Path></div>
+
+                    {/* 1 Down */}
                     <div style={{position : 'relative', left: '384px', top : '320px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '448px', top : '320px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '512px', top : '320px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '576px', top : '320px'}}><Path></Path></div>
+                    
+                    {/* 1 Left */}
+                    <div style={{position : 'relative', left: '320px', top : '320px'}}><Path></Path></div>
+                    
+                    {/* 1 Down */}
+                    <div style={{position : 'relative', left: '320px', top : '384px'}}><Path></Path></div>
+                   
+                    {/* 4 Left */}
+                    <div style={{position : 'relative', left: '256px', top : '384px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '192px', top : '384px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '128px', top : '384px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '64px', top : '384px'}}><Path></Path></div>
+                    
+                    {/* 2 Down */}
+                    <div style={{position : 'relative', left: '64px', top : '448px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '64px', top : '512px'}}><Path></Path></div>
 
-                    {/* 6 Down */}
-                    <div style={{position : 'relative', left: '576px', top : '384px'}}><Path></Path></div>
-                    <div style={{position : 'relative', left: '576px', top : '448px'}}><Path></Path></div>
+                    {/* 8 Right */}
+                    <div style={{position : 'relative', left: '128px', top : '512px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '192px', top : '512px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '256px', top : '512px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '320px', top : '512px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '384px', top : '512px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '448px', top : '512px'}}><Path></Path></div>
+                    <div style={{position : 'relative', left: '512px', top : '512px'}}><Path></Path></div>
                     <div style={{position : 'relative', left: '576px', top : '512px'}}><Path></Path></div>
+
+                    {/* 1 Down */}
                     <div style={{position : 'relative', left: '576px', top : '576px'}}><Path></Path></div>
 
-                    {/* Empty Tiles 1st row */}
+
+                    
+                    {/* Place empty Tiles for Towers */}
+                    {/* Empty Tiles 1st row (14 entries, 1 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
@@ -146,12 +193,13 @@ const Game = () => {
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 2nd row */}
+                    {/* Empty Tiles 2nd row (14 entries, 1 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
@@ -167,24 +215,13 @@ const Game = () => {
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"64px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 3rd row */}
+                    {/* Empty Tiles 3rd row (2 entries, 13 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"128px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 4th row */}
+                    {/* Empty Tiles 4th row (14 entries, 1 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
@@ -196,49 +233,46 @@ const Game = () => {
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"192px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 5th row */}
+                    {/* Empty Tiles 5th row (7 entries, 8 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"256px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 6th row */}
+                    {/* Empty Tiles 6th row (13 entries, 2 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"320px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 7th row */}
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    {/* Empty Tiles 7th row (10 entries, 5 empty for path) */}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"384px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 8th row */}
+                    {/* Empty Tiles 8th row (14 entries, 1 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
@@ -247,30 +281,22 @@ const Game = () => {
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"576px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"448px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 9th row */}
+                    {/* Empty Tiles 9th row (6 entries, 9 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"320px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"384px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"448px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"512px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"640px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"704px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"512px"} towerColor={towerColor} background={background}></EmptyTile>
 
-                    {/* Empty Tiles 10th row */}
+                    {/* Empty Tiles 10th row (14 entries, 1 empty for path) */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"64px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
@@ -286,6 +312,8 @@ const Game = () => {
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"768px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"832px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"896px"} top={"576px"} towerColor={towerColor} background={background}></EmptyTile>
+                    
+                    
                     {/* Spawn Wave*/}
                     <Wave></Wave>
 
