@@ -32,12 +32,14 @@ class EmptyTile extends React.Component {
             <div>
                 {(!this.state.clicked || this.state.color === null) ? (
                     <div>
+                        
                         <StyledEmptyTile    color={this.props.color} 
                                             width={this.props.width} 
                                             height={this.props.height}
                                             left={this.props.left}
                                             top={this.props.top} 
-                                            onClick={() => { 
+                                            onClick={() => {
+                                                console.log("Clicked on empty Tile") 
                                                 this.setState({clicked: true, background: this.props.background, color: this.props.towerColor});
                                             }} 
                                             onDragEnd={() => {
@@ -52,7 +54,11 @@ class EmptyTile extends React.Component {
                                 height={this.props.height} 
                                 left={this.props.left}
                                 top={this.props.top} 
+                                onClick={() => {
+                                    console.log("Clicked on Tile") 
+                                }} 
                                 {...this.state}>
+                                    
 
                         </Tile>
                 </div>)

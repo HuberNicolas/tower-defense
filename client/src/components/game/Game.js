@@ -14,6 +14,9 @@ import User from "../shared/models/User";
 import async from "async";
 import EmptyTile from "./EmptyTile";
 import styled from "styled-components";
+import ColorChange from './ColorChange';
+import Crawler from './Crawler';
+import Shot from './Shot';
 
 // Custom Hooks
 
@@ -36,6 +39,7 @@ const Game = () => {
     const [currHP, setCurrHP] = useState(100);
     const [towerColor, setTowerColor] = useState(null);
     const [background, setBackground] = useState(null);
+    const [color, setColor] = useState(null);
 
     // Functions
     const decreaseHP = () => {
@@ -96,6 +100,7 @@ const Game = () => {
                 <section class="grid">
                     {/* Render the Grid*/}
                     <Grid></Grid>
+                    
 
                     {/* Towers */}
                     {/* Testing purpose only*/}
@@ -184,7 +189,8 @@ const Game = () => {
                     
                     {/* Place empty Tiles for Towers */}
                     {/* Empty Tiles 1st row (14 entries, 1 empty for path) */}
-                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
+                    <ColorChange color={color} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></ColorChange>
+                    {/* <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile> */}
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
@@ -315,11 +321,17 @@ const Game = () => {
                     
                     
                     {/* Spawn Wave*/}
-                    <Wave></Wave>
+                    {/*  <Wave></Wave> */}
+                   
+                    <Crawler width={"200px"} height={"20px"} color={"red"} id={1}></Crawler>
+                    <Crawler width={"132px"} height={"132px"} color={"blue"} id={2}></Crawler>
+                    
+                    <Shot></Shot>
 
                     {/* Experimental*/}
                     {/* <TowerTile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png')"} color={"green"} width={"64px"} height={"64px"} left={"640px"} top={"448px"}></TowerTile> */}
                 </section>
+
             </section>
 
             <section class="shop">
