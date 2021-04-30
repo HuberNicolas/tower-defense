@@ -40,6 +40,8 @@ const Game = () => {
     const [towerColor, setTowerColor] = useState(null);
     const [background, setBackground] = useState(null);
     const [color, setColor] = useState(null);
+    const [cost, setCost] = useState(null);
+    const [damage, setDamage] = useState(null);
 
     // Functions
     const decreaseHP = () => {
@@ -338,17 +340,18 @@ const Game = () => {
                 Shop
                 {/* Towers */}
                 <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')"} color={"red"} width={"64px"} height={"64px"} left={"62px"} top={"50px"} onClick={() => {setTowerColor("red")}} onClick={() => {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')");}}></Tile>
-                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"50px"} onClick={() => {setTowerColor("red"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')")}}} ></StyledEmptyTile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"50px"} onClick={() => {setTowerColor("red"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png')")}; {setCost(100)}; {setDamage(10)}}} ></StyledEmptyTile>
                 <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')"} color={"yellow"} width={"64px"} height={"64px"} left={"190px"} top={"50px"} onClick={() => setTowerColor("yellow")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')")}></Tile>
-                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"50px"} onClick={() => {setTowerColor("yellow"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')")}}} ></StyledEmptyTile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"50px"} onClick={() => {setTowerColor("yellow"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png')")}; {setCost(200)}; {setDamage(20)}}} ></StyledEmptyTile>
                 <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')"} color={"blue"} width={"64px"} height={"64px"} left={"62px"} top={"250px"} onClick={() => setTowerColor("blue")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')")}></Tile>
-                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"250px"} onClick={() => {setTowerColor("blue"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')")}}} ></StyledEmptyTile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"250px"} onClick={() => {setTowerColor("blue"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png')")}; {setCost(300)}; {setDamage(30)}}} ></StyledEmptyTile>
                 <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')"} color={"orange"} width={"64px"} height={"64px"} left={"190px"} top={"250px"} onClick={() => setTowerColor("orange")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')")}></Tile>
-                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"250px"} onClick={() => {setTowerColor("orange"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')")}}} ></StyledEmptyTile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"250px"} onClick={() => {setTowerColor("orange"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/121.png')")}; {setCost(400)}; {setDamage(40)}}} ></StyledEmptyTile>
                 <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')"} color={"black"} width={"64px"} height={"64px"} left={"62px"} top={"450px"} onClick={() => setTowerColor("black")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')")}></Tile>
-                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"450px"} onClick={() => {setTowerColor("black"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')")}}} ></StyledEmptyTile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"62px"} top={"450px"} onClick={() => {setTowerColor("black"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/110.png')")}; {setCost(500)}; {setDamage(50)}}} ></StyledEmptyTile>
                 <Tile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')"} color={"pink"} width={"64px"} height={"64px"} left={"190px"} top={"450px"} onClick={() => setTowerColor("pink")} onClick={() => setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')")}></Tile>
-                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"450px"} onClick={() => {setTowerColor("pink"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')")}}} ></StyledEmptyTile>
+                <StyledEmptyTile width={"64px"} height={"64px"} left={"190px"} top={"450px"} onClick={() => {setTowerColor("pink"); {setBackground("url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/78.png')")}; {setCost(600)}; {setDamage(60)}}} ></StyledEmptyTile>
+                {towerColor !== null && <p style={{marginTop: 530, marginLeft: 55, color:"whitesmoke"}}> <b> Selected tower: {towerColor} tower <br/> Damage: {damage} HP <br/> Cost: {cost} </b></p>}
             </section>
          </div>
     )
