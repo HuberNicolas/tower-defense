@@ -151,7 +151,7 @@ class Login extends React.Component {
           <Button
               width="50%"
               onClick={() => {
-                this.start();
+                this.props.history.push(`/game`);
               }}
           >
             Start Game

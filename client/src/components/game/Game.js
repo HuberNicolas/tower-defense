@@ -1,6 +1,8 @@
 // General imports
 import React, { useState, useCallback } from 'react';
+import {withRouter} from "react-router-dom";
 import "./styles/StyledGame.css";
+import { useHistory } from 'react-router-dom';
 
 // Componenets
 import Grid from "./Grid";
@@ -51,6 +53,8 @@ const Game = () => {
 
     }
 
+    const history = useHistory();
+
     async function quitGame() {
         try {
             const requestBody = JSON.stringify({
@@ -92,7 +96,9 @@ const Game = () => {
                 <section class="healthbar">
                     <div>{currHP}</div>
                     <button onClick={decreaseHP}>Decrease HP</button>
-                    <button onClick={() => { quitGame(); } }>Quit game</button>
+                    <button onClick={() => {
+
+                        history.push(`/main`);}}>Quit game</button>
                     <button onClick={spawn()}>Spawn Minions</button>
                 </section>
             </section>
