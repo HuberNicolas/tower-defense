@@ -19,6 +19,8 @@ import styled from "styled-components";
 import ColorChange from './ColorChange';
 import Crawler from './Crawler';
 import Shot from './Shot';
+import MinionWave from './MinionWave';
+import Pack from './Pack';
 
 // Custom Hooks
 
@@ -39,6 +41,7 @@ const Game = () => {
 
     // Define states
     const [currHP, setCurrHP] = useState(100);
+    const [currGold, settCurrGold] = useState(5000);
     const [towerColor, setTowerColor] = useState(null);
     const [background, setBackground] = useState(null);
     const [color, setColor] = useState(null);
@@ -49,8 +52,13 @@ const Game = () => {
     const decreaseHP = () => {
         setCurrHP(currHP - 1)
     }
-    const change =  () => {
 
+    const decreaseGold = () => {
+        settCurrGold(currGold - 100)
+    }
+
+    const increaseGold = () => {
+        settCurrGold(currGold + 100)
     }
 
     const history = useHistory();
@@ -84,8 +92,7 @@ const Game = () => {
     //alert(x + ' × ' + y);
     console.log('current resolution : ' + x + ' × ' + y)
     
-    const spawn = () => {
-        //return <Minion></Minion>
+    const spawn = (minions) => {
     }
     
     return(
@@ -94,12 +101,20 @@ const Game = () => {
                 Statusbar
                 <div>x:{x} y:{y}</div>
                 <section class="healthbar">
-                    <div>{currHP}</div>
+                    <div>{currHP} - {currGold} - Time {new Date().toLocaleTimeString()}</div>
                     <button onClick={decreaseHP}>Decrease HP</button>
                     <button onClick={() => {
 
                         history.push(`/main`);}}>Quit game</button>
                     <button onClick={spawn()}>Spawn Minions</button>
+                    <button onClick={() => { quitGame(); } }>Quit game</button>
+                    <button onClick={() => spawn(17) }>
+                        Spawn Minions
+                    </button>
+                    <button onClick={decreaseGold}>Buy Tower</button>
+                    <button onClick={increaseGold}>Sell Tower</button>
+                    
+                    
                 </section>
             </section>
 
@@ -197,8 +212,8 @@ const Game = () => {
                     
                     {/* Place empty Tiles for Towers */}
                     {/* Empty Tiles 1st row (14 entries, 1 empty for path) */}
-                    <ColorChange color={color} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></ColorChange>
-                    {/* <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile> */}
+                    {/*<ColorChange color={color} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></ColorChange>*/}
+                    <EmptyTile color={""} width={"64px"} height={"64px"} left={"0px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile> 
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"128px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"192px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
                     <EmptyTile color={""} width={"64px"} height={"64px"} left={"256px"} top={"0px"} towerColor={towerColor} background={background}></EmptyTile>
@@ -330,16 +345,11 @@ const Game = () => {
                     
                     {/* Spawn Wave*/}
                     {/*  <Wave></Wave> */}
+                    <Pack waveSize={20}></Pack>
                    
-                    <Crawler width={"200px"} height={"20px"} color={"red"} id={1}></Crawler>
-                    <Crawler width={"132px"} height={"132px"} color={"blue"} id={2}></Crawler>
-                    
-                    <Shot></Shot>
-
                     {/* Experimental*/}
                     {/* <TowerTile background={"url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png')"} color={"green"} width={"64px"} height={"64px"} left={"640px"} top={"448px"}></TowerTile> */}
                 </section>
-
             </section>
 
             <section class="shop">

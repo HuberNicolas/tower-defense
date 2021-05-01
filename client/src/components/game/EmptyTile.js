@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import styled from "styled-components";
 import Tile from "./Tile";
+import Shot from "./Shot";
 
 
 
@@ -28,6 +29,9 @@ class EmptyTile extends React.Component {
         };
     }
     render() {
+        // compute coordinates for new shot
+        let topval = `calc(${this.props.top} + 32px)`
+        let leftval = `calc(${this.props.left} + 32px)`
         return (
             <div>
                 {(!this.state.clicked || this.state.color === null) ? (
@@ -61,6 +65,7 @@ class EmptyTile extends React.Component {
                                     
 
                         </Tile>
+                        <Shot color={"yellow"} duration={"2.5s"} top={topval} left={leftval}>  </Shot>
                 </div>)
                 }
             </div>

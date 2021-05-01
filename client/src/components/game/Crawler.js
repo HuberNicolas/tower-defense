@@ -8,6 +8,8 @@ const StyledCrawler = styled.canvas`
     width: ${props => props.width};
     height: ${props => props.height};
     background: ${props => props.background};
+    border: 0px solid #aaa;
+    border-radius: 16px;
     background-position: center center;
     background-color: ${props => props.color};
     position: absolute;
@@ -23,14 +25,13 @@ class Crawler extends React.Component {
     constructor() {
         super();
         this.state = {
-            background: "url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/11.png')",
-            color: "green",
-            width: "64px",
-            height: "64px",
+            background: "url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png')",
+            color: "blue",
+            width: "32px",
+            height: "32px",
             layer: "",
         };
     }
-
 
     createCrawler = (id) => {
         return <StyledCrawler
@@ -38,8 +39,7 @@ class Crawler extends React.Component {
             color={this.state.color} 
             width={this.state.width} 
             height={this.state.height} 
-            left={"180px"} 
-            top={"0px"}
+            
             id={"m"+this.props.id}
             onClick={()=> {
                 console.log(id)
@@ -48,8 +48,6 @@ class Crawler extends React.Component {
         
         </StyledCrawler>
     }
-
-
 
     spawnCrawlers = (num) => {
         const crawlers = []
@@ -61,12 +59,13 @@ class Crawler extends React.Component {
             //var t = 128*i + "px"
             var layer = "m"+(i)
             //console.log(layer)
+            
             crawlers.push(
                 <StyledCrawler 
                     background={this.state.background} 
-                    color={this.state.color} 
+                    color={this.state.color}
                     width={"32px"} 
-                    height={"32px"} 
+                    height={"32px"}
                     left={"80px"} 
                     top={"0px"} 
                     id={layer} 
