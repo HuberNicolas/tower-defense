@@ -3,8 +3,6 @@ import styled from "styled-components";
 import Tile from "./Tile";
 import Shot from "./Shot";
 
-
-
 const StyledEmptyTile = styled.canvas`
     width: ${props => props.width};
     height: ${props => props.height}; 
@@ -26,6 +24,7 @@ class EmptyTile extends React.Component {
             dropped: false,
             background: null,
             color: null,
+            speed: null,
         };
     }
     render() {
@@ -36,15 +35,16 @@ class EmptyTile extends React.Component {
             <div>
                 {(!this.state.clicked || this.state.color === null) ? (
                     <div>
-                        
-                        <StyledEmptyTile    color={this.props.color} 
+                        {/* Select a tower from the shop and "save" information */}
+                        <StyledEmptyTile    color={this.props.color}
+                                            speed={this.props.speed} 
                                             width={this.props.width} 
                                             height={this.props.height}
                                             left={this.props.left}
                                             top={this.props.top} 
                                             onClick={() => {
                                                 console.log("Clicked on empty Tile") 
-                                                this.setState({clicked: true, background: this.props.background, color: this.props.towerColor});
+                                                this.setState({clicked: true, background: this.props.background, color: this.props.towerColor, speed: this.props.speed});
                                             }} 
                                             onDragEnd={() => {
                                                 this.setState({dropped: true});
@@ -52,6 +52,7 @@ class EmptyTile extends React.Component {
                         </StyledEmptyTile>
                     </div>) : (
                     <div>
+                        {/* Place a tower */}
                         <Tile   background={this.background} 
                                 color={this.color} 
                                 width={this.props.width}
@@ -62,23 +63,17 @@ class EmptyTile extends React.Component {
                                     console.log("Clicked on Tile") 
                                 }} 
                                 {...this.state}>
-                                    
-
                         </Tile>
-                        <Shot color={"yellow"} duration={"2.5s"} top={topval} left={leftval}>  </Shot>
+                        <Shot 
+                            shotColor={this.state.color} 
+                            top={topval} 
+                            left={leftval}
+                            speed={this.state.speed}>  
+                        </Shot>
                 </div>)
                 }
             </div>
         )
     }
-
-// componentDidMount() {
-//     window.addEventListener('mouseup', this._onDragLeave);
-//     window.addEventListener('dragenter', this._onDragEnter);
-//     window.addEventListener('dragover', this._onDragOver);
-//     window.addEventListener('dragend', this._onDragEnd);
-//     window.addEventListener('drop', this._onDrop);
-//     document.getElementById('dragbox').addEventListener('dragleave', this._onDragLeave);
-// }
 }
 export default EmptyTile

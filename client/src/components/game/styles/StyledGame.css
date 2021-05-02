@@ -1,5 +1,6 @@
 section.statusbar {
   position: absolute;
+  background-color: burlywood;
   top: 0;
   left: 10px;
   right: 10px;
@@ -20,6 +21,7 @@ section.board {
   
 section.shop {
   position: absolute;
+  background-color: grey;
   top: 100px;
   right: 10px;
   width: 316px;;
@@ -47,89 +49,6 @@ canvas {
   z-index: 1; 
 }
 
-#layer2 {
-  z-index: 1;
-  background-color: aqua;
-  animation-name: minionWalk;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-}
-
-#layer3 {
-  z-index: 3;
-  background-color: yellow;
-}
-
-@keyframes minionWalk {
-  0% {background-color: aqua; left: 80px; top: 0px; border-radius: 0 0 0 0;}
-  25% {background-color: green; left: 80px; top: 336px; border-radius: 0 0 0 0;}
-  75% {background-color: aqua; left: 592px; top: 336px; border-radius: 0 0 0 0;}
-  100% {background-color: blue; left: 592px; top: 608px; border-radius: 0 0 0 0;}
-}
-
-#layer4 {
-  z-index: 3;
-  background-color: red;
-  animation-name: minionWalk2;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-}
-
-@keyframes minionWalk2 {
-  0% {background-color: aqua; left: 90px; top: 0px; border-radius: 0 0 0 0;}
-  40% {background-color: green; left: 90px; top: 336px; border-radius: 0 0 0 0;}
-  60% {background-color: aqua; left: 492px; top: 336px; border-radius: 0 0 0 0;}
-  100% {background-color: blue; left: 692px; top: 608px; border-radius: 0 0 0 0;}
-}
-
-#layer17 {
-  z-index: 3;
-  background-color: red;
-  animation-name: minionWalk3;
-  animation-duration: 10s;
-  animation-iteration-count: infinite;
-}
-
-@keyframes minionWalk3 {
-  0% {background-color: red; left: 90px; top: 0px; border-radius: 0 0 0 0;}
-  100% {background-color: yellow; left: 692px; top: 608px; border-radius: 0 0 0 0;}
-}
-
-
-#layer11 {
-  z-index: 3;
-  background-color: red;
-  animation-name: minionWalk3;
-  animation-duration: 10s;
-  animation-delay: 1s;
-  animation-iteration-count: infinite;
-}
-#layer12 {
-  z-index: 3;
-  background-color: red;
-  animation-name: minionWalk3;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-}
-#layer13 {
-  z-index: 3;
-  background-color: red;
-  animation-name: minionWalk3;
-  animation-duration: 10s;
-  animation-delay: 3s;
-  animation-iteration-count: infinite;
-}
-#layer14 {
-  z-index: 3;
-  background-color: red;
-  animation-name: minionWalk3;
-  animation-duration: 10s;
-  animation-delay: 4s;
-  animation-iteration-count: infinite;
-}
-
-
-
 #m1 {
   background-color: aqua;
   animation-name: wave;
@@ -142,70 +61,136 @@ canvas {
   animation-name: wave;
   animation-duration: 20s;
   animation-delay: 2s;
-  animation-iteration-count: 0;
+  animation-iteration-count: 1;
 }
 #m3 {
   background-color: aqua;
   animation-name: wave;
-  animation-duration: 10s;
+  animation-duration: 20s;
   animation-delay: 3s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 1;
 }
 #m4 {
   background-color: aqua;
   animation-name: wave;
-  animation-duration: 10s;
+  animation-duration: 20s;
   animation-delay: 4s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 1;
 }
 #m5 {
   background-color: aqua;
   animation-name: wave;
-  animation-duration: 10s;
+  animation-duration: 20s;
   animation-delay: 5s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 1;
 }
 #m6 {
   background-color: aqua;
   animation-name: wave;
-  animation-duration: 10s;
+  animation-duration: 20s;
   animation-delay: 6s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 1;
 }
 #m7 {
   background-color: aqua;
   animation-name: wave;
-  animation-duration: 10s;
+  animation-duration: 20s;
   animation-delay: 7s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 1;
 }
 #m8 {
   background-color: aqua;
   animation-name: wave;
-  animation-duration: 10s;
+  animation-duration: 20s;
   animation-delay: 8s;
-  animation-iteration-count: infinite;
+  animation-iteration-count: 1;
 }
 
 #m9 {
-  animation-name: dying;
-  animation-duration: 25s;
-  animation-delay: 0s;
-  animation-iteration-count: infinite;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 9s;
+  animation-iteration-count: 1;
 }
 #m10 {
-  animation-name: dying;
-  animation-duration: 25s;
-  animation-delay: 1s;
-  animation-iteration-count: infinite;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 10s;
+  animation-iteration-count: 1;
 }
 
 #m11 {
-  animation-name: dying;
-  animation-duration: 25s;
-  animation-delay: 2s;
-  animation-iteration-count: infinite;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 11s;
+  animation-iteration-count: 1;
 }
+
+#m12 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 12s;
+  animation-iteration-count: 1;
+}
+#m13 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 13s;
+  animation-iteration-count: 1;
+}
+#m14 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 14s;
+  animation-iteration-count: 1;
+}
+#m15 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 15s;
+  animation-iteration-count: 1;
+}
+#m16 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 16s;
+  animation-iteration-count: 1;
+}
+#m17 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 17s;
+  animation-iteration-count: 1;
+}
+#m18 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 18s;
+  animation-iteration-count: 1;
+}
+#m19 {
+  background-color: aqua;
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 19s;
+  animation-iteration-count: 1;
+}
+
+#m20 {
+  animation-name: wave;
+  animation-duration: 20s;
+  animation-delay: 20s;
+  animation-iteration-count: 1;
+}
+
+
 
 #die {
   animation-duration: 0s;
@@ -221,7 +206,7 @@ canvas {
   0% {left: 0p; top:0px};
 }
 
-
+/* */
 @keyframes wave {
   0% {background-color: rgb(255, 0, 170); left: 80px; top: 0px;}
   5% {background-color: rgb(247, 0, 255); left: 80px; top: 144px; }
@@ -246,8 +231,7 @@ canvas {
   height:6px;
   animation-name:shot;
   animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  
+  animation-iteration-count: infinite;  
 }
 #shot::before{
   position:absolute;
@@ -259,7 +243,6 @@ canvas {
   height:4px;
   background: linear-gradient(to right, rgba(255, 0, 0, 0) 0%,rgba(212, 135, 19, 0.5) 100%);
 }
-
 
 @keyframes shot {
   from, to {

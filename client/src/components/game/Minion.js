@@ -1,51 +1,69 @@
-import React, {Component} from "react";
+import React, {Component} from "react"
+import styled from "styled-components";
 
-class Minion extends Component {
+const StyledMinion = styled.canvas`
+    width: ${props => props.width};
+    height: ${props => props.height};
+    background: ${props => props.background};
+    border: 0px solid #aaa;
+    border-radius: 16px;
+    background-position: center center;
+    background-size: 64px;
+    background-color: ${props => props.color};
+    position: absolute;
+    left: ${props => props.left};
+    top: ${props => props.top};
+    z-index: 3;
+    onClick: ${console.log("Spawn minions")};
+`
 
-    state = {
-        // size of minion canvas
-        canvasWidth: 32,
-        canvasHeight: 32
+class Minion extends React.Component {
+
+
+    constructor() {
+        super();
+        this.state = {
+            // attributes of a minion
+            background: "url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/54.png')",
+            color: "blue",
+            width: "32px",
+            height: "32px",
+            layer: "",
+        };
     }
-    canvasRef = React.createRef();
 
-    componentDidMount() {
-        const canvas = this.canvasRef.current;
-        const ctx = canvas.getContext('2d');
-
-        // load the picture
-        var minion = new Image();
-        minion.src = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png';
+    createMinion = (id) => {
+        return <StyledMinion
+            background={this.state.background} 
+            color={this.state.color} 
+            width={this.state.width} 
+            height={this.state.height}
+            left={"10000px"} // spawn from outside, need fix
+            id={"m"+this.props.id}
+            onClick={()=> {
+                this.remove(id)
+            }}> 
         
-        // scale picture down an put into canvas
-        minion.onload = function () {
-
-            // calculate width and height of the scaled image
-            var ratio = minion.width / minion.height; // ratio
-            var newWidth = canvas.width;
-            var newHeight = newWidth / ratio;
-            if (newHeight > canvas.height) {
-                newHeight = canvas.height;
-                newWidth = newHeight * ratio;
-              }
-            // calculate offset
-            var xOffset = newWidth < canvas.width ? ((canvas.width - newWidth) / 2) : 0;
-            var yOffset = newHeight < canvas.height ? ((canvas.height - newHeight) / 2) : 0;
-              // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
-              ctx.drawImage(minion, xOffset, yOffset, newWidth, newHeight);
-          };
-
-        //ctx.fillRect(0, 0, this.state.canvasWidth, this.state.canvasHeight);
+        </StyledMinion>
     }
 
-
+    // still need improvement; does just change size
+    remove = (minionId) => {
+        console.log("removed minion")
+        /* if(this.state.layer == "die") { } */ // check for specifit attributes
+        this.setState({
+            layer: "die",
+            height: "0px",
+            width: "0px",
+            //color: "blue"
+        })
+    }
     render() {
         return (
             <div>
-                <canvas ref={this.canvasRef} width={this.state.canvasWidth} height={this.state.canvasHeight} id={"layer2"}/>
+                {this.createMinion(this.state.id)}
             </div>
-        );
+        )
     }
 }
-
 export default Minion

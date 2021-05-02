@@ -7,6 +7,7 @@ const StyledTile = styled.canvas`
     height: ${props => props.height}; 
     background: ${props => props.background};
     background-position: center center;
+    background-size: 64px;
     background-color: ${props => props.color}; 
     position: absolute;
     left: ${props => props.left};
@@ -17,10 +18,18 @@ class Tile extends React.Component {
     render() {
 	return (
 		<div>
-            <StyledTile background={this.props.background} color={this.props.color} width={this.props.width} height={this.props.height} left={this.props.left} top={this.props.top} onClick={() => { 
-                                                console.log("Clicked on Tile")
-
-                                            }} ></StyledTile>
+            <StyledTile 
+                background={this.props.background} 
+                color={this.props.color} 
+                width={this.props.width} 
+                height={this.props.height} 
+                left={this.props.left} 
+                top={this.props.top}
+                onClick={() => { 
+                    console.log("Clicked on Tile")
+                }} 
+                >
+            </StyledTile>
         </div>
 	)
 }
