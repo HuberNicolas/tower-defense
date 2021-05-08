@@ -28,3 +28,18 @@ button {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+
+
+
+
+/* added for game2 */
+
+#gameboard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 960px;
+  height: 704px;
+  background: white;
+}
