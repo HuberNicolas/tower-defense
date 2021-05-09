@@ -115,7 +115,10 @@ class Login extends React.Component {
       const response = await api.post('/games', requestBody);
 
       // Store the game id into the local storage.
-      localStorage.setItem('gameId', response.data.gameId);
+      //localStorage.setItem('gameId', response.player1.gameId);
+      console.log(response);
+
+
 
       // Initialization successfully worked --> navigate to the route /game
       this.props.history.push(`/game`);
@@ -151,7 +154,7 @@ class Login extends React.Component {
           <Button
               width="50%"
               onClick={() => {
-                this.props.history.push(`/game`);
+                this.start();
               }}
           >
             Start Game
