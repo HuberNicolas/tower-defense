@@ -8,8 +8,14 @@ import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import mainmenu from "../../mainmenu.jpg";
 import backgroundmusic from "../../backgroundmusic.mp3"
-const FormContainer = styled.div`
 
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
+
+const FormContainer = styled.div`
   margin-top: 2em;
   display: flex;
   flex-direction: column;

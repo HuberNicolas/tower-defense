@@ -16,6 +16,10 @@ import EmptyTile from "./EmptyTile";
 import styled from "styled-components";
 import Shot from './Shot';
 
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 // Custom Hooks
 const StyledEmptyTile = styled.canvas`
     width: ${props => props.width};

@@ -1,5 +1,9 @@
 import React, { forwardRef } from 'react';
 
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 class Game2 extends React.Component {
   state = {
     // size of board canvas
