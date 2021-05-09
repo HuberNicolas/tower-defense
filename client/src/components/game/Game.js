@@ -107,8 +107,8 @@ const Game = () => {
                 Statusbar
 
                 <section class="healthbar">
-                    <div>{currHP} - {currGold} - Time {new Date().toLocaleTimeString()} - Weathercondition: {localStorage.getItem("weather")} - 
-                                                                                                            Gold: {localStorage.getItem("gold")}</div>
+                    <div>{currHP} - {currGold} - Time {new Date().toLocaleTimeString()} - Weathercondition: {localStorage.getItem("weather")} -
+                                                                                                            Gold: {localStorage.getItem("gold")} - {localStorage.getItem("weather") == "Sunny"? 'It is sunny' : 'It is not sunny'}</div>
                     {/* <button onClick={decreaseHP}>Decrease HP</button> */}
 
                     <button onClick={() => { history.push(`/main`);}} >Quit game</button>
