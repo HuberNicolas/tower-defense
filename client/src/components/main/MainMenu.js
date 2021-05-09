@@ -7,7 +7,9 @@ import Lobby from '../shared/models/Lobby';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import mainmenu from "../../mainmenu.jpg";
+import backgroundmusic from "../../backgroundmusic.mp3"
 const FormContainer = styled.div`
+
   margin-top: 2em;
   display: flex;
   flex-direction: column;
@@ -69,7 +71,8 @@ const Title = styled.h1`
 var sectionStyle = {
   width: "100%",
   height: "768px",
-  backgroundImage: "url(" +  mainmenu  + ")"
+  backgroundImage: "url(" +  mainmenu  + ")",
+
 };
 const background = styled.img`
   display: flex;
@@ -88,8 +91,25 @@ class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      nothing: null
+      play: false,
+
     };
+  }
+
+ // music to be played
+    audio = new Audio(backgroundmusic);
+    componentDidMount() {
+    this.audio.addEventListener('ended', () => this.setState({ play: false }));
+  }
+
+  componentWillUnmount() {
+    this.audio.removeEventListener('ended', () => this.setState({ play: false }));
+  }
+
+  togglePlay = () => {
+    this.setState({ play: !this.state.play }, () => {
+      this.state.play ? this.audio.play() : this.audio.pause();
+    });
   }
  //refreshes the website
      reload(){
@@ -109,7 +129,7 @@ class Login extends React.Component {
   }
 
 
-  componentDidMount() {}
+
 
   render() {
     return (
@@ -156,6 +176,11 @@ class Login extends React.Component {
                             >
                               logout
                             </Button>
+              <h1> </h1>
+                            <Button
+                                              width="50%"
+                                              onClick={this.togglePlay}>{this.state.play ? 'Pause' : 'Play'}
+                                          </Button>
             </ButtonContainer>
       </BaseContainer>
       </div>

@@ -109,6 +109,8 @@ const Game = () => {
                 <section class="healthbar">
                     <div>{currHP} - {currGold} - Time {new Date().toLocaleTimeString()}</div>
                     {/* <button onClick={decreaseHP}>Decrease HP</button> */}
+                    {localStorage.getItem("weather")}-------------
+                    Gold: {localStorage.getItem("gold")}----------
                     <button onClick={() => { history.push(`/main`);}} >Quit game</button>
                     <button >Spawn Minions</button>
                     {/* <button onClick={decreaseGold}>Buy Tower</button> */}

@@ -39,7 +39,7 @@ componentDidMount() {
     // game board
     const controlsBar = {
         width: canvas.width, // board width
-        height: tileSize 
+        height: tileSize
     }
 
     const mouse = {
@@ -48,10 +48,10 @@ componentDidMount() {
         width : 0.1,
         height: 0.1,
     }
-    
+
     let canvasPosition = canvas.getBoundingClientRect();
     //console.log(canvasPosition);
-    
+
 
     // EventListeners
     canvas.addEventListener('mousemove', function(e) {
@@ -69,7 +69,7 @@ componentDidMount() {
         const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
         console.log("click")
         if (gridPositionY < tileSize) return; // clicked on statusbar
-        
+
 
         for (let i = 0; i < pathTiles.length; i++) {
             console.log(pathTiles[i].x)
@@ -110,7 +110,7 @@ componentDidMount() {
                 ctx.strokeStyle = 'black';
                 ctx.strokeRect(this.x, this.y, this.width, this.height)
             }
-            
+
         }
     }
 
@@ -199,7 +199,7 @@ componentDidMount() {
             if(this.timer % 100 === 0) {
                 projectiles.push(new Projectiles(this.x + 70, this.y + 25))
             }
-            
+
         }
     }
 
@@ -214,7 +214,7 @@ componentDidMount() {
             this.speed = Math.random() * 0.2 + 4;
             this.movement = this.speed;
             this.health = 100;
-            this.maxHealth = this.health; 
+            this.maxHealth = this.health;
         }
         update() {
             this.y += this.movement;
@@ -231,7 +231,7 @@ componentDidMount() {
             ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
         }
     }
-    
+
     class Projectiles {
         constructor(x, y) {
             this.x = x;
@@ -266,7 +266,7 @@ componentDidMount() {
         if (gameOver) {
             ctx.fillStyle = 'green';
             ctx.font = '30px Arial';
-            ctx.fillText("Gameover" , 350, 350); 
+            ctx.fillText("Gameover" , 350, 350);
         }
     }
 
@@ -329,7 +329,7 @@ componentDidMount() {
             minions.push(new Minion(verticalPosition));
             minionPosition.push(verticalPosition); // one number for each activ number
             if (minionsInterval > 120) minionsInterval -= 50;
-            console.log(minionPosition);    
+            console.log(minionPosition);
         }
     }
 
@@ -350,7 +350,7 @@ componentDidMount() {
                 projectiles.splice(i, 1); // remove
                 i--; // adjust for loop index
             }
-            //console.log('projectiles ' + projectiles.length);   
+            //console.log('projectiles ' + projectiles.length);
         }
     }
 
@@ -360,11 +360,11 @@ componentDidMount() {
         ctx.clearRect(0,0, canvas.width, canvas.height);
         ctx.fillStyle = 'blue'
         ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
-    
+
         frame++;
-       
+
         //console.log(frame);
-        
+
         if(!gameOver) {
             requestAnimationFrame(animate);
         }
@@ -395,7 +395,7 @@ componentDidMount() {
         };
     };
 
-    
+
 
 
 }
