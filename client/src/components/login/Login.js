@@ -6,6 +6,11 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import login from "../../login.jpg";
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 var sectionStyle = {
   width: "100%",
   height: "768px",
@@ -94,7 +99,19 @@ class Login extends React.Component {
       // Login successfully worked --> navigate to the route /game in the GameRouter
       this.props.history.push(`/main`);
     } catch (error) {
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+        store.addNotification({
+          title: 'Error',
+          width:300,
+          height:100,
+          message: `Something went wrong during the login: \n${handleError(error)}`,
+          type: 'warning',                         // 'default', 'success', 'info', 'warning'
+          container: 'top-left',                // where to position the notifications
+          animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+          animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+          dismiss: {
+            duration: 4000
+          }
+      })
     }
   }
 
