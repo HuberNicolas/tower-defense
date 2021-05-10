@@ -207,17 +207,49 @@ componentDidMount() {
         constructor(verticalPosition) {
             //this.x = canvas.width;
             //this.y = verticalPosition;
-            this.x = 5*tileSize; // spawn point
+            this.x = tileSize; // spawn point
             this.y = verticalPosition; // spawn point
             this.width = tileSize - tileGap * 2;
             this.height = tileSize - tileGap * 2;
-            this.speed = Math.random() * 0.2 + 4;
+            this.speed = Math.random() * 0.1 + 3;
             this.movement = this.speed;
             this.health = 100;
             this.maxHealth = this.health; 
         }
         update() {
-            this.y += this.movement;
+            if (this.y < 193) {
+                this.y += this.movement;
+            }
+            if (this.y > 190.8 && this.y < 198 && this.x < 838) {
+                this.x += this.movement;
+            }
+            if (this.y > 193 && this.y < 323 && this.x > 832.8 && this.x < 841) {
+                this.y += this.movement;
+            }
+            if (this.y > 320.8 && this.y < 328 && this.x > 388) {
+                this.x -= this.movement;
+            }
+            if (this.y > 320.8 && this.y < 385 && this.x > 383 && this.x < 393.2) {
+                this.y += this.movement;
+            }
+            if (this.y > 382.8 && this.y < 390 && this.x > 326 && this.x < 393.2) {
+                this.x -= this.movement;
+            }
+            if (this.y > 382.8 && this.y < 449 && this.x > 321 && this.x < 326) {
+                this.y += this.movement;
+            }
+            if (this.y > 449 && this.y < 454 && this.x > 65 && this.x < 326) {
+                this.x -= this.movement;
+            }
+            if (this.y > 449 && this.y < 577 && this.x > 60 && this.x < 72) {
+                this.y += this.movement;
+            }
+            if (this.y > 576 && this.y < 582 && this.x > 55 && this.x < 640) {
+                this.x += this.movement;
+            }
+            if (this.y > 576 && this.x > 639) {
+                this.y += this.movement;
+            }
         }
         draw() {
             ctx.fillStyle = 'red';
