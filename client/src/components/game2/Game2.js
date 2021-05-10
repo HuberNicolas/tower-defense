@@ -81,13 +81,13 @@ componentDidMount() {
     canvas.addEventListener('click', function() {
         const gridPositionX = mouse.x - (mouse.x % tileSize) + tileGap;
         const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
-        console.log("click")
+        
         if (gridPositionY < tileSize) return; // clicked on statusbar
 
 
         for (let i = 0; i < pathTiles.length; i++) {
-            console.log(pathTiles[i].x)
-            if (pathTiles[i].x == gridPositionX && pathTiles[i].y == gridPositionY) { return; }
+            //console.log(pathTiles[i].x + "   " + gridPositionX)
+            if (pathTiles[i].x + 3 == gridPositionX && pathTiles[i].y + 3 == gridPositionY) { return; }
         }
 
         // check if there is already a Tower
@@ -144,8 +144,7 @@ componentDidMount() {
             this.x = x;
             this.y = y;
             this.width = tileSize;
-            this.height = tileSize; // prevents from collisions from the edges
-            this.free = false;
+            this.height = tileSize; 
         }
 
         draw() {
@@ -377,7 +376,7 @@ componentDidMount() {
                 minionPosition.splice(findThisIndex, 1);
                 minions.splice(i, 1);
                 i--;
-                console.log(minionPosition);
+                //console.log(minionPosition);
             }
         }
 
@@ -387,7 +386,7 @@ componentDidMount() {
             minions.push(new Minion(verticalPosition));
             minionPosition.push(verticalPosition); // one number for each activ number
             if (minionsInterval > 120) minionsInterval -= 50;
-            console.log(minionPosition);
+            //console.log(minionPosition);
         }
     }
 
