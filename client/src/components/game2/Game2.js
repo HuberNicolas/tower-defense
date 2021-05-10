@@ -39,6 +39,7 @@ componentDidMount() {
 
     const gameGrid = []; // all cells
     const towers = []; // all towers
+    const towerList = []; // all towers in the shop
     const pathTiles = []; // all paths
     const minions = []; // all minions
     const minionPosition = [];
@@ -100,7 +101,7 @@ componentDidMount() {
         }
         let towerCost = 100;
         if(gold >= towerCost) {
-            towers.push(new Tower(gridPositionX, gridPositionY));
+            towers.push(new Tower(gridPositionX, gridPositionY, 'green'));
             gold -= towerCost;
         }
 
@@ -197,7 +198,7 @@ componentDidMount() {
     }
 
     class Tower {
-        constructor(x, y) {
+        constructor(x, y, towerColor) {
             this.x = x;
             this.y = y;
             this.width = tileSize - tileGap * 2;
@@ -206,10 +207,11 @@ componentDidMount() {
             this.health = 100;
             this.projectiles = [];
             this.timer = 0;
+            this.color = towerColor;
         }
 
         draw() {
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
             ctx.fillStyle = 'gold';
             ctx.font = '20px Arial';
@@ -219,7 +221,7 @@ componentDidMount() {
         update() {
             this.timer++;
             if(this.timer % 100 === 0) {
-                projectiles.push(new Projectiles(this.x + 70, this.y + 25))
+                projectiles.push(new Projectiles(this.x + 70, this.y + 25, 15))
             }
 
         }
@@ -287,12 +289,12 @@ componentDidMount() {
     }
 
     class Projectiles {
-        constructor(x, y) {
+        constructor(x, y, damage) {
             this.x = x;
             this.y = y;
             this.width = 10;
             this.height = 10;
-            this.power = 20;
+            this.damage = damage;
             this.speed = 5;
         }
 
@@ -400,7 +402,7 @@ componentDidMount() {
 
             for (let j = 0; j < minions.length; j++) {
                 if (minions[j] && projectiles[i] && collision(projectiles[i], minions[j])) { // both existing and is hit?
-                    minions[j].health -= projectiles[i].power;
+                    minions[j].health -= projectiles[i].damage;
                     projectiles.splice(i, 1);
                     i--;
                 }
@@ -421,11 +423,6 @@ componentDidMount() {
         }
 
         draw() {
-            ctx.fillStyle = 'green';
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(300, 150);
-            ctx.stroke();
         }
 
         update() {
@@ -433,6 +430,7 @@ componentDidMount() {
     }
 
     function handleShop() {
+        // separate shop from gamebaord
         ctx.fillStyle = 'black';
         ctx.beginPath();
         ctx.lineWidth = 5;
@@ -440,6 +438,31 @@ componentDidMount() {
         ctx.lineTo(BOARD_WIDTH + 2*tileGap, tileSize*11);
         ctx.stroke();
         ctx.lineWidth = 1;
+
+
+        // draw towers
+        for (let i = 0; i < towerList.length; i++) {
+            towerList[i].draw();
+        }
+        
+
+
+    }
+
+
+    function createShop() {
+        // to do: fill automatically
+        for  (let k = 1; k <= 3; k++) {
+            for (let j = 1; j <= 2; j++) {
+                
+            }
+            
+        }
+        towerList.push(new Tower(1000, 200, "yellow"));
+        towerList.push(new Tower(1000, 300, "orange"));
+        towerList.push(new Tower(1000, 400, "red"));
+        towerList.push(new Tower(1000, 500, "green"));
+        towerList.push(new Tower(1000, 600, "purple"));
     }
 
 
@@ -472,6 +495,7 @@ componentDidMount() {
 
     createGrid();
     createPath();
+    createShop();
     animate();
 
 
