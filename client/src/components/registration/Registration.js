@@ -106,7 +106,7 @@ class Login extends React.Component {
         title: 'Error',
         width:300,
         height:100,
-        message: `Something went wrong while starting the game: \n${handleError(error)}`,
+        message: `Something went wrong while trying to register: \n${handleError(error)}`,
         type: 'warning',                         // 'default', 'success', 'info', 'warning'
         container: 'top-left',                // where to position the notifications
         animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
