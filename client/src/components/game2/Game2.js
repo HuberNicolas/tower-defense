@@ -306,7 +306,7 @@ componentDidMount() {
         for (let i = 0; i < minions.length; i++) {
             minions[i].update();
             minions[i].draw();
-            if (minions[i].y > 704) {
+            if (minions[i].y > 704 && minions[i].y < 708.4) {
                 HP -= minions[i].maxHealth;
                 //gameOver = true;
                 console.log(gameOver);
