@@ -11,6 +11,11 @@ import { Button } from '../../views/design/Button';
 import { component } from "react";
 import Lobby from "../shared/models/Lobby"
 import lobby from "../../lobby.jpg";
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 var sectionStyle = {
   width: "100%",
   height: "768px",
@@ -150,7 +155,19 @@ class Login extends React.Component {
               const response = await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
               this.props.history.push("/multiplayer");
             } catch (error) {
-              alert(`Something went wrong during leaving the lobby: \n${handleError(error)}`);
+              store.addNotification({
+                        title: 'Error',
+                        width:300,
+                        height:100,
+                        message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
+                        type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                        container: 'top-left',                // where to position the notifications
+                        animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                        animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                        dismiss: {
+                          duration: 4000
+                        }
+                    })
             }
           }
 
@@ -162,7 +179,19 @@ class Login extends React.Component {
             //console.log(this.state.lobbyOwner)
         }
         catch(error){
-         alert(`Something went wrong during displaying the players: \n${handleError(error)}`);
+         store.addNotification({
+                   title: 'Error',
+                   width:300,
+                   height:100,
+                   message: `Something went wrong while displaying players: \n${handleError(error)}`,
+                   type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                   container: 'top-left',                // where to position the notifications
+                   animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                   animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                   dismiss: {
+                     duration: 4000
+                   }
+               })
         }
   }
 

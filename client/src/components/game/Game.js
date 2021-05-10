@@ -3,7 +3,7 @@ import React, { useState, useCallback } from 'react';
 import {withRouter} from "react-router-dom";
 import "./styles/StyledGame.css";
 import { useHistory } from 'react-router-dom';
-
+import abc from "../../VOCALOID OriginalAgainGumi English.mp3";
 // Componenets
 import Grid from "./Grid";
 import Wave from "./Wave";
@@ -15,6 +15,10 @@ import async from "async";
 import EmptyTile from "./EmptyTile";
 import styled from "styled-components";
 import Shot from './Shot';
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 
 // Custom Hooks
 const StyledEmptyTile = styled.canvas`
@@ -105,12 +109,21 @@ const Game = () => {
         <div>
             <section class="statusbar">
                 Statusbar
-                <div>x:{x} y:{y}</div>
+
                 <section class="healthbar">
-                    <div>{currHP} - {currGold} - Time {new Date().toLocaleTimeString()}</div>
+                    <div>{currHP} - {currGold} - Time {new Date().toLocaleTimeString()} - Weathercondition: {localStorage.getItem("weather")} -
+                                                                                                            Gold: {localStorage.getItem("gold")} - {localStorage.getItem("weather") == "Sunny"? 'It is sunny' : 'It is not sunny'}</div>
                     {/* <button onClick={decreaseHP}>Decrease HP</button> */}
+
                     <button onClick={() => { history.push(`/main`);}} >Quit game</button>
                     <button >Spawn Minions</button>
+                    <audio
+                                                       autoPlay={true}
+                                                       controls={true} >
+                                                       <source type="audio/mp3" src={abc} />
+                                                     </audio>
+
+
                     {/* <button onClick={decreaseGold}>Buy Tower</button> */}
                     {/* <button onClick={increaseGold}>Sell Tower</button> */}
                 </section>

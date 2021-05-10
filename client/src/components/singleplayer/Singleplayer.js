@@ -6,6 +6,11 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import singleplayer from "../../singleplayer.jpg";
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 var sectionStyle = {
   width: "100%",
   height: "768px",
@@ -114,13 +119,32 @@ class Login extends React.Component {
       });
       const response = await api.post('/games', requestBody);
 
-      // Store the game id into the local storage.
-      localStorage.setItem('gameId', response.data.gameId);
+      // Store everything relevant to the game into the local storage.
+      localStorage.setItem('gameId', response.data.player1.gameId);
+      localStorage.setItem("weather", response.data.player1.weather);
+      localStorage.setItem("gold", response.data.player1.gold);
+      localStorage.setItem("health", response.data.player1.health);
+      localStorage.setItem("board", response.data.player1.board);
+      //console.log(response);
+
+
 
       // Initialization successfully worked --> navigate to the route /game
-      this.props.history.push(`/game`);
+      this.props.history.push(`/game2`);
     } catch (error) {
-      alert(`Something went wrong during the initialization: \n${handleError(error)}`);
+      store.addNotification({
+                title: 'Error',
+                width:300,
+                height:100,
+                message: `Something went wrong while starting the game: \n${handleError(error)}`,
+                type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                container: 'top-left',                // where to position the notifications
+                animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                dismiss: {
+                  duration: 4000
+                }
+            })
     }
   }
 
@@ -151,7 +175,7 @@ class Login extends React.Component {
           <Button
               width="50%"
               onClick={() => {
-                this.props.history.push(`/game`);
+                this.start();
               }}
           >
             Start Game

@@ -11,6 +11,11 @@ import "./Multiplayer.css"
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import multiplayer from "../../multiplayer.jpg";
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 var sectionStyle = {
   width: "100%",
   height: "768px",
@@ -145,7 +150,19 @@ class Login extends React.Component {
             // creation successfully worked --> navigate to the next page lul
             this.props.history.push(`/lobby`);
           } catch (error) {
-            alert(`Something went wrong during the creation of lobby: \n${handleError(error)}`);
+            store.addNotification({
+                      title: 'Error',
+                      width:300,
+                      height:100,
+                      message: `Something went wrong during the creation of the lobby: \n${handleError(error)}`,
+                      type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                      container: 'top-left',                // where to position the notifications
+                      animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                      animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                      dismiss: {
+                        duration: 4000
+                      }
+                  })
           }
         }
 //refreshes the website
@@ -164,7 +181,19 @@ class Login extends React.Component {
 
              this.props.history.push("/hostScreen"); //redirect to profile
            } catch (error) {
-             alert(`Something went wrong during joining the lobby: \n${handleError(error)}`);
+             store.addNotification({
+                       title: 'Error',
+                       width:300,
+                       height:100,
+                       message: `Something went wrong trying to join a lobby: \n${handleError(error)}`,
+                       type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                       container: 'top-left',                // where to position the notifications
+                       animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                       animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                       dismiss: {
+                         duration: 4000
+                       }
+                   })
            }
          }
 
@@ -195,7 +224,19 @@ class Login extends React.Component {
              console.log(response);
 
            } catch (error) {
-             alert(`Something went wrong while fetching lobbies: \n${handleError(error)}`);
+             store.addNotification({
+                       title: 'Error',
+                       width:300,
+                       height:100,
+                       message: `Something went wrong while fetching lobbies: \n${handleError(error)}`,
+                       type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                       container: 'top-left',                // where to position the notifications
+                       animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                       animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                       dismiss: {
+                         duration: 4000
+                       }
+                   })
            }
          }
 

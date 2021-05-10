@@ -6,6 +6,11 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import settings from "../../settings.jpg";
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 var sectionStyle = {
   width: "100%",
   height: "768px",
@@ -125,7 +130,19 @@ class UserSettings extends React.Component {
       // User settings changed successfully --> navigate back to /main
       this.props.history.push(`/main`);
     } catch (error) {
-      alert(`Something went wrong while changing user settings: \n${handleError(error)}`);
+      store.addNotification({
+                title: 'Error',
+                width:300,
+                height:100,
+                message: `Something went wrong during editing the user settings: \n${handleError(error)}`,
+                type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                container: 'top-left',                // where to position the notifications
+                animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                dismiss: {
+                  duration: 4000
+                }
+            })
     }
   }
 
