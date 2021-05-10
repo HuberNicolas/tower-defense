@@ -10,8 +10,8 @@ class Game2 extends React.Component {
     
         this.state = {
             // size of board canvas
-            canvasWidth: 960,
-            canvasHeight: 704,
+            canvasWidth: 1366, // 960 
+            canvasHeight: 764     , // 704
         }
  
       }
@@ -33,6 +33,9 @@ componentDidMount() {
     const tileGap = 3;
     let minionsInterval = 600;
     let frame = 0;
+
+    const BOARD_WIDTH = 960;  // 15 * 64
+    const BOARD_HEIGHT = 640; // 10 * 64
 
     const gameGrid = []; // all cells
     const towers = []; // all towers
@@ -83,15 +86,15 @@ componentDidMount() {
         const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
         
         if (gridPositionY < tileSize) return; // clicked on statusbar
+        if (gridPositionY > BOARD_HEIGHT + tileSize || gridPositionX > BOARD_WIDTH) return; // clicked outside of gameBoard
 
-
+        // check if we clicked on path
         for (let i = 0; i < pathTiles.length; i++) {
             //console.log(pathTiles[i].x + "   " + gridPositionX)
-            if (pathTiles[i].x + 3 == gridPositionX && pathTiles[i].y + 3 == gridPositionY) { return; }
+            if (pathTiles[i].x + tileGap == gridPositionX && pathTiles[i].y + tileGap == gridPositionY) { return; }
         }
 
         // check if there is already a Tower
-
         for (let i = 0; i < towers.length; i++) {
             if (towers[i].x == gridPositionX && towers[i].y == gridPositionY) { return; }
         }
@@ -132,8 +135,8 @@ componentDidMount() {
     }
 
     function createGrid() {
-        for (let y = tileSize; y < canvas.height; y += tileSize) {
-            for (let x = 0; x < canvas.width; x += tileSize) {
+        for (let y = tileSize; y < canvas.height-64; y += tileSize) {
+            for (let x = 0; x < canvas.width-406; x += tileSize) {
                 gameGrid.push(new Tile(x, y));
             }
         }
@@ -411,6 +414,36 @@ componentDidMount() {
         }
     }
 
+
+    class Shop {
+        constructor() {
+
+        }
+
+        draw() {
+            ctx.fillStyle = 'green';
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(300, 150);
+            ctx.stroke();
+        }
+
+        update() {
+        }
+    }
+
+    function handleShop() {
+        ctx.fillStyle = 'black';
+        ctx.beginPath();
+        ctx.lineWidth = 5;
+        ctx.moveTo(BOARD_WIDTH + 2*tileGap, tileSize);
+        ctx.lineTo(BOARD_WIDTH + 2*tileGap, tileSize*11);
+        ctx.stroke();
+        ctx.lineWidth = 1;
+    }
+
+
+
     // animmation function
 
     function animate() {
@@ -431,6 +464,8 @@ componentDidMount() {
         handleTowers();
         handleProjectiles();
         handleMinions();
+        handleShop();
+        
     }
 
     // actual sequence
