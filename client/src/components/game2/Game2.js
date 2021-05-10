@@ -5,14 +5,24 @@ import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 
 class Game2 extends React.Component {
-  state = {
-    // size of board canvas
-    canvasWidth: 960,
-    canvasHeight: 704
-}
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+            // size of board canvas
+            canvasWidth: 960,
+            canvasHeight: 704,
+        }
+ 
+      }
+
+
+  
 canvasRef = React.createRef();
 
+
 componentDidMount() {
+
 
     // canvas initialisation
     const canvas = this.canvasRef.current;
@@ -113,6 +123,9 @@ componentDidMount() {
                 // highlight current tile
                 ctx.strokeStyle = 'black';
                 ctx.strokeRect(this.x, this.y, this.width, this.height)
+                ctx.fillStyle = 'blue';
+                ctx.font = '10px Arial';
+                ctx.fillText("y:"+this.y + " x:"+this.x, this.x + 15, this.y + 25);
             }
 
         }
@@ -138,6 +151,9 @@ componentDidMount() {
         draw() {
             ctx.fillStyle = 'brown';
             ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.fillStyle = 'blue';
+            ctx.font = '10px Arial';
+            ctx.fillText("y:"+this.y + " x:"+this.x, this.x + 15, this.y + 25);
         }
     }
 
@@ -293,11 +309,13 @@ componentDidMount() {
     // handlers
 
     function handleGameStatus() {
+        let t = "lla"
         ctx.fillStyle = 'black';
         ctx.font = '30px Arial';
         ctx.fillText('Gold: ' + gold , 20, 55);
         ctx.fillText('Score: ' + score, 220, 55);
         ctx.fillText('HP: ' + HP, 420, 55);
+        ctx.fillText('Weather: ' + t, 720, 55)
 
         if (gameOver) {
             ctx.fillStyle = 'green';
@@ -324,17 +342,21 @@ componentDidMount() {
             towers[i].draw();
             towers[i].update();
 
+            
             for (let j = 0; j < minions.length; j++) {
                 if (towers[i] && collision(towers[i], minions[j])) {
                     minions[j].movement = 0;
-                    towers[i].health -= 0.2;
+                    // towers[i].health -= 0.2;
                 }
+                /* towers looses health
                 if (towers[i] && towers[i].health <= 0) {
                     towers.splice(i, 1);
                     i--;
                     minions[j].movement = minions[j].speed;
                 }
+                */
             }
+            
         }
     }
 
