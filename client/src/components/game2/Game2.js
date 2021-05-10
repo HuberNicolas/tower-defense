@@ -33,6 +33,7 @@ componentDidMount() {
     const tileGap = 3;
     let minionsInterval = 600;
     let frame = 0;
+    let selectedTower = "DEFAULT";
 
     const BOARD_WIDTH = 960;  // 15 * 64
     const BOARD_HEIGHT = 640; // 10 * 64
@@ -44,6 +45,16 @@ componentDidMount() {
     const minions = []; // all minions
     const minionPosition = [];
     const projectiles = []; // all shots
+
+    // todo: balance
+    var towerSelector = "";
+    var TOWERS = {
+        TIER1 : {id: 1, towerColor: 'yellow', projectileColor: "black", damage: 10, speed: 2, towerCost: 100},
+        TIER2 : {id: 2, towerColor: 'orange', projectileColor: "black", damage: 15, speed: 3, towerCost: 200},
+        TIER3 : {id: 3, towerColor: 'red', projectileColor: "orange", damage: 20, speed: 0.5, towerCost: 400},
+        TIER4 : {id: 4, towerColor: 'green', projectileColor: "blue", damage: 10, speed: 4, towerCost: 600},
+        TIER5 : {id: 5, towerColor: 'purple', projectileColor: "green", damage: 10, speed: 6, towerCost: 1000},  
+      };
 
     // status bar
     let score = 0;
@@ -87,6 +98,36 @@ componentDidMount() {
         const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
         
         if (gridPositionY < tileSize) return; // clicked on statusbar
+
+        // different towers
+        if (1000 <= gridPositionX && gridPositionX < 1064 && 128 <= gridPositionY && gridPositionY < 192) {
+            towerSelector = 1;
+            console.log("selected first tower")
+            return;
+        }
+
+        if (1000 <= gridPositionX && gridPositionX < 1064 && 256 <= gridPositionY && gridPositionY < 320) {
+            towerSelector = 2;
+            console.log("selected second tower")
+            return;
+        }
+
+        if (1000 <= gridPositionX && gridPositionX < 1064 && 384 <= gridPositionY && gridPositionY < 448) {
+            towerSelector = 3;
+            console.log("selected third tower")
+            return;
+        }
+        if (1000 <= gridPositionX && gridPositionX < 1064 && 512 <= gridPositionY && gridPositionY < 576) {
+            towerSelector = 4;
+            console.log("selected fourth tower")
+            return;
+        }
+        if (1000 <= gridPositionX && gridPositionX < 1064 && 640 <= gridPositionY && gridPositionY < 704) {
+            towerSelector = 5;
+            console.log("selected fifth tower")
+            return;
+        }
+
         if (gridPositionY > BOARD_HEIGHT + tileSize || gridPositionX > BOARD_WIDTH) return; // clicked outside of gameBoard
 
         // check if we clicked on path
@@ -99,9 +140,47 @@ componentDidMount() {
         for (let i = 0; i < towers.length; i++) {
             if (towers[i].x == gridPositionX && towers[i].y == gridPositionY) { return; }
         }
-        let towerCost = 100;
+        //let towerCost = 100;
+        let towerCost;
+
+        switch (towerSelector) {
+            case 1:
+                towerCost = TOWERS.TIER1.towerCost 
+                break;
+            case 2:
+                towerCost = TOWERS.TIER2.towerCost   
+                break;
+            case 3:
+                towerCost = TOWERS.TIER3.towerCost     
+                break;
+            case 4:
+                towerCost = TOWERS.TIER4.towerCost    
+                break;
+            case 5:
+                towerCost = TOWERS.TIER5.towerCost   
+                break;
+        }
+
         if(gold >= towerCost) {
-            towers.push(new Tower(gridPositionX, gridPositionY, 'green'));
+            // to to Check selected tower variable
+            //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
+            switch(towerSelector) {
+                case 1:
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost));
+                  break;
+                case 2:
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost));
+                  break;
+                case 3:
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost));
+                  break;
+                case 4:
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost));
+                  break;
+                case 5:
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost));
+                  break;
+              }
             gold -= towerCost;
         }
 
@@ -198,7 +277,7 @@ componentDidMount() {
     }
 
     class Tower {
-        constructor(x, y, towerColor) {
+        constructor(x, y, towerColor, projectileColor, damage, speed, towerCost) {
             this.x = x;
             this.y = y;
             this.width = tileSize - tileGap * 2;
@@ -208,6 +287,10 @@ componentDidMount() {
             this.projectiles = [];
             this.timer = 0;
             this.color = towerColor;
+            this.projectileColor = projectileColor;
+            this.damage = damage;
+            this.speed = speed;
+            this.towerCost = towerCost
         }
 
         draw() {
@@ -215,17 +298,18 @@ componentDidMount() {
             ctx.fillRect(this.x, this.y, this.width, this.height);
             ctx.fillStyle = 'gold';
             ctx.font = '20px Arial';
-            ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
+            ctx.fillText(this.damage, this.x + 15, this.y + 25);
         }
 
         update() {
             this.timer++;
             if(this.timer % 100 === 0) {
-                projectiles.push(new Projectiles(this.x + 70, this.y + 25, 15))
+                projectiles.push(new Projectiles(this.x + 70, this.y + 25, this.damage, this.projectileColor, this.speed))
             }
 
         }
     }
+
 
     class Minion {
         constructor(verticalPosition) {
@@ -289,13 +373,14 @@ componentDidMount() {
     }
 
     class Projectiles {
-        constructor(x, y, damage) {
+        constructor(x, y, damage, projectileColor, speed) {
             this.x = x;
             this.y = y;
             this.width = 10;
             this.height = 10;
             this.damage = damage;
-            this.speed = 5;
+            this.speed = speed;
+            this.projectileColor = projectileColor;
         }
 
         update() {
@@ -303,7 +388,7 @@ componentDidMount() {
         }
 
         draw() {
-            ctx.fillStyle = 'black';
+            ctx.fillStyle = this.projectileColor;
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
             ctx.fill();
@@ -408,7 +493,7 @@ componentDidMount() {
                 }
             }
 
-            if (projectiles[i] && projectiles[i].x > canvas.width - tileSize) {
+            if (projectiles[i] && projectiles[i].x > BOARD_WIDTH) {
                 projectiles.splice(i, 1); // remove
                 i--; // adjust for loop index
             }
@@ -458,11 +543,17 @@ componentDidMount() {
             }
             
         }
-        towerList.push(new Tower(1000, 200, "yellow"));
-        towerList.push(new Tower(1000, 300, "orange"));
-        towerList.push(new Tower(1000, 400, "red"));
-        towerList.push(new Tower(1000, 500, "green"));
-        towerList.push(new Tower(1000, 600, "purple"));
+
+        // to do - use TOWERS enumerator
+
+
+        towerList.push(new Tower(16*tileSize, 2*tileSize, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost));
+        towerList.push(new Tower(16*tileSize, 4*tileSize, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost));
+        towerList.push(new Tower(16*tileSize, 6*tileSize, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost));
+        towerList.push(new Tower(16*tileSize, 8*tileSize, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost));
+        towerList.push(new Tower(16*tileSize, 10*tileSize, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost));
+
+
     }
 
 
