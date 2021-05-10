@@ -6,11 +6,17 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import login from "../../login.jpg";
+
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
+
 var sectionStyle = {
   width: "100%",
   height: "768px",
   backgroundImage: "url(" +  login  + ")"
 };
+
 const FormContainer = styled.div`
   margin-top: 2em;
   display: flex;
@@ -96,7 +102,19 @@ class Login extends React.Component {
       // Login successfully worked --> navigate to the route /game in the GameRouter
       this.props.history.push(`/main`);
     } catch (error) {
-      alert(`Something went wrong during the register: \n${handleError(error)}`);
+      store.addNotification({
+        title: 'Error',
+        width:300,
+        height:100,
+        message: `Something went wrong while starting the game: \n${handleError(error)}`,
+        type: 'warning',                         // 'default', 'success', 'info', 'warning'
+        container: 'top-left',                // where to position the notifications
+        animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+        dismiss: {
+          duration: 4000
+        }
+      })
     }
   }
 
@@ -107,14 +125,12 @@ class Login extends React.Component {
     this.setState({ [key]: value });
   }
 
-
   componentDidMount() {}
 
   render() {
     return (
     <div style={sectionStyle}>
       <BaseContainer>
-
         <FormContainer>
         <Title>Registration</Title>
           <Form>
@@ -135,19 +151,18 @@ class Login extends React.Component {
 
             <ButtonContainer>
             <Button
-                              width="50%"
-                              onClick={() => {
-                                this.props.history.push(`/login`);
-                              }}
-                          >
-                            Back to login
-                          </Button>
+              width="50%"
+              onClick={() => {
+                this.props.history.push(`/login`);
+              }}
+              >
+                Back to login
+              </Button>
               <Button
               disabled={!this.state.username || !this.state.password}
                 width="50%"
                 onClick={() => {
                   this.register();
-
                 }}
               >
                 Register!

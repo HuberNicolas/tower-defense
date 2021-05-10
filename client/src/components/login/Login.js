@@ -115,13 +115,11 @@ class Login extends React.Component {
     }
   }
 
-
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
     this.setState({ [key]: value });
   }
-
 
   componentDidMount() {}
 
