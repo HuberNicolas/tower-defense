@@ -7,13 +7,12 @@ import 'animate.css';
 class Game2 extends React.Component {
     constructor(props) {
         super(props);
-    
         this.state = {
             // size of board canvas
             canvasWidth: 1366, // 960 
             canvasHeight: 764     , // 704
+           
         }
- 
       }
 
 
@@ -23,6 +22,7 @@ canvasRef = React.createRef();
 
 componentDidMount() {
 
+    let weather =  localStorage.getItem("weather")
 
     // canvas initialisation
     const canvas = this.canvasRef.current;
@@ -43,8 +43,8 @@ componentDidMount() {
     const towerList = []; // all towers in the shop
     const pathTiles = []; // all paths
     const minions = []; // all minions
-    const minionPosition = [];
     const projectiles = []; // all shots
+    const spawnPoint = 1 * tileSize + tileGap;// y-coordinates
 
     // todo: balance
     var towerSelector = "";
@@ -56,9 +56,16 @@ componentDidMount() {
         TIER5 : {id: 5, towerColor: 'purple', projectileColor: "green", damage: 10, speed: 6, towerCost: 1000},  
       };
 
+
+    var MINIONS = {
+        CRAWLER: {id: 1, minionColor: 'blue', minionSize: 32, minionDamage: 10, minionSpeed: 10, minionHealth: 100, minionCost: 100},
+        RUNNER: {id: 2, minionColor: 'orange', minionSize: 32, minionDamage: 5, minionSpeed: 20, minionHealth: 75, minionCost: 125},
+
+    }  
+
     // status bar
     let score = 0;
-    let HP = 12300000;
+    let HP = 200;
     let gold = 30000;
     let gameOver = false;
 
@@ -231,6 +238,18 @@ componentDidMount() {
         }
 
         draw() {
+
+            /*
+            var img = new Image();
+  img.src = 'https://mdn.mozillademos.org/files/222/Canvas_createpattern.png';
+  img.onload = function() {
+
+    // create pattern
+    var ptrn = ctx.createPattern(img, 'repeat');
+    ctx.fillStyle = ptrn;
+    ctx.fillRect(0, 0, 150, 150); */
+
+
             ctx.fillStyle = 'brown';
             ctx.fillRect(this.x, this.y, this.width, this.height);
             ctx.fillStyle = 'blue';
@@ -312,19 +331,24 @@ componentDidMount() {
 
 
     class Minion {
-        constructor(verticalPosition) {
+        constructor(minionColor, minionSize) {
+            // minionSize, minionColor, minionDamage, minionHP, minionSpeed, minionCost
             //this.x = canvas.width;
             //this.y = verticalPosition;
             this.x = tileSize; // spawn point
-            this.y = verticalPosition; // spawn point
+            this.y = spawnPoint; // spawn point
             this.width = tileSize - tileGap * 2;
             this.height = tileSize - tileGap * 2;
+            this.minionSize = minionSize;
             this.speed = Math.random() * 0.1 + 3;
             this.movement = this.speed;
             this.health = 100;
             this.maxHealth = this.health;
+            this.minionColor = minionColor;
         }
         update() {
+
+            // to - do code relatively
             if (this.y < 193) {
                 this.y += this.movement;
             }
@@ -360,9 +384,9 @@ componentDidMount() {
             }
         }
         draw() {
-            ctx.fillStyle = 'red';
+            ctx.fillStyle = this.minionColor;
             ctx.beginPath();
-            ctx.arc(this.x+this.width/2, this.y+this.width/2, this.width/2, 0, Math.PI * 2);
+            ctx.arc(this.x+this.minionSize/2, this.y+this.minionSize/2, this.minionSize/2, 0, Math.PI * 2);
             ctx.fill();
             //ctx.fillStyle = 'red';
             //ctx.fillRect(this.x, this.y, this.width, this.height);
@@ -398,18 +422,31 @@ componentDidMount() {
     // handlers
 
     function handleGameStatus() {
-        let t = "lla"
         ctx.fillStyle = 'black';
         ctx.font = '30px Arial';
         ctx.fillText('Gold: ' + gold , 20, 55);
         ctx.fillText('Score: ' + score, 220, 55);
         ctx.fillText('HP: ' + HP, 420, 55);
-        ctx.fillText('Weather: ' + t, 720, 55)
+        ctx.fillText(weather, 820, 55)
 
         if (gameOver) {
+
+            // defeat screen
+            ctx.beginPath();
+            ctx.rect(0, 64, 960, 640);
+            ctx.lineWidth = "3";
+            ctx.strokeStyle = "red";
             ctx.fillStyle = 'green';
-            ctx.font = '30px Arial';
-            ctx.fillText("Gameover" , 350, 350);
+            ctx.fill();
+            ctx.stroke();
+
+
+            ctx.fillStyle = "red";
+            ctx.font = '150px Arial';
+            ctx.fillText("Gameover" , 50, 350);
+            ctx.font = '80px Arial';
+            ctx.fillText("you have been defeated... " , 50, 450);
+            ctx.fillText("Score: " + score , 200, 550);
         }
     }
 
@@ -454,29 +491,30 @@ componentDidMount() {
             minions[i].update();
             minions[i].draw();
             if (minions[i].y > 704 && minions[i].y < 708.4) {
+          //if (minions[i].y > 704 && minions[i].y < 708.4) {
                 HP -= minions[i].maxHealth;
-                //gameOver = true;
-                console.log(gameOver);
+                if (HP <= 0) { 
+                    // remove last minion
+                    minions.splice(i, 1); // remove
+                    i--; // adjust loop index
+                    gameOver = true; 
+                }
             }
             if (minions[i].health <= 0) {
                 let reward = minions[i].maxHealth/10;
                 gold += reward;
                 score += reward;
-                const findThisIndex = minionPosition.indexOf(minions[i].y); // find the first occuring
-                minionPosition.splice(findThisIndex, 1);
-                minions.splice(i, 1);
-                i--;
-                //console.log(minionPosition);
+                
+                minions.splice(i, 1); // remove
+                i--; // adjust loop index
             }
         }
 
+        // minion spawner
         if (frame % minionsInterval === 0) {
-            //let verticalPosition = Math.floor(Math.random() * 5 + 1 ) * tileSize + tileGap; // spawn randomly
-            let verticalPosition = 1 * tileSize + tileGap;
-            minions.push(new Minion(verticalPosition));
-            minionPosition.push(verticalPosition); // one number for each activ number
+            minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize));
             if (minionsInterval > 120) minionsInterval -= 50;
-            //console.log(minionPosition);
+
         }
     }
 
@@ -488,8 +526,8 @@ componentDidMount() {
             for (let j = 0; j < minions.length; j++) {
                 if (minions[j] && projectiles[i] && collision(projectiles[i], minions[j])) { // both existing and is hit?
                     minions[j].health -= projectiles[i].damage;
-                    projectiles.splice(i, 1);
-                    i--;
+                    projectiles.splice(i, 1); // remove
+                    i--; // adjust for loop index
                 }
             }
 
@@ -544,9 +582,6 @@ componentDidMount() {
             
         }
 
-        // to do - use TOWERS enumerator
-
-
         towerList.push(new Tower(16*tileSize, 2*tileSize, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost));
         towerList.push(new Tower(16*tileSize, 4*tileSize, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost));
         towerList.push(new Tower(16*tileSize, 6*tileSize, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost));
@@ -561,6 +596,8 @@ componentDidMount() {
     // animmation function
 
     function animate() {
+
+        // create control bar
         ctx.clearRect(0,0, canvas.width, canvas.height);
         ctx.fillStyle = 'blue'
         ctx.fillRect(0,0,controlsBar.width, controlsBar.height);
@@ -572,14 +609,14 @@ componentDidMount() {
         if(!gameOver) {
             requestAnimationFrame(animate);
         }
-        handleGameStatus();
+        
         handleGameGrid();
         handlePath();
         handleTowers();
         handleProjectiles();
         handleMinions();
         handleShop();
-        
+        handleGameStatus();  
     }
 
     // actual sequence
@@ -601,10 +638,6 @@ componentDidMount() {
             return true;
         };
     };
-
-
-
-
 }
 
     render() {
