@@ -192,19 +192,19 @@ componentDidMount() {
             //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
             switch(towerSelector) {
                 case 1:
-                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost));
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost, directionSelector));
                   break;
                 case 2:
-                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost));
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost, directionSelector));
                   break;
                 case 3:
-                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost));
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost, directionSelector));
                   break;
                 case 4:
-                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost));
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost, directionSelector));
                   break;
                 case 5:
-                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost));
+                    towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost, directionSelector));
                   break;
               }
             gold -= towerCost;
@@ -315,7 +315,7 @@ componentDidMount() {
     }
 
     class Tower {
-        constructor(x, y, towerColor, projectileColor, damage, speed, towerCost) {
+        constructor(x, y, towerColor, projectileColor, damage, speed, towerCost, direction) {
             this.x = x;
             this.y = y;
             this.width = tileSize - tileGap * 2;
@@ -329,6 +329,7 @@ componentDidMount() {
             this.damage = damage;
             this.speed = speed;
             this.towerCost = towerCost
+            this.direction = direction;
         }
 
         draw() {
@@ -342,20 +343,9 @@ componentDidMount() {
         update() {
             this.timer++;
             if(this.timer % 100 === 0) {
-                switch(directionSelector) {
-                    case 0:
-                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.UP.id))
-                        break;
-                    case 1:
-                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.RIGHT.id))
-                        break;
-                    case 2:
-                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.DOWN.id))
-                        break;
-                    case 3:
-                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.LEFT.id))
-                        break;
-                }
+ 
+                    projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, this.direction))
+                
                
                 //var audio = new Audio('https://opengameart.org/sites/default/files/Laser%20Shot.mp3');
                 //audio.play();
@@ -537,7 +527,7 @@ componentDidMount() {
                 let reward = minions[i].maxHealth/10;
                 gold += reward;
                 score += reward;
-                
+                // remove last minion
                 minions.splice(i, 1); // remove
                 i--; // adjust loop index
             }
@@ -635,11 +625,11 @@ componentDidMount() {
             
         }
 
-        towerList.push(new Tower(16*tileSize, 2*tileSize, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost));
-        towerList.push(new Tower(16*tileSize, 4*tileSize, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost));
-        towerList.push(new Tower(16*tileSize, 6*tileSize, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost));
-        towerList.push(new Tower(16*tileSize, 8*tileSize, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost));
-        towerList.push(new Tower(16*tileSize, 10*tileSize, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost));
+        towerList.push(new Tower(16*tileSize, 2*tileSize, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost, directionSelector));
+        towerList.push(new Tower(16*tileSize, 4*tileSize, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost, directionSelector));
+        towerList.push(new Tower(16*tileSize, 6*tileSize, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost, directionSelector));
+        towerList.push(new Tower(16*tileSize, 8*tileSize, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost, directionSelector));
+        towerList.push(new Tower(16*tileSize, 10*tileSize, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost, directionSelector));
 
         
         
