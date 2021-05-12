@@ -20,6 +20,7 @@ class Game2 extends React.Component {
 canvasRef = React.createRef();
 
 
+
 componentDidMount() {
 
     let weather =  localStorage.getItem("weather")
@@ -27,6 +28,7 @@ componentDidMount() {
     // canvas initialisation
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext('2d');
+    
 
     // global variable
     const tileSize = 64;
@@ -34,6 +36,14 @@ componentDidMount() {
     let minionsInterval = 600;
     let frame = 0;
     let selectedTower = "DEFAULT";
+    
+    var directionSelector = 1;
+    var PROJECTILE_DIRECTIONS = {
+        UP : {id: 0},
+        RIGHT : {id: 1},
+        DOWN : {id: 2},
+        LEFT : {id: 3}
+    }
 
     const BOARD_WIDTH = 960;  // 15 * 64
     const BOARD_HEIGHT = 640; // 10 * 64
@@ -58,14 +68,14 @@ componentDidMount() {
 
 
     var MINIONS = {
-        CRAWLER: {id: 1, minionColor: 'blue', minionSize: 32, minionDamage: 10, minionSpeed: 10, minionHealth: 100, minionCost: 100},
-        RUNNER: {id: 2, minionColor: 'orange', minionSize: 32, minionDamage: 5, minionSpeed: 20, minionHealth: 75, minionCost: 125},
-
+        CRAWLER: {id: 1, minionColor: 'red', minionSize: 32, minionDamage: 10, minionSpeed: 4, minionHealth: 100, minionCost: 100},
+        RUNNER: {id: 2, minionColor: 'orange', minionSize: 32, minionDamage: 5, minionSpeed: 5, minionHealth: 75, minionCost: 125},
+        BOSS: {id: 3, minionColor: 'pink', minionSize: 60, minionDamage: 50, minionSpeed: 2, minionHealth: 500, minionCost: 1000},
     }  
 
     // status bar
     let score = 0;
-    let HP = 200;
+    let HP = 100000;
     let gold = 30000;
     let gameOver = false;
 
@@ -105,6 +115,15 @@ componentDidMount() {
         const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
         
         if (gridPositionY < tileSize) return; // clicked on statusbar
+
+
+        // change directory
+        if (1216 <= gridPositionX && gridPositionX < 1280 && 128 <= gridPositionY && gridPositionY < 192) {
+            directionSelector=(directionSelector+1) % 4;
+            console.log("changed directory"+directionSelector)
+            return;
+        }
+
 
         // different towers
         if (1000 <= gridPositionX && gridPositionX < 1064 && 128 <= gridPositionY && gridPositionY < 192) {
@@ -323,7 +342,23 @@ componentDidMount() {
         update() {
             this.timer++;
             if(this.timer % 100 === 0) {
-                projectiles.push(new Projectiles(this.x + 70, this.y + 25, this.damage, this.projectileColor, this.speed))
+                switch(directionSelector) {
+                    case 0:
+                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.UP.id))
+                        break;
+                    case 1:
+                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.RIGHT.id))
+                        break;
+                    case 2:
+                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.DOWN.id))
+                        break;
+                    case 3:
+                        projectiles.push(new Projectiles(this.x + 30, this.y + 30, this.damage, this.projectileColor, this.speed, PROJECTILE_DIRECTIONS.LEFT.id))
+                        break;
+                }
+               
+                //var audio = new Audio('https://opengameart.org/sites/default/files/Laser%20Shot.mp3');
+                //audio.play();
             }
 
         }
@@ -331,7 +366,7 @@ componentDidMount() {
 
 
     class Minion {
-        constructor(minionColor, minionSize) {
+        constructor(minionColor, minionSize, minionHealth, minionSpeed) {
             // minionSize, minionColor, minionDamage, minionHP, minionSpeed, minionCost
             //this.x = canvas.width;
             //this.y = verticalPosition;
@@ -340,9 +375,9 @@ componentDidMount() {
             this.width = tileSize - tileGap * 2;
             this.height = tileSize - tileGap * 2;
             this.minionSize = minionSize;
-            this.speed = Math.random() * 0.1 + 3;
+            this.speed = minionSpeed
             this.movement = this.speed;
-            this.health = 100;
+            this.health = minionHealth;
             this.maxHealth = this.health;
             this.minionColor = minionColor;
         }
@@ -397,7 +432,7 @@ componentDidMount() {
     }
 
     class Projectiles {
-        constructor(x, y, damage, projectileColor, speed) {
+        constructor(x, y, damage, projectileColor, speed, direction) {
             this.x = x;
             this.y = y;
             this.width = 10;
@@ -405,10 +440,24 @@ componentDidMount() {
             this.damage = damage;
             this.speed = speed;
             this.projectileColor = projectileColor;
+            this.direction = direction;
         }
 
         update() {
-            this.x += this.speed;
+            switch(this.direction) {
+                case 0:
+                    this.y += this.speed;
+                    break;
+                case 1:
+                    this.x += this.speed;
+                    break;
+                case 2:
+                    this.y -= this.speed;
+                    break;
+                case 3:
+                    this.x -= this.speed;
+                    break;
+            }
         }
 
         draw() {
@@ -445,7 +494,7 @@ componentDidMount() {
             ctx.font = '150px Arial';
             ctx.fillText("Gameover" , 50, 350);
             ctx.font = '80px Arial';
-            ctx.fillText("you have been defeated... " , 50, 450);
+            ctx.fillText("you have been defeated... " , 45, 450);
             ctx.fillText("Score: " + score , 200, 550);
         }
     }
@@ -467,22 +516,6 @@ componentDidMount() {
         for (let i = 0; i < towers.length; i++) {
             towers[i].draw();
             towers[i].update();
-
-            
-            for (let j = 0; j < minions.length; j++) {
-                if (towers[i] && collision(towers[i], minions[j])) {
-                    minions[j].movement = 0;
-                    // towers[i].health -= 0.2;
-                }
-                /* towers looses health
-                if (towers[i] && towers[i].health <= 0) {
-                    towers.splice(i, 1);
-                    i--;
-                    minions[j].movement = minions[j].speed;
-                }
-                */
-            }
-            
         }
     }
 
@@ -512,7 +545,22 @@ componentDidMount() {
 
         // minion spawner
         if (frame % minionsInterval === 0) {
-            minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize));
+            // /*
+
+            if (frame % 1500 === 0) {
+                minions.push(new Minion(MINIONS.BOSS.minionColor, MINIONS.BOSS.minionSize, MINIONS.BOSS.minionHealth, MINIONS.BOSS.minionSpeed));
+            }
+
+            else if (frame % 500 === 0) {
+                minions.push(new Minion(MINIONS.RUNNER.minionColor, MINIONS.RUNNER.minionSize, MINIONS.RUNNER.minionHealth, MINIONS.RUNNER.minionSpeed));
+            }
+
+            else if(frame % 100 === 0) {
+                minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize, MINIONS.CRAWLER.minionHealth, MINIONS.CRAWLER.minionSpeed));
+            }
+            // */
+            
+            // minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize));
             if (minionsInterval > 120) minionsInterval -= 50;
 
         }
@@ -569,7 +617,12 @@ componentDidMount() {
         }
         
 
-
+        ctx.beginPath();
+        ctx.rect(19*tileSize, 2*tileSize, 64, 64);
+        ctx.font = '30px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText("-->", 19*tileSize+10, 2*tileSize+38)
+        ctx.stroke();
     }
 
 
@@ -587,6 +640,9 @@ componentDidMount() {
         towerList.push(new Tower(16*tileSize, 6*tileSize, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost));
         towerList.push(new Tower(16*tileSize, 8*tileSize, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost));
         towerList.push(new Tower(16*tileSize, 10*tileSize, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost));
+
+        
+        
 
 
     }
