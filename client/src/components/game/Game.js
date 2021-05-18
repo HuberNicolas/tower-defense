@@ -1,10 +1,6 @@
 // General imports
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
-import { BaseContainer } from "../../helpers/layout";
+import React  from "react";
 import { api, handleError } from "../../helpers/api";
-import User from "../shared/models/User";
-import { withRouter } from "react-router-dom";
 import { Button } from "../../views/design/Button";
 
 import { store } from "react-notifications-component";
@@ -20,13 +16,14 @@ class Game extends React.Component {
       board: null,
       canvasWidth: 1366, // 960
       canvasHeight: 764, // 704
+      canBuy:false
     };
   }
 
-  async buy(towercost) {
+  async buy() {
     try {
-      let newGold = localStorage.getItem("gold") - towercost;
-      const requestBody = JSON.stringify({
+      
+      /* const requestBody = JSON.stringify({
         //gold: this.state.gold,
         //gold: localStorage.getItem("gold"),
         gold: newGold,
@@ -34,16 +31,24 @@ class Game extends React.Component {
         token: localStorage.getItem("token"),
         board: localStorage.getItem("board"),
       });
-      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
+      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody); */
+
+      const requestBody = JSON.stringify({
+        playable: "FireTower1",
+        coordinates: [0,0],
+        
+    });
+      const response = await api.post("games/towers/"+localStorage.getItem("token"), requestBody);
       //{this.handleInputChange('gold', 8888)}
       //this.setState("gold", this.state.gold)
-
+      this.setState({gold:response.data.gold})
       // worked
       //localStorage.setItem("gold", this.state.gold);
       //this.handleInputChange("gold", this.state.gold);
 
-      localStorage.setItem("gold",newGold);
-      this.handleInputChange("gold", newGold);
+      /* localStorage.setItem("gold",newGold);
+      this.handleInputChange("gold", newGold); */
+      this.setState({canBuy:true})
     
     } catch (error) {
       store.addNotification({
@@ -61,6 +66,7 @@ class Game extends React.Component {
           duration: 4000,
         },
       });
+      this.setState({canBuy:false})
     }
   }
 
@@ -265,9 +271,6 @@ class Game extends React.Component {
       mouse.y = undefined;
     });
 
-
-
-
     canvas.addEventListener("click", () => {
       // get mouse position
       const gridPositionX = mouse.x - (mouse.x % tileSize) + tileGap;
@@ -425,8 +428,8 @@ class Game extends React.Component {
             towerCost = TOWERS.TIER5.towerCost;
             break;
         }
-
-        if (gold >= towerCost) {
+        this.buy();
+        if (this.state.canBuy){
           // to to Check selected tower variable
           //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
           switch (towerSelector) {
@@ -502,7 +505,7 @@ class Game extends React.Component {
               break;
           }
           console.log("-towercost..");
-          this.buy(towerCost);
+        
           gold -= towerCost;
         }
       }

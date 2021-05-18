@@ -88,7 +88,7 @@ componentDidMount() {
     let score = 0;
     let HP = 100000;
     let gold = 30000;
-    let gameOver = false;
+    let gameOver = true;
     const statusBarHeight = 112; // fix
 
     var towerSelector = "";
