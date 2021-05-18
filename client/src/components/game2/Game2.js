@@ -1,5 +1,14 @@
 import React, { forwardRef } from 'react';
 
+import styled from 'styled-components';
+import { BaseContainer } from '../../helpers/layout';
+import { api, handleError } from '../../helpers/api';
+import User from '../shared/models/User';
+import { withRouter } from 'react-router-dom';
+import { Button } from '../../views/design/Button';
+import login from "../../login.jpg";
+
+
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
@@ -10,8 +19,35 @@ class Game2 extends React.Component {
         this.state = {
             // size of board canvas
             canvasWidth: 1366, // 960 
-            canvasHeight: 764     , // 704
+            canvasHeight: 764, // 704
            
+        }
+      }
+
+
+      async buyTower() {
+        try {
+          const requestBody = JSON.stringify({
+                    tower: "FireTower1",
+                    coordinates: [0,0],
+                    
+                });
+          const response = await api.put("games/towers/"+localStorage.getItem("token"), requestBody);
+          // place tower
+        } catch (error) {
+          store.addNotification({
+                    title: 'Error',
+                    width:300,
+                    height:100,
+                    message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
+                    type: 'warning',                         // 'default', 'success', 'info', 'warning'
+                    container: 'top-left',                // where to position the notifications
+                    animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+                    animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+                    dismiss: {
+                      duration: 4000
+                    }
+                })
         }
       }
 
@@ -19,7 +55,7 @@ canvasRef = React.createRef();
 
 componentDidMount() {
 
-    let weather =  localStorage.getItem("weather")
+    let weather =  localStorage.getItem("gold")
 
     // canvas initialisation
     const canvas = this.canvasRef.current;
@@ -42,6 +78,11 @@ componentDidMount() {
     const towerList = []; // all towers in the shop
     const projectiles = []; // all shots
 
+
+    let spawned = false;
+    const wave = [1,1,1,1,1,1,1,1,1,2,2,2,3]; // example of a back-end spawn list
+
+    let ready = false;
 
     // status bar
     let score = 0;
@@ -131,10 +172,17 @@ componentDidMount() {
         }
 
 
-        // clicked on change directory: change directory
+        // clicked on sell: change sellSelector
         if (1216 <= gridPositionX && gridPositionX < 1280 && 256 <= gridPositionY && gridPositionY < 320) {
             sellSelector=(sellSelector+1) % 2;
             console.log("selected sell selector "+ sellSelector);
+            return;
+        }
+
+        // clicked on sell: change sellSelector
+        if (1216 <= gridPositionX && gridPositionX < 1280 && 384 <= gridPositionY && gridPositionY < 448) {
+            ready= true;
+            console.log("is ready? "+ ready);
             return;
         }
 
@@ -218,6 +266,9 @@ componentDidMount() {
                     towerCost = TOWERS.TIER5.towerCost   
                     break;
             }
+
+            
+            
 
             if(gold >= towerCost) {
                 // to to Check selected tower variable
@@ -352,6 +403,7 @@ componentDidMount() {
 
     class Tower {
         constructor(x, y, towerColor, projectileColor, damage, speed, towerCost, direction) {
+            // 2dim. array attribute
             this.x = x;
             this.y = y;
             this.width = tileSize - tileGap * 2;
@@ -559,6 +611,29 @@ componentDidMount() {
         }
     }
 
+
+    function spawnWave(wave) {
+        for(let i = 0; i < wave.length; i++) {
+            if (frame % minionsInterval === 0) {
+                switch(wave[i]) {
+                    case 1:
+                        minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize, MINIONS.CRAWLER.minionHealth, MINIONS.CRAWLER.minionSpeed, MINIONS.CRAWLER.minionDamage));
+                        break;
+
+                    case 2:
+                        minions.push(new Minion(MINIONS.RUNNER.minionColor, MINIONS.RUNNER.minionSize, MINIONS.RUNNER.minionHealth, MINIONS.RUNNER.minionSpeed, MINIONS.RUNNER.minionDamage));
+                        break;
+
+                    case 3:
+                        minions.push(new Minion(MINIONS.BOSS.minionColor, MINIONS.BOSS.minionSize, MINIONS.BOSS.minionHealth, MINIONS.BOSS.minionSpeed, MINIONS.BOSS.minionDamage));
+                        break;
+                }
+            }
+        }
+        console.log("spawned")
+        spawned = true;
+    }
+
     function handleMinions() {
         for (let i = 0; i < minions.length; i++) {
             minions[i].update();
@@ -584,8 +659,9 @@ componentDidMount() {
         }
 
         // minion spawner
+        /*
         if (frame % minionsInterval === 0) {
-            // /*
+            
 
             if (frame % 1500 === 0) {
                 minions.push(new Minion(MINIONS.BOSS.minionColor, MINIONS.BOSS.minionSize, MINIONS.BOSS.minionHealth, MINIONS.BOSS.minionSpeed, MINIONS.BOSS.minionDamage));
@@ -598,12 +674,17 @@ componentDidMount() {
             else if(frame % 100 === 0) {
                 minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize, MINIONS.CRAWLER.minionHealth, MINIONS.CRAWLER.minionSpeed, MINIONS.CRAWLER.minionDamage));
             }
-            // */
+            
             
             // minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize));
             if (minionsInterval > 120) minionsInterval -= 50;
-
         }
+        */
+        if(!spawned) { spawnWave(wave); }
+        
+        
+
+
     }
 
     function handleProjectiles() {
@@ -627,19 +708,6 @@ componentDidMount() {
         }
     }
 
-
-    class Shop {
-        constructor() {
-
-        }
-
-        draw() {
-        }
-
-        update() {
-        }
-    }
-
     function handleShop() {
         // separate shop from gamebaord
         ctx.fillStyle = 'black';
@@ -656,7 +724,6 @@ componentDidMount() {
             towerList[i].draw();
         }
         
-
         ctx.beginPath();
         ctx.rect(19*tileSize, 2*tileSize, 64, 64);
         ctx.font = '30px Arial';
@@ -664,12 +731,18 @@ componentDidMount() {
         ctx.fillText("-->", 19*tileSize+10, 2*tileSize+38)
         ctx.stroke();
 
-
         ctx.beginPath();
         ctx.rect(19*tileSize, 4*tileSize, 64, 64);
         ctx.font = '20px Arial';
         ctx.fillStyle = 'black';
         ctx.fillText("SELL", 19*tileSize+10, 4*tileSize+38)
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.rect(19*tileSize, 6*tileSize, 64, 64);
+        ctx.font = '20px Arial';
+        ctx.fillStyle = 'black';
+        ctx.fillText("Ready", 19*tileSize+10, 6*tileSize+38)
         ctx.stroke();
     }
 
@@ -678,24 +751,15 @@ componentDidMount() {
         // to do: fill automatically
         for  (let k = 1; k <= 3; k++) {
             for (let j = 1; j <= 2; j++) {
-                
             }
-            
         }
-
         towerList.push(new Tower(16*tileSize, 2*tileSize, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost, directionSelector));
         towerList.push(new Tower(16*tileSize, 4*tileSize, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost, directionSelector));
         towerList.push(new Tower(16*tileSize, 6*tileSize, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost, directionSelector));
         towerList.push(new Tower(16*tileSize, 8*tileSize, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost, directionSelector));
         towerList.push(new Tower(16*tileSize, 10*tileSize, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost, directionSelector));
 
-        
-        
-
-
     }
-
-
 
     // animmation function
 
