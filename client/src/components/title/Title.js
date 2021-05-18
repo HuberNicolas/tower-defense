@@ -1,10 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {BaseContainer, DESKTOP_WIDTH} from '../../helpers/layout';
-import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import { Button } from '../../views/design/Button';
 import LogoSrc from '../../TowerDefense.png';
 
 const FormContainer = styled.div`
@@ -126,8 +123,6 @@ class Title extends React.Component {
                 <Logo src={LogoSrc} />
               </FormContainer>
               <Text>Click anywhere to launch the game!</Text>
-
-
             </FormContainer>
           </BaseContainer>
         </body>

@@ -80,6 +80,7 @@ class Login extends React.Component {
       password: null
     };
   }
+  
 //login function; you get a token and an id
   async login() {
     try {
@@ -144,14 +145,12 @@ class Login extends React.Component {
                 this.handleInputChange('password', e.target.value);
               }}
             />
-
             <ButtonContainer>
               <Button
                 disabled={!this.state.username || !this.state.password}
                 width="50%"
                 onClick={() => {
                   this.login();
-
                 }}
               >
                 Login
