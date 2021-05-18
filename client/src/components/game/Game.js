@@ -810,7 +810,9 @@ class Game extends React.Component {
         ctx.stroke();
         ctx.closePath(); // https://stackoverflow.com/questions/9475432/html5-canvas-different-strokes/9475478
       }
-
+      if(!minions){
+        this.props.history.push(`/login`);
+      }
       if (gameOver) {
         // defeat screen
         ctx.beginPath();

@@ -13,7 +13,7 @@ import Multiplayer from "../../multiplayer/Multiplayer";
 import Game from "../../game/Game";
 import Lobby from "../../lobby/Lobby";
 import HostScreen from "../../hostScreen/HostScreen";
-import Game2 from "../../game2/Game2";
+import PrepPhase from "../../game2/prepPhase";
 //import PlayerScreen from "../../playerScreen/PlayerScreen";
 /**
  * Main router of your application.
@@ -61,6 +61,13 @@ class AppRouter extends React.Component {
                   exact
                   render={() => (
                       <Registration />
+                  )}
+              />
+              <Route
+                  path="/prep"
+                  exact
+                  render={() => (
+                      <PrepPhase />
                   )}
               />
               {/* # */}
@@ -120,13 +127,13 @@ class AppRouter extends React.Component {
                                 )}
                             />
               {/* # */}
-              <Route
+              {/* <Route
                   path="/game2"
                   exact
                   render={() => (
                       <Game2 />
                   )}
-              />
+              /> */}
 
               {/* Entry point */}
             <Route path="/" exact render={() => <Redirect to={"/title"} />} />
