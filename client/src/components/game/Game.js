@@ -159,7 +159,7 @@ class Game extends React.Component {
 
     // status bar
     let score = 0;
-    let HP = 100000;
+    let HP = localStorage.getItem("health");
     let gold = 30000;
     let gameOver = false;
     const statusBarHeight = 112; // fix
