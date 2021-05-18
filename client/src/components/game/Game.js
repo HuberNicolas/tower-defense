@@ -64,6 +64,8 @@ class Game extends React.Component {
     }
   }
 
+
+  // minion reaches the end
   async hit(dmg) {
     try {
       let newHealth = localStorage.getItem("health") - dmg;
