@@ -1,5 +1,5 @@
 // General imports
-import React from "react";
+import React  from "react";
 import { api, handleError } from "../../helpers/api";
 import { Button } from "../../views/design/Button";
 
@@ -15,13 +15,14 @@ class Game extends React.Component {
       health: null,
       board: null,
       canvasWidth: 1366, // 960
-      canvasHeight: 764 + 6, // 704
-      canBuy: false,
+      canvasHeight: 764, // 704
+      canBuy:false
     };
   }
 
   async buy() {
     try {
+      
       /* const requestBody = JSON.stringify({
         //gold: this.state.gold,
         //gold: localStorage.getItem("gold"),
@@ -34,22 +35,21 @@ class Game extends React.Component {
 
       const requestBody = JSON.stringify({
         playable: "FireTower1",
-        coordinates: [0, 0],
-      });
-      const response = await api.post(
-        "games/towers/" + localStorage.getItem("token"),
-        requestBody
-      );
+        coordinates: [0,0],
+        
+    });
+      const response = await api.post("games/towers/"+localStorage.getItem("token"), requestBody);
       //{this.handleInputChange('gold', 8888)}
       //this.setState("gold", this.state.gold)
-      this.setState({ gold: response.data.gold });
+      this.setState({gold:response.data.gold})
       // worked
       //localStorage.setItem("gold", this.state.gold);
       //this.handleInputChange("gold", this.state.gold);
 
       /* localStorage.setItem("gold",newGold);
       this.handleInputChange("gold", newGold); */
-      this.setState({ canBuy: true });
+      this.setState({canBuy:true})
+    
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -66,9 +66,10 @@ class Game extends React.Component {
           duration: 4000,
         },
       });
-      this.setState({ canBuy: false });
+      this.setState({canBuy:false})
     }
   }
+
 
   // minion reaches the end
   async hit(dmg) {
@@ -82,10 +83,7 @@ class Game extends React.Component {
         token: localStorage.getItem("token"),
         board: localStorage.getItem("board"),
       });
-      const response = await api.patch(
-        `/games/${localStorage.getItem("token")}`,
-        requestBody
-      );
+      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
       //{this.handleInputChange('gold', 8888)}
       //this.setState("gold", this.state.gold)
 
@@ -95,6 +93,7 @@ class Game extends React.Component {
 
       localStorage.setItem("health", newHealth);
       this.handleInputChange("health", newHealth);
+    
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -114,6 +113,8 @@ class Game extends React.Component {
     }
   }
 
+
+
   async handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
@@ -129,6 +130,7 @@ class Game extends React.Component {
       height: 0.1,
     };
 
+    
     // canvas initialisation
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -139,9 +141,9 @@ class Game extends React.Component {
     const tileGap = 3;
     const BOARD_WIDTH = 960; // 15 * 64
     const BOARD_HEIGHT = 640; // 10 * 64
-    let minionsInterval = 10; // spawn interval
+    let minionsInterval = 600; // spawn interval
     let frame = 0; // frame counter
-    const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
+    const spawnPoint = 1 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
 
     const gameGrid = []; // all cells
     const pathTiles = []; // all paths
@@ -249,7 +251,7 @@ class Game extends React.Component {
     // game board
     const controlsBar = {
       width: canvas.width, // board width
-      height: 2 * tileSize,
+      height: tileSize,
     };
 
     // EventListeners
@@ -278,7 +280,7 @@ class Game extends React.Component {
 
       // clicked on statusbar: do nothing
       if (gridPositionY < tileSize) return;
-      console.log("clicked");
+      console.log("helo");
 
       // clicked on change directory: change directory
       if (
@@ -304,14 +306,14 @@ class Game extends React.Component {
         return;
       }
 
-      // clicked on ready
+      // clicked on sell: change sellSelector
       if (
         1216 <= gridPositionX &&
         gridPositionX < 1280 &&
         384 <= gridPositionY &&
         gridPositionY < 448
       ) {
-        ready = !ready;
+        ready = true;
         console.log("is ready? " + ready);
         return;
       }
@@ -429,7 +431,7 @@ class Game extends React.Component {
             break;
         }
         this.buy();
-        if (this.state.canBuy) {
+        if (this.state.canBuy){
           // to to Check selected tower variable
           //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
           switch (towerSelector) {
@@ -505,7 +507,7 @@ class Game extends React.Component {
               break;
           }
           console.log("-towercost..");
-
+        
           gold -= towerCost;
         }
       }
@@ -538,7 +540,7 @@ class Game extends React.Component {
 
     function createGrid() {
       // fills gameGrid array with tile objects
-      for (let y = 2 * tileSize; y < canvas.height; y += tileSize) {
+      for (let y = tileSize; y < canvas.height - 64; y += tileSize) {
         for (let x = 0; x < canvas.width - 406; x += tileSize) {
           gameGrid.push(new Tile(x, y));
         }
@@ -571,47 +573,47 @@ class Game extends React.Component {
       // fills pathTiles array with tile objects
 
       // 3 down
-      for (let k = 2; k <= 4; k++) {
+      for (let k = 1; k <= 3; k++) {
         pathTiles.push(new Path(1 * tileSize, k * tileSize));
       }
 
       // 12 right
       for (let k = 2; k <= 13; k++) {
-        pathTiles.push(new Path(k * tileSize, 4 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 3 * tileSize));
       }
 
       // 2 down
-      for (let k = 5; k <= 6; k++) {
+      for (let k = 4; k <= 5; k++) {
         pathTiles.push(new Path(13 * tileSize, k * tileSize));
       }
 
       // 7 left
       for (let k = 13; k >= 6; k--) {
-        pathTiles.push(new Path(k * tileSize, 6 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 5 * tileSize));
       }
 
       // 1 left
       for (let k = 6; k >= 5; k--) {
-        pathTiles.push(new Path(k * tileSize, 7 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 6 * tileSize));
       }
 
       // 4 left
       for (let k = 5; k >= 1; k--) {
-        pathTiles.push(new Path(k * tileSize, 8 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 7 * tileSize));
       }
 
       // 2 down
-      for (let k = 9; k <= 10; k++) {
+      for (let k = 8; k <= 9; k++) {
         pathTiles.push(new Path(1 * tileSize, k * tileSize));
       }
 
       // 9 left
       for (let k = 2; k <= 10; k++) {
-        pathTiles.push(new Path(k * tileSize, 10 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 9 * tileSize));
       }
 
       // 1 down
-      pathTiles.push(new Path(10 * tileSize, 11 * tileSize));
+      pathTiles.push(new Path(10 * tileSize, 10 * tileSize));
     }
 
     class Tower {
@@ -699,37 +701,37 @@ class Game extends React.Component {
       }
       update() {
         // to - do code relatively
-        if (this.y < 257) {
+        if (this.y < 193) {
           this.y += this.movement;
         }
-        if (this.y > 254.8 && this.y < 262 && this.x < 838) {
+        if (this.y > 190.8 && this.y < 198 && this.x < 838) {
           this.x += this.movement;
         }
-        if (this.y > 256 && this.y < 387 && this.x > 832.8 && this.x < 841) {
+        if (this.y > 193 && this.y < 323 && this.x > 832.8 && this.x < 841) {
           this.y += this.movement;
         }
-        if (this.y > 384.8 && this.y < 392 && this.x > 388) {
+        if (this.y > 320.8 && this.y < 328 && this.x > 388) {
           this.x -= this.movement;
         }
-        if (this.y > 384.8 && this.y < 449 && this.x > 383 && this.x < 393.2) {
+        if (this.y > 320.8 && this.y < 385 && this.x > 383 && this.x < 393.2) {
           this.y += this.movement;
         }
-        if (this.y > 446.8 && this.y < 454 && this.x > 326 && this.x < 393.2) {
+        if (this.y > 382.8 && this.y < 390 && this.x > 326 && this.x < 393.2) {
           this.x -= this.movement;
         }
-        if (this.y > 446.8 && this.y < 513 && this.x > 321 && this.x < 326) {
+        if (this.y > 382.8 && this.y < 449 && this.x > 321 && this.x < 326) {
           this.y += this.movement;
         }
-        if (this.y > 513 && this.y < 518 && this.x > 65 && this.x < 326) {
+        if (this.y > 449 && this.y < 454 && this.x > 65 && this.x < 326) {
           this.x -= this.movement;
         }
-        if (this.y > 513 && this.y < 641 && this.x > 60 && this.x < 72) {
+        if (this.y > 449 && this.y < 577 && this.x > 60 && this.x < 72) {
           this.y += this.movement;
         }
-        if (this.y > 640 && this.y < 646 && this.x > 55 && this.x < 640) {
+        if (this.y > 576 && this.y < 582 && this.x > 55 && this.x < 640) {
           this.x += this.movement;
         }
-        if (this.y > 640 && this.x > 639) {
+        if (this.y > 576 && this.x > 639) {
           this.y += this.movement;
         }
       }
@@ -801,13 +803,14 @@ class Game extends React.Component {
       if (sellSelector) {
         // highlight
         ctx.beginPath();
+
         ctx.rect(19 * tileSize, 4 * tileSize, 64, 64);
         ctx.lineWidth = 5;
         ctx.strokeStyle = "blue";
         ctx.stroke();
         ctx.closePath(); // https://stackoverflow.com/questions/9475432/html5-canvas-different-strokes/9475478
       }
-      if (!minions) {
+      if(!minions){
         this.props.history.push(`/login`);
       }
       if (gameOver) {
@@ -819,7 +822,6 @@ class Game extends React.Component {
         ctx.fillStyle = "green";
         ctx.fill();
         ctx.stroke();
-        ctx.closePath();
 
         ctx.fillStyle = "red";
         ctx.font = "150px Arial";
@@ -895,30 +897,28 @@ class Game extends React.Component {
       spawned = true;
     }
 
-    var handleMinions = () => {
+    var handleMinions =() => {
       for (let i = 0; i < minions.length; i++) {
-        if (ready) {
-          minions[i].update();
-          minions[i].draw();
-          if (minions[i].y > 704 && minions[i].y < 708.4) {
-            //if (minions[i].y > 704 && minions[i].y < 708.4) {
-            HP -= minions[i].minionDamage;
-            this.hit(minions[i].minionDamage);
-            if (HP <= 0) {
-              // remove last minion
-              minions.splice(i, 1); // remove
-              i--; // adjust loop index
-              gameOver = true;
-            }
-          }
-          if (minions[i].health <= 0) {
-            let reward = minions[i].maxHealth / 10;
-            gold += reward;
-            score += reward;
+        minions[i].update();
+        minions[i].draw();
+        if (minions[i].y > 704 && minions[i].y < 708.4) {
+          //if (minions[i].y > 704 && minions[i].y < 708.4) {
+          HP -= minions[i].minionDamage;
+          this.hit(minions[i].minionDamage);
+          if (HP <= 0) {
             // remove last minion
             minions.splice(i, 1); // remove
             i--; // adjust loop index
+            gameOver = true;
           }
+        }
+        if (minions[i].health <= 0) {
+          let reward = minions[i].maxHealth / 10;
+          gold += reward;
+          score += reward;
+          // remove last minion
+          minions.splice(i, 1); // remove
+          i--; // adjust loop index
         }
       }
 
@@ -960,7 +960,7 @@ class Game extends React.Component {
         // minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize));
         if (minionsInterval > 120) minionsInterval -= 50;
       }
-    };
+    }
 
     function handleProjectiles() {
       for (let i = 0; i < projectiles.length; i++) {
@@ -990,47 +990,39 @@ class Game extends React.Component {
 
     function handleShop() {
       // separate shop from gamebaord
+      ctx.fillStyle = "black";
       ctx.beginPath();
       ctx.lineWidth = 5;
-      ctx.moveTo(BOARD_WIDTH + 2 * tileGap, 2 * tileSize);
-      ctx.lineTo(BOARD_WIDTH + 2 * tileGap, 12 * tileSize);
+      ctx.moveTo(BOARD_WIDTH + 2 * tileGap, tileSize);
+      ctx.lineTo(BOARD_WIDTH + 2 * tileGap, tileSize * 11);
       ctx.stroke();
       ctx.lineWidth = 1;
-      ctx.closePath();
 
       // draw towers
       for (let i = 0; i < towerList.length; i++) {
         towerList[i].draw();
       }
 
-      // Menu
-
-      // rotate tower
       ctx.beginPath();
       ctx.rect(19 * tileSize, 2 * tileSize, 64, 64);
       ctx.font = "30px Arial";
       ctx.fillStyle = "black";
       ctx.fillText("-->", 19 * tileSize + 10, 2 * tileSize + 38);
       ctx.stroke();
-      ctx.closePath();
 
-      // sell tower
       ctx.beginPath();
       ctx.rect(19 * tileSize, 4 * tileSize, 64, 64);
       ctx.font = "20px Arial";
       ctx.fillStyle = "black";
       ctx.fillText("SELL", 19 * tileSize + 10, 4 * tileSize + 38);
       ctx.stroke();
-      ctx.closePath();
 
-      // ready button
       ctx.beginPath();
       ctx.rect(19 * tileSize, 6 * tileSize, 64, 64);
       ctx.font = "20px Arial";
       ctx.fillStyle = "black";
       ctx.fillText("Ready", 19 * tileSize + 10, 6 * tileSize + 38);
       ctx.stroke();
-      ctx.closePath();
     }
 
     function createShop() {
@@ -1151,6 +1143,23 @@ class Game extends React.Component {
   render() {
     return (
       <div>
+        <div>
+          {/* {gID} - {gold} - {this.state.gold} - {userId} - {token} - {health} - {board} */}
+          {localStorage.getItem("gold")}
+        </div>
+
+        <div>
+          <Button
+            onClick={() => {
+              this.buy();
+            }}
+          ></Button>
+          <input
+            onChange={(e) => {
+              this.handleInputChange("gold", e.target.value);
+            }}
+          />
+        </div>
         <canvas
           ref={this.canvasRef}
           width={this.state.canvasWidth}
