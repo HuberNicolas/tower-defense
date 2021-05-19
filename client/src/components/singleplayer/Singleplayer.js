@@ -130,7 +130,7 @@ class Login extends React.Component {
 
 
       // Initialization successfully worked --> navigate to the route /game
-      this.props.history.push(`/game`);
+      this.props.history.push(`/prep`);
     } catch (error) {
       store.addNotification({
                 title: 'Error',

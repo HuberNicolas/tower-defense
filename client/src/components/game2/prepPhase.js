@@ -2,12 +2,24 @@
 import React  from "react";
 import { api, handleError } from "../../helpers/api";
 import { Button } from "../../views/design/Button";
-
+import { withRouter } from 'react-router-dom';
+import { component } from "react";
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
+import styled from 'styled-components';
+import { BaseContainer } from '../../helpers/layout';
+import User from '../shared/models/User';
+import Player from '../../views/Player';
+import Lobby from "../shared/models/Lobby"
+import { Spinner } from '../../views/design/Spinner';
+import lobby from "../../lobby.jpg";
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 
-class Game extends React.Component {
+
+
+class prepPhase extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -112,6 +124,30 @@ class Game extends React.Component {
       });
     }
   }
+  async ImReady(){
+         try {
+           const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
+           localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
+           //console.log(Object.values(response.data.player1Minions));
+           this.props.history.push("/game");
+         } catch (error) {
+           store.addNotification({
+             title: "Error",
+             width: 300,
+             height: 100,
+             message: `Something went wrong while getting minions: \n${handleError(
+               error
+             )}`,
+             type: "warning", // 'default', 'success', 'info', 'warning'
+             container: "top-left", // where to position the notifications
+             animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+             animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+             dismiss: {
+               duration: 4000,
+             },
+           });
+         }
+       }
 
 
 
@@ -130,7 +166,7 @@ class Game extends React.Component {
       height: 0.1,
     };
 
-    
+
     // canvas initialisation
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -314,7 +350,7 @@ class Game extends React.Component {
         gridPositionY < 448
       ) {
         ready = true;
-        console.log("is ready? " + ready);
+        this.ImReady();
         return;
       }
 
@@ -507,7 +543,7 @@ class Game extends React.Component {
               break;
           }
           console.log("-towercost..");
-        
+
           gold -= towerCost;
         }
       }
@@ -1138,4 +1174,4 @@ class Game extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default Game;
+export default withRouter(prepPhase);

@@ -1,10 +1,23 @@
 // General imports
 import React  from "react";
 import { api, handleError } from "../../helpers/api";
+import { withRouter } from 'react-router-dom';
 
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
+import { component } from "react";
+import "react-notifications-component/dist/theme.css";
+import "animate.css";
+import styled from 'styled-components';
+import { BaseContainer } from '../../helpers/layout';
+import User from '../shared/models/User';
+import Player from '../../views/Player';
+import Lobby from "../shared/models/Lobby"
+import { Spinner } from '../../views/design/Spinner';
+import lobby from "../../lobby.jpg";
+import 'react-notifications-component/dist/theme.css';
+import 'animate.css';
 
 class Game extends React.Component {
   constructor() {
@@ -91,7 +104,7 @@ class Game extends React.Component {
         animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
         animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
         dismiss: {
-          duration: 4000,
+        duration: 4000,
         },
       });
     }
@@ -128,7 +141,7 @@ class Game extends React.Component {
     const SHOP_WIDTH = 2*tileGap + 400;
     const STATUS_BAR_HEIGHT = 2 * tileSize;
     const STATUS_BAR_WIDTH = BOARD_WIDTH + SHOP_WIDTH;
-    let minionsInterval = 600; // spawn interval
+    let minionsInterval = 100; // spawn interval
     let frame = 0; // frame counter
     const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
 
@@ -141,14 +154,17 @@ class Game extends React.Component {
     const projectiles = []; // all shots
 
     let spawned = false;
-    const wave = [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3]; // example of a back-end spawn list
+    const wave = JSON.parse(localStorage.getItem("wave")); //
+    const minionsToSpawn = [];
+
+
 
     let ready = false;
 
     // status bar
     let score = 0;
     let HP = localStorage.getItem("health");
-    let gold = 30000;
+    let gold = localStorage.getItem("gold");
     let gameOver = false;
     
     var towerSelector = "";
@@ -197,7 +213,7 @@ class Game extends React.Component {
 
     var MINIONS = {
       CRAWLER: {
-        id: 1,
+        id: "Goblin",
         minionColor: "red",
         minionSize: 32,
         minionDamage: 10,
@@ -215,7 +231,7 @@ class Game extends React.Component {
         minionCost: 125,
       },
       BOSS: {
-        id: 3,
+        id: "GoblinOverlord",
         minionColor: "pink",
         minionSize: 60,
         minionDamage: 50,
@@ -307,6 +323,7 @@ class Game extends React.Component {
       ) {
         ready = true;
         console.log("is ready? " + ready);
+        this.props.history.push("/prep")
         return;
       }
 
@@ -747,6 +764,32 @@ class Game extends React.Component {
         ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
       }
     }
+    for(let i=0; i< wave.length; i++){
+        console.log(wave[i])
+        switch (wave[i]){
+            case "Goblin":
+                minionsToSpawn.push(
+                new Minion(
+                MINIONS.CRAWLER.minionColor,
+                MINIONS.CRAWLER.minionSize,
+                MINIONS.CRAWLER.minionHealth,
+                MINIONS.CRAWLER.minionSpeed,
+                MINIONS.CRAWLER.minionDamage));
+                break;
+
+            case "GoblinOverlord":
+                minionsToSpawn.push(
+                new Minion(
+                MINIONS.BOSS.minionColor,
+                MINIONS.BOSS.minionSize,
+                MINIONS.BOSS.minionHealth,
+                MINIONS.BOSS.minionSpeed,
+                MINIONS.BOSS.minionDamage));
+                break;
+            }
+
+        }
+        console.log(minionsToSpawn)
 
     class Projectiles {
       constructor(x, y, damage, projectileColor, speed, direction) {
@@ -825,6 +868,11 @@ class Game extends React.Component {
         ctx.fillText("Score: " + score, 200, 550);
       }
     }
+    //
+    if(minions.length === 0){
+    //if no minions exists anymore
+    //this.props.history.push("/prep");
+    }
 
     function handleGameGrid() {
       for (let i = 0; i < gameGrid.length; i++) {
@@ -845,51 +893,7 @@ class Game extends React.Component {
       }
     }
 
-    function spawnWave(wave) {
-      for (let i = 0; i < wave.length; i++) {
-        if (frame % minionsInterval === 0) {
-          switch (wave[i]) {
-            case 1:
-              minions.push(
-                new Minion(
-                  MINIONS.CRAWLER.minionColor,
-                  MINIONS.CRAWLER.minionSize,
-                  MINIONS.CRAWLER.minionHealth,
-                  MINIONS.CRAWLER.minionSpeed,
-                  MINIONS.CRAWLER.minionDamage
-                )
-              );
-              break;
 
-            case 2:
-              minions.push(
-                new Minion(
-                  MINIONS.RUNNER.minionColor,
-                  MINIONS.RUNNER.minionSize,
-                  MINIONS.RUNNER.minionHealth,
-                  MINIONS.RUNNER.minionSpeed,
-                  MINIONS.RUNNER.minionDamage
-                )
-              );
-              break;
-
-            case 3:
-              minions.push(
-                new Minion(
-                  MINIONS.BOSS.minionColor,
-                  MINIONS.BOSS.minionSize,
-                  MINIONS.BOSS.minionHealth,
-                  MINIONS.BOSS.minionSpeed,
-                  MINIONS.BOSS.minionDamage
-                )
-              );
-              break;
-          }
-        }
-      }
-      console.log("spawned");
-      spawned = true;
-    }
 
     var handleMinions =() => {
       for (let i = 0; i < minions.length; i++) {
@@ -919,35 +923,9 @@ class Game extends React.Component {
       // minion spawner
 
       if (frame % minionsInterval === 0) {
-        if (frame % 1500 === 0) {
+        if (frame % 100 === 0) {
           minions.push(
-            new Minion(
-              MINIONS.BOSS.minionColor,
-              MINIONS.BOSS.minionSize,
-              MINIONS.BOSS.minionHealth,
-              MINIONS.BOSS.minionSpeed,
-              MINIONS.BOSS.minionDamage
-            )
-          );
-        } else if (frame % 500 === 0) {
-          minions.push(
-            new Minion(
-              MINIONS.RUNNER.minionColor,
-              MINIONS.RUNNER.minionSize,
-              MINIONS.RUNNER.minionHealth,
-              MINIONS.RUNNER.minionSpeed,
-              MINIONS.RUNNER.minionDamage
-            )
-          );
-        } else if (frame % 100 === 0) {
-          minions.push(
-            new Minion(
-              MINIONS.CRAWLER.minionColor,
-              MINIONS.CRAWLER.minionSize,
-              MINIONS.CRAWLER.minionHealth,
-              MINIONS.CRAWLER.minionSpeed,
-              MINIONS.CRAWLER.minionDamage
-            )
+          minionsToSpawn.pop()
           );
         }
 
@@ -1097,6 +1075,7 @@ class Game extends React.Component {
       frame++;
 
       //console.log(frame);
+      //if(!gameOver || minions) minions is an array so if empty: is null = false
 
       if (!gameOver) {
         requestAnimationFrame(animate);
@@ -1162,4 +1141,4 @@ class Game extends React.Component {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default Game;
+export default withRouter(Game);
