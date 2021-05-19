@@ -26,9 +26,9 @@ class prepPhase extends React.Component {
       gold: null,
       health: null,
       board: null,
-      canvasWidth: 1366, // 960
-      canvasHeight: 764, // 704
-      canBuy:false
+      canvasWidth: 1366, // 960 (Board) + 400 (Shop) + 6 (2xGap)
+      canvasHeight: 764 + 6, // 704
+      canBuy: false
     };
   }
 
@@ -177,9 +177,13 @@ class prepPhase extends React.Component {
     const tileGap = 3;
     const BOARD_WIDTH = 960; // 15 * 64
     const BOARD_HEIGHT = 640; // 10 * 64
-    let minionsInterval = 600; // spawn interval
+    const SHOP_WIDTH = 2*tileGap + 400;
+    const STATUS_BAR_HEIGHT = 2 * tileSize;
+    const STATUS_BAR_WIDTH = BOARD_WIDTH + SHOP_WIDTH;
+    let minionsInterval = 100; // spawn interval
     let frame = 0; // frame counter
-    const spawnPoint = 1 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
+    const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
+
 
     const gameGrid = []; // all cells
     const pathTiles = []; // all paths
@@ -284,11 +288,11 @@ class prepPhase extends React.Component {
 
     var sellSelector = 1;
 
-    // game board
-    const controlsBar = {
-      width: canvas.width, // board width
-      height: tileSize,
-    };
+   // game board
+   const statusBar = {
+    width: STATUS_BAR_WIDTH,
+    height: STATUS_BAR_HEIGHT,
+  };
 
     // EventListeners
 
@@ -315,8 +319,10 @@ class prepPhase extends React.Component {
       const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
 
       // clicked on statusbar: do nothing
-      if (gridPositionY < tileSize) return;
-      console.log("helo");
+      if (gridPositionY < STATUS_BAR_HEIGHT) return;
+      console.log("clicked");
+      var coordArray = getCoordiantes(gridPositionX,gridPositionY);
+      console.log(coordArray)
 
       // clicked on change directory: change directory
       if (
@@ -415,7 +421,7 @@ class prepPhase extends React.Component {
 
       // clicked outside of gameBoard
       if (
-        gridPositionY > BOARD_HEIGHT + tileSize ||
+        gridPositionY > BOARD_HEIGHT + 2*tileSize ||
         gridPositionX > BOARD_WIDTH
       )
         return;
@@ -576,8 +582,8 @@ class prepPhase extends React.Component {
 
     function createGrid() {
       // fills gameGrid array with tile objects
-      for (let y = tileSize; y < canvas.height - 64; y += tileSize) {
-        for (let x = 0; x < canvas.width - 406; x += tileSize) {
+      for (let y = 2*tileSize; y < canvas.height - tileSize; y += tileSize) {
+        for (let x = 0; x < canvas.width - SHOP_WIDTH; x += tileSize) {
           gameGrid.push(new Tile(x, y));
         }
       }
@@ -609,47 +615,47 @@ class prepPhase extends React.Component {
       // fills pathTiles array with tile objects
 
       // 3 down
-      for (let k = 1; k <= 3; k++) {
+      for (let k = 2; k <= 4; k++) {
         pathTiles.push(new Path(1 * tileSize, k * tileSize));
       }
 
       // 12 right
       for (let k = 2; k <= 13; k++) {
-        pathTiles.push(new Path(k * tileSize, 3 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 4 * tileSize));
       }
 
       // 2 down
-      for (let k = 4; k <= 5; k++) {
+      for (let k = 5; k <= 6; k++) {
         pathTiles.push(new Path(13 * tileSize, k * tileSize));
       }
 
       // 7 left
       for (let k = 13; k >= 6; k--) {
-        pathTiles.push(new Path(k * tileSize, 5 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 6 * tileSize));
       }
 
       // 1 left
       for (let k = 6; k >= 5; k--) {
-        pathTiles.push(new Path(k * tileSize, 6 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 7 * tileSize));
       }
 
       // 4 left
       for (let k = 5; k >= 1; k--) {
-        pathTiles.push(new Path(k * tileSize, 7 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 8 * tileSize));
       }
 
       // 2 down
-      for (let k = 8; k <= 9; k++) {
+      for (let k = 9; k <= 10; k++) {
         pathTiles.push(new Path(1 * tileSize, k * tileSize));
       }
 
       // 9 left
       for (let k = 2; k <= 10; k++) {
-        pathTiles.push(new Path(k * tileSize, 9 * tileSize));
+        pathTiles.push(new Path(k * tileSize, 10 * tileSize));
       }
 
       // 1 down
-      pathTiles.push(new Path(10 * tileSize, 10 * tileSize));
+      pathTiles.push(new Path(10 * tileSize, 11 * tileSize));
     }
 
     class Tower {
@@ -737,37 +743,37 @@ class prepPhase extends React.Component {
       }
       update() {
         // to - do code relatively
-        if (this.y < 193) {
+        if (this.y < 257) {
           this.y += this.movement;
         }
-        if (this.y > 190.8 && this.y < 198 && this.x < 838) {
+        if (this.y > 254.8 && this.y < 262 && this.x < 838) {
           this.x += this.movement;
         }
-        if (this.y > 193 && this.y < 323 && this.x > 832.8 && this.x < 841) {
+        if (this.y > 256 && this.y < 387 && this.x > 832.8 && this.x < 841) {
           this.y += this.movement;
         }
-        if (this.y > 320.8 && this.y < 328 && this.x > 388) {
+        if (this.y > 384.8 && this.y < 392 && this.x > 388) {
           this.x -= this.movement;
         }
-        if (this.y > 320.8 && this.y < 385 && this.x > 383 && this.x < 393.2) {
+        if (this.y > 384.8 && this.y < 449 && this.x > 383 && this.x < 393.2) {
           this.y += this.movement;
         }
-        if (this.y > 382.8 && this.y < 390 && this.x > 326 && this.x < 393.2) {
+        if (this.y > 446.8 && this.y < 454 && this.x > 326 && this.x < 393.2) {
           this.x -= this.movement;
         }
-        if (this.y > 382.8 && this.y < 449 && this.x > 321 && this.x < 326) {
+        if (this.y > 446.8 && this.y < 513 && this.x > 321 && this.x < 326) {
           this.y += this.movement;
         }
-        if (this.y > 449 && this.y < 454 && this.x > 65 && this.x < 326) {
+        if (this.y > 513 && this.y < 518 && this.x > 65 && this.x < 326) {
           this.x -= this.movement;
         }
-        if (this.y > 449 && this.y < 577 && this.x > 60 && this.x < 72) {
+        if (this.y > 513 && this.y < 641 && this.x > 60 && this.x < 72) {
           this.y += this.movement;
         }
-        if (this.y > 576 && this.y < 582 && this.x > 55 && this.x < 640) {
+        if (this.y > 640 && this.y < 646 && this.x > 55 && this.x < 640) {
           this.x += this.movement;
         }
-        if (this.y > 576 && this.x > 639) {
+        if (this.y > 640 && this.x > 639) {
           this.y += this.movement;
         }
       }
@@ -992,8 +998,8 @@ class prepPhase extends React.Component {
       ctx.fillStyle = "black";
       ctx.beginPath();
       ctx.lineWidth = 5;
-      ctx.moveTo(BOARD_WIDTH + 2 * tileGap, tileSize);
-      ctx.lineTo(BOARD_WIDTH + 2 * tileGap, tileSize * 11);
+      ctx.moveTo(BOARD_WIDTH + 2 * tileGap, tileSize * 2);
+      ctx.lineTo(BOARD_WIDTH + 2 * tileGap, tileSize * 12);
       ctx.stroke();
       ctx.lineWidth = 1;
 
@@ -1097,7 +1103,7 @@ class prepPhase extends React.Component {
       // create control bar
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "blue";
-      ctx.fillRect(0, 0, controlsBar.width, controlsBar.height);
+      ctx.fillRect(0, 0, statusBar.width, statusBar.height);
 
       frame++;
 
@@ -1137,28 +1143,22 @@ class prepPhase extends React.Component {
         return true;
       }
     }
+
+    function getCoordiantes(gridPositionX, gridPositionY) {
+      let x = (gridPositionX-tileGap)/tileSize;
+      let y = ((gridPositionY-tileGap-2*tileSize)/tileSize);
+      console.log("X: " + x + " Y: " + y);
+      //console.log(coordArray);
+      const coordArrayforClient = [x,y];
+      const coordArrayforServer = [y,x];
+      return coordArrayforServer;
+    }
+
   }
 
   render() {
     return (
       <div>
-        <div>
-          {/* {gID} - {gold} - {this.state.gold} - {userId} - {token} - {health} - {board} */}
-          {localStorage.getItem("gold")}
-        </div>
-
-        <div>
-          <Button
-            onClick={() => {
-              this.buy();
-            }}
-          ></Button>
-          <input
-            onChange={(e) => {
-              this.handleInputChange("gold", e.target.value);
-            }}
-          />
-        </div>
         <canvas
           ref={this.canvasRef}
           width={this.state.canvasWidth}
