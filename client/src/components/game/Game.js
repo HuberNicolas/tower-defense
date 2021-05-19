@@ -1,7 +1,6 @@
 // General imports
 import React  from "react";
 import { api, handleError } from "../../helpers/api";
-import { Button } from "../../views/design/Button";
 
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
@@ -16,43 +15,24 @@ class Game extends React.Component {
       board: null,
       canvasWidth: 1366, // 960 (Board) + 400 (Shop) + 6 (2xGap)
       canvasHeight: 764 + 6, // 704
-      canBuy:false
+      canBuy: false
     };
   }
 
   async buy(coordinates) {
     console.log(coordinates);
     try {
-      
-      /* const requestBody = JSON.stringify({
-        //gold: this.state.gold,
-        //gold: localStorage.getItem("gold"),
-        gold: newGold,
-        health: localStorage.getItem("health"),
-        token: localStorage.getItem("token"),
-        board: localStorage.getItem("board"),
-      });
-      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody); */
-
       const requestBody = JSON.stringify({
         playable: "FireTower1",
         coordinates: coordinates,
         
     });
       const response = await api.post("games/towers/"+localStorage.getItem("token"), requestBody);
-      //{this.handleInputChange('gold', 8888)}
-      //this.setState("gold", this.state.gold)
-      this.setState({gold:response.data.gold})
-      // worked
-      //localStorage.setItem("gold", this.state.gold);
-      //this.handleInputChange("gold", this.state.gold);
-
-      /* localStorage.setItem("gold",newGold);
-      this.handleInputChange("gold", newGold); */
-      console.log("before set state "+this.state.canBuy)
-      this.setState({canBuy:true})
-      console.log("after set state "+this.state.canBuy)
-      console.log(localStorage.getItem("board"))
+      this.setState({gold:response.data.gold});
+      console.log("before set state "+this.state.canBuy);
+      this.setState({canBuy:true});
+      console.log("after set state "+this.state.canBuy);
+      console.log(localStorage.getItem("board"));
     
     } catch (error) {
       store.addNotification({
@@ -171,7 +151,6 @@ class Game extends React.Component {
     let gold = 30000;
     let gameOver = false;
     
-
     var towerSelector = "";
     var TOWERS = {
       TIER1: {
@@ -282,15 +261,7 @@ class Game extends React.Component {
     });
 
 
-    function getCoordiantes(gridPositionX, gridPositionY) {
-      let x = (gridPositionX-tileGap)/tileSize;
-      let y = ((gridPositionY-tileGap-2*tileSize)/tileSize);
-      //console.log("X: " + x + " Y: " + y);
-      //console.log(coordArray);
-      const coordArray = [x,y];
-      return coordArray;
 
-    }
 
     canvas.addEventListener("click", () => {
       // get mouse position
@@ -298,9 +269,10 @@ class Game extends React.Component {
       const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
 
       // clicked on statusbar: do nothing
-      if (gridPositionY < tileSize) return;
+      if (gridPositionY < STATUS_BAR_HEIGHT) return;
       console.log("clicked");
       var coordArray = getCoordiantes(gridPositionX,gridPositionY);
+      console.log(coordArray)
 
       // clicked on change directory: change directory
       if (
@@ -399,7 +371,7 @@ class Game extends React.Component {
 
       // clicked outside of gameBoard
       if (
-        gridPositionY > BOARD_HEIGHT + tileSize ||
+        gridPositionY > BOARD_HEIGHT + 2*tileSize ||
         gridPositionX > BOARD_WIDTH
       )
         return;
@@ -1159,6 +1131,16 @@ class Game extends React.Component {
       ) {
         return true;
       }
+    }
+
+    function getCoordiantes(gridPositionX, gridPositionY) {
+      let x = (gridPositionX-tileGap)/tileSize;
+      let y = ((gridPositionY-tileGap-2*tileSize)/tileSize);
+      console.log("X: " + x + " Y: " + y);
+      //console.log(coordArray);
+      const coordArrayforClient = [x,y];
+      const coordArrayforServer = [y,x];
+      return coordArrayforServer;
     }
   }
 
