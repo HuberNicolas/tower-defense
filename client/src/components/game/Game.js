@@ -876,8 +876,18 @@ class Game extends React.Component {
 
     var handleMinions =() => {
       for (let i = 0; i < minions.length; i++) {
+        console.log(minions[i])
         minions[i].update();
         minions[i].draw();
+
+        if (minions[i].health <= 0) {
+          let reward = minions[i].maxHealth / 10;
+          gold += reward;
+          score += reward;
+          // remove last minion
+          minions.splice(i, 1); // remove
+          i--; // adjust loop index
+        }
         if (minions[i].y > 704 && minions[i].y < 708.4) {
           //if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
@@ -889,20 +899,13 @@ class Game extends React.Component {
             gameOver = true;
           }
         }
-        if (minions[i].health <= 0) {
-          let reward = minions[i].maxHealth / 10;
-          gold += reward;
-          score += reward;
-          // remove last minion
-          minions.splice(i, 1); // remove
-          i--; // adjust loop index
-        }
+
       }
 
       // minion spawner
 
       if (frame % minionsInterval === 0) {
-        if (frame % 100 === 0) {
+        if (frame % 100 === 0 && minionsToSpawn.length>0) {
           minions.push(
           minionsToSpawn.pop()
           );
