@@ -184,7 +184,7 @@ class Game extends React.Component {
 
     // status bar
     let score = 0;
-    let HP = localStorage.getItem("health");
+    let HP = 10000
     let gold = localStorage.getItem("gold");
     let gameOver = false;
     let prepPhase = true;
@@ -374,6 +374,7 @@ class Game extends React.Component {
                     }
 
                 }
+        localStorage.setItem("wave", [])
         return;
       }
 
@@ -872,8 +873,8 @@ class Game extends React.Component {
         ctx.stroke();
         ctx.closePath(); // https://stackoverflow.com/questions/9475432/html5-canvas-different-strokes/9475478
       }
-      if(!minions){
-        this.setState({prepPhase:true});
+      if(minions.length<1 && !prepPhase){
+        //this.setState({prepPhase:true});
       }
       if (gameOver) {
         // defeat screen
@@ -933,10 +934,10 @@ class Game extends React.Component {
           gold += reward;
           score += reward;
           // remove last minion
-          toBeDeleted.append(i); // remove
+          minions.splice(i,1); // remove
           i--; // adjust loop index
         }
-        if (minions[i].y > 704 && minions[i].y < 708.4) {
+        else if (minions[i].y > 704 && minions[i].y < 708.4) {
           //if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
           this.hit(minions[i].minionDamage);
