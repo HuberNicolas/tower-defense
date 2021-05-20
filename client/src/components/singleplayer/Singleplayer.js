@@ -118,19 +118,13 @@ class Login extends React.Component {
         player1Id: localStorage.getItem('userId')
       });
       const response = await api.post('/games', requestBody);
-
       // Store everything relevant to the game into the local storage.
       localStorage.setItem('gameId', response.data.player1.gameId);
       localStorage.setItem("weather", response.data.player1.weather);
       localStorage.setItem("gold", response.data.player1.gold);
       localStorage.setItem("health", response.data.player1.health);
       localStorage.setItem("board", response.data.player1.board);
-      //console.log(response);
-
-
-
-      // Initialization successfully worked --> navigate to the route /game
-      this.props.history.push(`/prep`);
+      this.props.history.push(`/game`);
     } catch (error) {
       store.addNotification({
                 title: 'Error',
@@ -145,7 +139,7 @@ class Login extends React.Component {
                   duration: 4000
                 }
             })
-    }
+        }
   }
 
   /**

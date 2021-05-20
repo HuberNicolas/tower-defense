@@ -20,7 +20,9 @@ class Game extends React.Component {
       board: null,
       canvasWidth: 1366, // 960 (Board) + 400 (Shop) + 6 (2xGap)
       canvasHeight: 764 + 6, // 704
-      canBuy: false
+      canBuy: false,
+      prepPhase: true,
+      wave: [],
     };
   }
 
@@ -102,6 +104,39 @@ class Game extends React.Component {
     }
   }
 
+
+
+  async ImReady(){
+       if(this.state.prepPhase){
+            try {
+                   const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
+                   localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
+                   //console.log(localStorage.getItem("wave"));
+                   //console.log("hello" +this.state.wave)
+                   //console.log(Object.values(response.data.player1Minions));
+                   this.setState({prepPhase: false})
+                 } catch (error) {
+                   store.addNotification({
+                     title: "Error",
+                     width: 300,
+                     height: 100,
+                     message: `Something went wrong while getting minions: \n${handleError(
+                       error
+                     )}`,
+                     type: "warning", // 'default', 'success', 'info', 'warning'
+                     container: "top-left", // where to position the notifications
+                     animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+                     animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+                     dismiss: {
+                       duration: 4000,
+                     },
+                   });
+                 }
+            }
+
+     }
+
+
   async handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
@@ -141,17 +176,19 @@ class Game extends React.Component {
     const towerList = []; // all towers in the shop
     const projectiles = []; // all shots
 
-    let spawned = false;
-    const wave = JSON.parse(localStorage.getItem("wave")); //
-    const minionsToSpawn = [];
 
-    let ready = false;
+    let spawned = false;
+
+    var minionsToSpawn = [];
+    var wave = []
 
     // status bar
     let score = 0;
     let HP = localStorage.getItem("health");
     let gold = localStorage.getItem("gold");
     let gameOver = false;
+    let prepPhase = true;
+
     
     var towerSelector = "";
     var TOWERS = {
@@ -304,9 +341,39 @@ class Game extends React.Component {
         384 <= gridPositionY &&
         gridPositionY < 448
       ) {
-        ready = true;
-        console.log("is ready? " + ready);
-        this.props.history.push("/prep")
+
+        this.ImReady();
+
+        wave = JSON.parse(localStorage.getItem("wave"))
+        //console.log("type is:       " +typeof minionsToSpawn)
+        //console.log(minionsToSpawn[0] === "Goblin")
+        //console.log(minionsToSpawn)
+        for(let i=0; i< wave.length; i++){
+        //console.log(minionsToSpawn[i])
+                switch (wave[i]){
+                    case "Goblin":
+                        //console.log("me goblin")
+                        minionsToSpawn.push(
+                        new Minion(
+                        MINIONS.CRAWLER.minionColor,
+                        MINIONS.CRAWLER.minionSize,
+                        MINIONS.CRAWLER.minionHealth,
+                        MINIONS.CRAWLER.minionSpeed,
+                        MINIONS.CRAWLER.minionDamage));
+                        break;
+
+                    case "GoblinOverlord":
+                        minionsToSpawn.push(
+                        new Minion(
+                        MINIONS.BOSS.minionColor,
+                        MINIONS.BOSS.minionSize,
+                        MINIONS.BOSS.minionHealth,
+                        MINIONS.BOSS.minionSpeed,
+                        MINIONS.BOSS.minionDamage));
+                        break;
+                    }
+
+                }
         return;
       }
 
@@ -746,31 +813,8 @@ class Game extends React.Component {
         ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
       }
     }
-    for(let i=0; i< wave.length; i++){
-        console.log(wave[i])
-        switch (wave[i]){
-            case "Goblin":
-                minionsToSpawn.push(
-                new Minion(
-                MINIONS.CRAWLER.minionColor,
-                MINIONS.CRAWLER.minionSize,
-                MINIONS.CRAWLER.minionHealth,
-                MINIONS.CRAWLER.minionSpeed,
-                MINIONS.CRAWLER.minionDamage));
-                break;
+    console.log("wave"+this.state.wave)
 
-            case "GoblinOverlord":
-                minionsToSpawn.push(
-                new Minion(
-                MINIONS.BOSS.minionColor,
-                MINIONS.BOSS.minionSize,
-                MINIONS.BOSS.minionHealth,
-                MINIONS.BOSS.minionSpeed,
-                MINIONS.BOSS.minionDamage));
-                break;
-            }
-
-        }
         console.log(minionsToSpawn)
 
     class Projectiles {
@@ -829,7 +873,7 @@ class Game extends React.Component {
         ctx.closePath(); // https://stackoverflow.com/questions/9475432/html5-canvas-different-strokes/9475478
       }
       if(!minions){
-        this.props.history.push(`/login`);
+        this.setState({prepPhase:true});
       }
       if (gameOver) {
         // defeat screen
@@ -874,9 +918,13 @@ class Game extends React.Component {
       }
     }
 
+
     var handleMinions =() => {
+    const toBeDeleted = []
+    //console.log("current list:     "+minions.length)
       for (let i = 0; i < minions.length; i++) {
-        console.log(minions[i])
+        //console.log(minions[i])
+
         minions[i].update();
         minions[i].draw();
 
@@ -885,7 +933,7 @@ class Game extends React.Component {
           gold += reward;
           score += reward;
           // remove last minion
-          minions.splice(i, 1); // remove
+          toBeDeleted.append(i); // remove
           i--; // adjust loop index
         }
         if (minions[i].y > 704 && minions[i].y < 708.4) {
@@ -894,18 +942,21 @@ class Game extends React.Component {
           this.hit(minions[i].minionDamage);
           if (HP <= 0) {
             // remove last minion
-            minions.splice(i, 1); // remove
+            minions.splice(0,minions.length-1); // remove
             i--; // adjust loop index
             gameOver = true;
           }
         }
-
+      }
+      for(let i = toBeDeleted.length-1; i>0; i--){
+        minions.splice(toBeDeleted[i],1);
       }
 
       // minion spawner
 
       if (frame % minionsInterval === 0) {
         if (frame % 100 === 0 && minionsToSpawn.length>0) {
+          console.log(minionsToSpawn.length)
           minions.push(
           minionsToSpawn.pop()
           );
@@ -1056,7 +1107,7 @@ class Game extends React.Component {
       frame++;
 
       //console.log(frame);
-      //if(!gameOver || minions) minions is an array so if empty: is null = false
+
 
       if (!gameOver) {
         requestAnimationFrame(animate);
