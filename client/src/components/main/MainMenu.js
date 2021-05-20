@@ -1,16 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
-import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
-import Lobby from '../shared/models/Lobby';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import mainmenu from "../../mainmenu.jpg";
 import backgroundmusic from "../../backgroundmusic.mp3"
 
-
-import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 
@@ -134,21 +129,15 @@ class Login extends React.Component {
     this.setState({ [key]: value });
   }
 
-
-
-
   render() {
     return (
     <div style={sectionStyle}>
-
       <BaseContainer>
-
       <Title>Main Menu</Title>
             <ButtonContainer>
               <Button
                 width="50%"
                 onClick={() => {
-
                   this.props.history.push(`/singleplayer`);
                 }}
               >
@@ -158,7 +147,6 @@ class Login extends React.Component {
               <Button
                   width="50%"
                   onClick={() => {
-
                     this.props.history.push(`/multiplayer`);
                   }}
               >
@@ -175,18 +163,18 @@ class Login extends React.Component {
               </Button>
               <h1> </h1>
               <Button
-                                width="50%"
-                                onClick={() => {
-                                  this.logout();
-                                }}
-                            >
-                              logout
-                            </Button>
+                width="50%"
+                onClick={() => {
+                  this.logout();
+                }}
+              >
+                logout
+              </Button>
               <h1> </h1>
-                            <Button
-                                              width="50%"
-                                              onClick={this.togglePlay}>{this.state.play ? 'Pause' : 'Play'}
-                                          </Button>
+                <Button
+                  width="50%"
+                  onClick={this.togglePlay}>{this.state.play ? 'Pause' : 'Play'}
+                </Button>
             </ButtonContainer>
       </BaseContainer>
       </div>

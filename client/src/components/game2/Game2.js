@@ -1,13 +1,5 @@
 import React, { forwardRef } from 'react';
-
-import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
-import { withRouter } from 'react-router-dom';
-import { Button } from '../../views/design/Button';
-import login from "../../login.jpg";
-
 
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
@@ -24,30 +16,29 @@ class Game2 extends React.Component {
         }
       }
 
-
       async buyTower() {
         try {
           const requestBody = JSON.stringify({
-                    tower: "FireTower1",
-                    coordinates: [0,0],
-                    
-                });
-          const response = await api.put("games/towers/"+localStorage.getItem("token"), requestBody);
-          // place tower
+            tower: "FireTower1",
+            coordinates: [0,0],
+            
+        });
+        const response = await api.put("games/towers/"+localStorage.getItem("token"), requestBody);
+        // place tower
         } catch (error) {
-          store.addNotification({
-                    title: 'Error',
-                    width:300,
-                    height:100,
-                    message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
-                    type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                    container: 'top-left',                // where to position the notifications
-                    animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                    animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                    dismiss: {
-                      duration: 4000
-                    }
-                })
+        store.addNotification({
+            title: 'Error',
+            width:300,
+            height:100,
+            message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
+            type: 'warning',                         // 'default', 'success', 'info', 'warning'
+            container: 'top-left',                // where to position the notifications
+            animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+            animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+            dismiss: {
+                duration: 4000
+            }
+        })
         }
       }
 
@@ -276,19 +267,19 @@ componentDidMount() {
                 switch(towerSelector) {
                     case 1:
                         towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER1.towerColor, TOWERS.TIER1.projectileColor, TOWERS.TIER1.damage, TOWERS.TIER1.speed, TOWERS.TIER1.towerCost, directionSelector));
-                    break;
+                        break;
                     case 2:
                         towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER2.towerColor, TOWERS.TIER2.projectileColor, TOWERS.TIER2.damage, TOWERS.TIER2.speed, TOWERS.TIER2.towerCost, directionSelector));
-                    break;
+                        break;
                     case 3:
                         towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER3.towerColor, TOWERS.TIER3.projectileColor, TOWERS.TIER3.damage, TOWERS.TIER3.speed, TOWERS.TIER3.towerCost, directionSelector));
-                    break;
+                        break;
                     case 4:
                         towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER4.towerColor, TOWERS.TIER4.projectileColor, TOWERS.TIER4.damage, TOWERS.TIER4.speed, TOWERS.TIER4.towerCost, directionSelector));
-                    break;
+                        break;
                     case 5:
                         towers.push(new Tower(gridPositionX, gridPositionY, TOWERS.TIER5.towerColor, TOWERS.TIER5.projectileColor, TOWERS.TIER5.damage, TOWERS.TIER5.speed, TOWERS.TIER5.towerCost, directionSelector));
-                    break;
+                        break;
                 }
                 console.log("-towercost..")
                 gold -= towerCost;
@@ -319,7 +310,6 @@ componentDidMount() {
                 ctx.font = '10px Arial';
                 ctx.fillText("y:"+this.y + " x:"+this.x, this.x + 5, this.y + 25);
             }
-
         }
     }
 
@@ -331,7 +321,6 @@ componentDidMount() {
             }
         }
     }
-
     class Path {
         constructor(x, y) {
             this.x = x;
@@ -794,14 +783,13 @@ componentDidMount() {
     createShop();
     animate();
 
-
     // Helper functions
 
     function collision(first, second) {
-        if (    !(  first.x > second.x + second.width ||
-                    first.x + first.width < second.x ||
-                    first.y > second.y + second.height ||
-                    first.y + first.height < second.y)
+        if (!(first.x > second.x + second.width ||
+            first.x + first.width < second.x ||
+            first.y > second.y + second.height ||
+            first.y + first.height < second.y)
         ) {
             return true;
         };

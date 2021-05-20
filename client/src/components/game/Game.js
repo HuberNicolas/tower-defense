@@ -6,16 +6,8 @@ import { withRouter } from 'react-router-dom';
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-import { component } from "react";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
-import User from '../shared/models/User';
-import Player from '../../views/Player';
-import Lobby from "../shared/models/Lobby"
-import { Spinner } from '../../views/design/Spinner';
-import lobby from "../../lobby.jpg";
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 
@@ -110,8 +102,6 @@ class Game extends React.Component {
     }
   }
 
-
-
   async handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
@@ -126,7 +116,6 @@ class Game extends React.Component {
       width: 0.1,
       height: 0.1,
     };
-
     
     // canvas initialisation
     const canvas = this.canvasRef.current;
@@ -145,7 +134,6 @@ class Game extends React.Component {
     let frame = 0; // frame counter
     const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
 
-
     const gameGrid = []; // all cells
     const pathTiles = []; // all paths
     const minions = []; // all minions
@@ -156,8 +144,6 @@ class Game extends React.Component {
     let spawned = false;
     const wave = JSON.parse(localStorage.getItem("wave")); //
     const minionsToSpawn = [];
-
-
 
     let ready = false;
 
@@ -275,9 +261,6 @@ class Game extends React.Component {
       mouse.x = undefined;
       mouse.y = undefined;
     });
-
-
-
 
     canvas.addEventListener("click", () => {
       // get mouse position
@@ -626,7 +609,6 @@ class Game extends React.Component {
       // 1 down
       pathTiles.push(new Path(10 * tileSize, 11 * tileSize));
     }
-
     class Tower {
       constructor(
         x,
@@ -827,7 +809,6 @@ class Game extends React.Component {
         ctx.fill();
       }
     }
-
     // handlers
 
     function handleGameStatus() {
@@ -892,8 +873,6 @@ class Game extends React.Component {
         towers[i].update();
       }
     }
-
-
 
     var handleMinions =() => {
       for (let i = 0; i < minions.length; i++) {
@@ -1063,7 +1042,6 @@ class Game extends React.Component {
         )
       );
     }
-
     // animmation function
 
     function animate() {

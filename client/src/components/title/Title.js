@@ -114,7 +114,6 @@ class Title extends React.Component {
     return (
         <body style = {{height: '100%', position: 'absolute', left: '0px', width: '100%', overflow: 'hidden'}}
              onClick={() => {
-
           this.props.history.push(`/login`);
         }}>
           <BaseContainer>

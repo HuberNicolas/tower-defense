@@ -4,11 +4,8 @@ import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import Player from '../../views/Player';
-import "./HostScreen.css"
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
-import { component } from "react";
 import Lobby from "../shared/models/Lobby"
 import lobby from "../../lobby.jpg";
 var sectionStyle = {
@@ -119,10 +116,7 @@ const ButtonNext = styled.div`
   width: 530px;
 `;
 
-
-
 class Login extends React.Component {
-
   constructor() {
     super();
     this.state = {
@@ -131,8 +125,6 @@ class Login extends React.Component {
         lobbyId: null,
         player2Status: null
     };
-
-
   }
 
   handleInputChange(key, value) {
@@ -144,9 +136,9 @@ class Login extends React.Component {
   async leaveLobby() {
             try {
               const requestBody = JSON.stringify({
-                      lobbyId: localStorage.getItem("lobbyId"),
-                      token: localStorage.getItem('token')
-                    });
+                lobbyId: localStorage.getItem("lobbyId"),
+                token: localStorage.getItem('token')
+              });
               const response = await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
               this.props.history.push("/multiplayer");
             } catch (error) {
@@ -155,22 +147,20 @@ class Login extends React.Component {
           }
 
   async displayPlayers(){
-        try{
-            const response = await api.get("lobbies/"+localStorage.getItem("lobbyId"));
-            const lobby = new Lobby(response.data);
-            this.setState({lobbyOwner: lobby.lobbyOwner, player2: lobby.player2, player2Status: lobby.player2Status})
-            //console.log(this.state.lobbyOwner)
-        }
-        catch(error){
-         alert(`Something went wrong during displaying the players: \n${handleError(error)}`);
-        }
+    try{
+        const response = await api.get("lobbies/"+localStorage.getItem("lobbyId"));
+        const lobby = new Lobby(response.data);
+        this.setState({lobbyOwner: lobby.lobbyOwner, player2: lobby.player2, player2Status: lobby.player2Status})
+        //console.log(this.state.lobbyOwner)
+    }
+    catch(error){
+      alert(`Something went wrong during displaying the players: \n${handleError(error)}`);
+    }
   }
 
-
-   componentDidMount() {
+  componentDidMount() {
         this.displayPlayers();
-   }
-
+  }
 
   render() {
     return (
@@ -188,17 +178,16 @@ class Login extends React.Component {
           </div>
         </div>
         <ButtonContainer>
-
-                      <Button
-                      //disabled={!this.state.player2Status}
-                        width="50%"
-                        onClick={() => {
-                          //push to multiplayer game!
-                        }}
-                      >
-                        I am ready!
-                      </Button>
-                    </ButtonContainer>
+            <Button
+            //disabled={!this.state.player2Status}
+              width="50%"
+              onClick={() => {
+                //push to multiplayer game!
+              }}
+            >
+              I am ready!
+            </Button>
+          </ButtonContainer>
         </BaseContainer>
         </div>
 

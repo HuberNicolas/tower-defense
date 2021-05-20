@@ -1,23 +1,11 @@
-// General imports
 import React  from "react";
 import { api, handleError } from "../../helpers/api";
-import { Button } from "../../views/design/Button";
 import { withRouter } from 'react-router-dom';
-import { component } from "react";
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
-import User from '../shared/models/User';
-import Player from '../../views/Player';
-import Lobby from "../shared/models/Lobby"
-import { Spinner } from '../../views/design/Spinner';
-import lobby from "../../lobby.jpg";
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
-
-
 
 class prepPhase extends React.Component {
   constructor() {
@@ -34,22 +22,10 @@ class prepPhase extends React.Component {
 
   async buy() {
     try {
-      
-      /* const requestBody = JSON.stringify({
-        //gold: this.state.gold,
-        //gold: localStorage.getItem("gold"),
-        gold: newGold,
-        health: localStorage.getItem("health"),
-        token: localStorage.getItem("token"),
-        board: localStorage.getItem("board"),
-      });
-      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody); */
-
       const requestBody = JSON.stringify({
         playable: "FireTower1",
         coordinates: [0,0],
-        
-    });
+      });
       const response = await api.post("games/towers/"+localStorage.getItem("token"), requestBody);
       //{this.handleInputChange('gold', 8888)}
       //this.setState("gold", this.state.gold)
@@ -82,48 +58,6 @@ class prepPhase extends React.Component {
     }
   }
 
-
-  // minion reaches the end
-  async hit(dmg) {
-    try {
-      let newHealth = localStorage.getItem("health") - dmg;
-      const requestBody = JSON.stringify({
-        //gold: this.state.gold,
-        //gold: localStorage.getItem("gold"),
-        gold: localStorage.getItem("gold"),
-        health: newHealth,
-        token: localStorage.getItem("token"),
-        board: localStorage.getItem("board"),
-      });
-      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
-      //{this.handleInputChange('gold', 8888)}
-      //this.setState("gold", this.state.gold)
-
-      // worked
-      //localStorage.setItem("gold", this.state.gold);
-      //this.handleInputChange("gold", this.state.gold);
-
-      localStorage.setItem("health", newHealth);
-      this.handleInputChange("health", newHealth);
-    
-    } catch (error) {
-      store.addNotification({
-        title: "Error",
-        width: 300,
-        height: 100,
-        message: `Something went wrong while updating health: \n${handleError(
-          error
-        )}`,
-        type: "warning", // 'default', 'success', 'info', 'warning'
-        container: "top-left", // where to position the notifications
-        animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
-        animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
-        dismiss: {
-          duration: 4000,
-        },
-      });
-    }
-  }
   async ImReady(){
          try {
            const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
@@ -148,8 +82,6 @@ class prepPhase extends React.Component {
            });
          }
        }
-
-
 
   async handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
@@ -248,36 +180,6 @@ class prepPhase extends React.Component {
       },
     };
 
-    var MINIONS = {
-      CRAWLER: {
-        id: 1,
-        minionColor: "red",
-        minionSize: 32,
-        minionDamage: 10,
-        minionSpeed: 4,
-        minionHealth: 100,
-        minionCost: 100,
-      },
-      RUNNER: {
-        id: 2,
-        minionColor: "orange",
-        minionSize: 32,
-        minionDamage: 5,
-        minionSpeed: 5,
-        minionHealth: 75,
-        minionCost: 125,
-      },
-      BOSS: {
-        id: 3,
-        minionColor: "pink",
-        minionSize: 60,
-        minionDamage: 50,
-        minionSpeed: 3,
-        minionHealth: 500,
-        minionCost: 1000,
-      },
-    };
-
     var directionSelector = 1;
     var PROJECTILE_DIRECTIONS = {
       UP: { id: 0 },
@@ -355,7 +257,6 @@ class prepPhase extends React.Component {
         384 <= gridPositionY &&
         gridPositionY < 448
       ) {
-        ready = true;
         this.ImReady();
         return;
       }
@@ -554,7 +455,6 @@ class prepPhase extends React.Component {
         }
       }
     });
-
     // ENTITIES
 
     class Tile {
@@ -711,88 +611,9 @@ class prepPhase extends React.Component {
               this.direction
             )
           );
-
           //var audio = new Audio('https://opengameart.org/sites/default/files/Laser%20Shot.mp3');
           //audio.play();
         }
-      }
-    }
-
-    class Minion {
-      constructor(
-        minionColor,
-        minionSize,
-        minionHealth,
-        minionSpeed,
-        minionDamage
-      ) {
-        // minionSize, minionColor, minionDamage, minionHP, minionSpeed, minionCost
-        //this.x = canvas.width;
-        //this.y = verticalPosition;
-        this.x = tileSize; // spawn point
-        this.y = spawnPoint; // spawn point
-        this.width = tileSize - tileGap * 2;
-        this.height = tileSize - tileGap * 2;
-        this.minionSize = minionSize;
-        this.speed = minionSpeed;
-        this.movement = this.speed;
-        this.health = minionHealth;
-        this.maxHealth = this.health;
-        this.minionColor = minionColor;
-        this.minionDamage = minionDamage;
-      }
-      update() {
-        // to - do code relatively
-        if (this.y < 257) {
-          this.y += this.movement;
-        }
-        if (this.y > 254.8 && this.y < 262 && this.x < 838) {
-          this.x += this.movement;
-        }
-        if (this.y > 256 && this.y < 387 && this.x > 832.8 && this.x < 841) {
-          this.y += this.movement;
-        }
-        if (this.y > 384.8 && this.y < 392 && this.x > 388) {
-          this.x -= this.movement;
-        }
-        if (this.y > 384.8 && this.y < 449 && this.x > 383 && this.x < 393.2) {
-          this.y += this.movement;
-        }
-        if (this.y > 446.8 && this.y < 454 && this.x > 326 && this.x < 393.2) {
-          this.x -= this.movement;
-        }
-        if (this.y > 446.8 && this.y < 513 && this.x > 321 && this.x < 326) {
-          this.y += this.movement;
-        }
-        if (this.y > 513 && this.y < 518 && this.x > 65 && this.x < 326) {
-          this.x -= this.movement;
-        }
-        if (this.y > 513 && this.y < 641 && this.x > 60 && this.x < 72) {
-          this.y += this.movement;
-        }
-        if (this.y > 640 && this.y < 646 && this.x > 55 && this.x < 640) {
-          this.x += this.movement;
-        }
-        if (this.y > 640 && this.x > 639) {
-          this.y += this.movement;
-        }
-      }
-      draw() {
-        ctx.fillStyle = this.minionColor;
-        ctx.beginPath();
-        ctx.arc(
-          this.x + this.minionSize / 2,
-          this.y + this.minionSize / 2,
-          this.minionSize / 2,
-          0,
-          Math.PI * 2
-        );
-        ctx.fill();
-        //ctx.fillStyle = 'red';
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
-        ctx.fillStyle = "black";
-        ctx.font = "30px Arial";
-        ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
       }
     }
 
@@ -832,7 +653,6 @@ class prepPhase extends React.Component {
         ctx.fill();
       }
     }
-
     // handlers
 
     function handleGameStatus() {
@@ -890,106 +710,6 @@ class prepPhase extends React.Component {
       for (let i = 0; i < towers.length; i++) {
         towers[i].draw();
         towers[i].update();
-      }
-    }
-
-    function spawnWave(wave) {
-      for (let i = 0; i < wave.length; i++) {
-        if (frame % minionsInterval === 0) {
-          switch (wave[i]) {
-            case 1:
-              minions.push(
-                new Minion(
-                  MINIONS.CRAWLER.minionColor,
-                  MINIONS.CRAWLER.minionSize,
-                  MINIONS.CRAWLER.minionHealth,
-                  MINIONS.CRAWLER.minionSpeed,
-                  MINIONS.CRAWLER.minionDamage
-                )
-              );
-              break;
-
-            case 2:
-              minions.push(
-                new Minion(
-                  MINIONS.RUNNER.minionColor,
-                  MINIONS.RUNNER.minionSize,
-                  MINIONS.RUNNER.minionHealth,
-                  MINIONS.RUNNER.minionSpeed,
-                  MINIONS.RUNNER.minionDamage
-                )
-              );
-              break;
-
-            case 3:
-              minions.push(
-                new Minion(
-                  MINIONS.BOSS.minionColor,
-                  MINIONS.BOSS.minionSize,
-                  MINIONS.BOSS.minionHealth,
-                  MINIONS.BOSS.minionSpeed,
-                  MINIONS.BOSS.minionDamage
-                )
-              );
-              break;
-          }
-        }
-      }
-      console.log("spawned");
-      spawned = true;
-    }
-
-    var handleMinions =() => {
-      for (let i = 0; i < minions.length; i++) {
-        minions[i].update();
-        minions[i].draw();
-        if (minions[i].y > 704 && minions[i].y < 708.4) {
-          //if (minions[i].y > 704 && minions[i].y < 708.4) {
-          HP -= minions[i].minionDamage;
-          this.hit(minions[i].minionDamage);
-          if (HP <= 0) {
-            // remove last minion
-            minions.splice(i, 1); // remove
-            i--; // adjust loop index
-            gameOver = true;
-          }
-        }
-        if (minions[i].health <= 0) {
-          let reward = minions[i].maxHealth / 10;
-          gold += reward;
-          score += reward;
-          // remove last minion
-          minions.splice(i, 1); // remove
-          i--; // adjust loop index
-        }
-      }
-
-      // minion spawner
-    }
-
-    function handleProjectiles() {
-      for (let i = 0; i < projectiles.length; i++) {
-        projectiles[i].update();
-        projectiles[i].draw();
-
-        for (let j = 0; j < minions.length; j++) {
-          if (
-            minions[j] &&
-            projectiles[i] &&
-            collision(projectiles[i], minions[j])
-          ) {
-            // both existing and is hit?
-            minions[j].health -= projectiles[i].damage;
-            projectiles.splice(i, 1); // remove
-            i--; // adjust for loop index
-          }
-        }
-
-        if (projectiles[i] && projectiles[i].x > BOARD_WIDTH) {
-          projectiles.splice(i, 1); // remove
-          i--; // adjust for loop index
-        }
-        //console.log('projectiles ' + projectiles.length);
       }
     }
 
@@ -1116,8 +836,6 @@ class prepPhase extends React.Component {
       handleGameGrid();
       handlePath();
       handleTowers();
-      handleProjectiles();
-      handleMinions();
       handleShop();
       handleGameStatus();
     }
@@ -1153,7 +871,6 @@ class prepPhase extends React.Component {
       const coordArrayforServer = [y,x];
       return coordArrayforServer;
     }
-
   }
 
   render() {
