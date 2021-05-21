@@ -104,38 +104,32 @@ class Game extends React.Component {
     }
   }
 
-
-
   async ImReady(){
-       if(this.state.prepPhase){
-            try {
-                   const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
-                   localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
-                   //console.log(localStorage.getItem("wave"));
-                   //console.log("hello" +this.state.wave)
-                   //console.log(Object.values(response.data.player1Minions));
-                   this.setState({prepPhase: false})
-                 } catch (error) {
-                   store.addNotification({
-                     title: "Error",
-                     width: 300,
-                     height: 100,
-                     message: `Something went wrong while getting minions: \n${handleError(
-                       error
-                     )}`,
-                     type: "warning", // 'default', 'success', 'info', 'warning'
-                     container: "top-left", // where to position the notifications
-                     animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
-                     animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
-                     dismiss: {
-                       duration: 4000,
-                     },
-                   });
-                 }
-            }
-
-     }
-
+      if(this.state.prepPhase){
+        try {
+            const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
+            localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
+            this.setState({prepPhase: false})
+          } 
+        catch (error) {
+          store.addNotification({
+            title: "Error",
+            width: 300,
+            height: 100,
+            message: `Something went wrong while getting minions: \n${handleError(
+              error
+            )}`,
+            type: "warning", // 'default', 'success', 'info', 'warning'
+            container: "top-left", // where to position the notifications
+            animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+            animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+            dismiss: {
+              duration: 4000,
+            },
+          });
+        }
+      }
+    }
 
   async handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
@@ -176,7 +170,6 @@ class Game extends React.Component {
     const towerList = []; // all towers in the shop
     const projectiles = []; // all shots
 
-
     let spawned = false;
 
     var minionsToSpawn = [];
@@ -188,7 +181,6 @@ class Game extends React.Component {
     let gold = localStorage.getItem("gold");
     let gameOver = false;
     let prepPhase = true;
-
     
     var towerSelector = "";
     var TOWERS = {
@@ -281,7 +273,6 @@ class Game extends React.Component {
   };
 
     // EventListeners
-
     // fixed bug when resizing
     window.addEventListener("resize", function () {
       canvasPosition = canvas.getBoundingClientRect();
@@ -730,7 +721,6 @@ class Game extends React.Component {
               this.direction
             )
           );
-
           //var audio = new Audio('https://opengameart.org/sites/default/files/Laser%20Shot.mp3');
           //audio.play();
         }
@@ -814,9 +804,6 @@ class Game extends React.Component {
         ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
       }
     }
-    console.log("wave"+this.state.wave)
-
-        console.log(minionsToSpawn)
 
     class Projectiles {
       constructor(x, y, damage, projectileColor, speed, direction) {
@@ -873,9 +860,7 @@ class Game extends React.Component {
         ctx.stroke();
         ctx.closePath(); // https://stackoverflow.com/questions/9475432/html5-canvas-different-strokes/9475478
       }
-      if(minions.length<1 && !prepPhase){
-        //this.setState({prepPhase:true});
-      }
+
       if (gameOver) {
         // defeat screen
         ctx.beginPath();
@@ -894,10 +879,9 @@ class Game extends React.Component {
         ctx.fillText("Score: " + score, 200, 550);
       }
     }
-    //
-    if(minions.length === 0){
-    //if no minions exists anymore
-    //this.props.history.push("/prep");
+    
+    if(minions.length<1 && !prepPhase){
+      prepPhase = true;
     }
 
     function handleGameGrid() {
@@ -919,13 +903,9 @@ class Game extends React.Component {
       }
     }
 
-
     var handleMinions =() => {
     const toBeDeleted = []
-    //console.log("current list:     "+minions.length)
       for (let i = 0; i < minions.length; i++) {
-        //console.log(minions[i])
-
         minions[i].update();
         minions[i].draw();
 
@@ -954,10 +934,8 @@ class Game extends React.Component {
       }
 
       // minion spawner
-
       if (frame % minionsInterval === 0) {
         if (frame % 100 === 0 && minionsToSpawn.length>0) {
-          console.log(minionsToSpawn.length)
           minions.push(
           minionsToSpawn.pop()
           );
@@ -990,7 +968,6 @@ class Game extends React.Component {
           projectiles.splice(i, 1); // remove
           i--; // adjust for loop index
         }
-        //console.log('projectiles ' + projectiles.length);
       }
     }
 
@@ -1107,9 +1084,6 @@ class Game extends React.Component {
 
       frame++;
 
-      //console.log(frame);
-
-
       if (!gameOver) {
         requestAnimationFrame(animate);
       }
@@ -1149,7 +1123,6 @@ class Game extends React.Component {
       let x = (gridPositionX-tileGap)/tileSize;
       let y = ((gridPositionY-tileGap-2*tileSize)/tileSize);
       console.log("X: " + x + " Y: " + y);
-      //console.log(coordArray);
       const coordArrayforClient = [x,y];
       const coordArrayforServer = [y,x];
       return coordArrayforServer;
