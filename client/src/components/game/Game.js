@@ -14,7 +14,7 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      gold: null,
+      gold: localStorage.getItem("gold"),
       health: null,
       board: null,
       canvasWidth: 1366, // 960 (Board) + 400 (Shop) + 6 (2xGap)
@@ -44,7 +44,7 @@ class Game extends React.Component {
         title: "Error",
         width: 300,
         height: 100,
-        message: `Something went wrong while updating gold: \n${handleError(
+        message: `Something went wrong while buying a tower: \n${handleError(
           error
         )}`,
         type: "warning", // 'default', 'success', 'info', 'warning'
@@ -62,45 +62,10 @@ class Game extends React.Component {
 
   // minion reaches the end
   async hit(dmg) {
-    try {
       let newHealth = localStorage.getItem("health") - dmg;
-      const requestBody = JSON.stringify({
-        //gold: this.state.gold,
-        //gold: localStorage.getItem("gold"),
-        gold: localStorage.getItem("gold"),
-        health: newHealth,
-        token: localStorage.getItem("token"),
-        board: localStorage.getItem("board"),
-      });
-      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
-      //{this.handleInputChange('gold', 8888)}
-      //this.setState("gold", this.state.gold)
-
-      // worked
-      //localStorage.setItem("gold", this.state.gold);
-      //this.handleInputChange("gold", this.state.gold);
-
       localStorage.setItem("health", newHealth);
       this.handleInputChange("health", newHealth);
-    
-    } catch (error) {
-      store.addNotification({
-        title: "Error",
-        width: 300,
-        height: 100,
-        message: `Something went wrong while updating health: \n${handleError(
-          error
-        )}`,
-        type: "warning", // 'default', 'success', 'info', 'warning'
-        container: "top-left", // where to position the notifications
-        animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
-        animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
-        dismiss: {
-        duration: 4000,
-        },
-      });
     }
-  }
 
   async ImReady(){
 
@@ -221,6 +186,8 @@ class Game extends React.Component {
     const towers = []; // all towers
     const towerList = []; // all towers in the shop
     const projectiles = []; // all shots
+    const weather = localStorage.getItem("weather");
+    let round = 0;
 
     let spawned = false;
 
@@ -385,11 +352,12 @@ class Game extends React.Component {
         gridPositionY < 448 &&
         prepPhase
       ) {
-
+        round += round;
         this.ImReady();
+
         //console.log("current state:  "+ prepPhase)
         //console.log("arraylength"+ minions.length)
-        prepPhase = false;
+
         wave = JSON.parse(localStorage.getItem("wave"))
 
         for(let i=0; i< wave.length; i++){
@@ -419,6 +387,7 @@ class Game extends React.Component {
 
                 }
         localStorage.setItem("wave", [])
+        prepPhase = false;
         return;
       }
 
@@ -612,9 +581,10 @@ class Game extends React.Component {
               );
               break;
           }
-          console.log("-towercost..");
+          //console.log("-towercost..");
         
-          gold -= towerCost;
+          gold = this.state.gold;
+          console.log(this.state.gold)
         }
       }
     });
@@ -902,7 +872,9 @@ class Game extends React.Component {
       ctx.fillText("Gold: " + gold, 20, 55);
       ctx.fillText("Score: " + score, 220, 55);
       ctx.fillText("HP: " + HP, 420, 55);
-
+      ctx.fillText("Current weather: "+ weather,20,100)
+      ctx.fillText("Current phase:  "+ (prepPhase? "Preparation": "Battle"), 420,100)
+      ctx.fillText("Current round:  "+round,620,55)
       if (sellSelector) {
         // highlight
         ctx.beginPath();
@@ -972,7 +944,7 @@ class Game extends React.Component {
         else if (minions[i].y > 704 && minions[i].y < 708.4) {
           //if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
-          //this.hit(minions[i].minionDamage);
+          this.hit(minions[i].minionDamage);
           toBeDeleted.push(i); //remove
         }
       }
@@ -1208,12 +1180,6 @@ class Game extends React.Component {
         }}>
         leave
         </Button>
-        <Button
-                onClick={() => {
-                    this.ImReady();
-                }}>
-                Im ready
-                </Button>
       </div>
     );
   }
