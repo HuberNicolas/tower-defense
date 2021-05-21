@@ -6,10 +6,9 @@ import { withRouter } from 'react-router-dom';
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-import "react-notifications-component/dist/theme.css";
-import "animate.css";
-import 'react-notifications-component/dist/theme.css';
-import 'animate.css';
+
+
+import { Button } from '../../views/design/Button';
 
 class Game extends React.Component {
   constructor() {
@@ -21,7 +20,6 @@ class Game extends React.Component {
       canvasWidth: 1366, // 960 (Board) + 400 (Shop) + 6 (2xGap)
       canvasHeight: 764 + 6, // 704
       canBuy: false,
-      prepPhase: true,
       wave: [],
     };
   }
@@ -105,12 +103,12 @@ class Game extends React.Component {
   }
 
   async ImReady(){
-      if(this.state.prepPhase){
+
         try {
             const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
             localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
-            this.setState({prepPhase: false})
-          } 
+
+          }
         catch (error) {
           store.addNotification({
             title: "Error",
@@ -128,8 +126,62 @@ class Game extends React.Component {
             },
           });
         }
-      }
+
     }
+
+    async rageQuit(){
+
+            try {
+                const response = await api.delete(`/games/${localStorage.getItem("token")}`);
+                this.props.history.push("/main")
+              }
+            catch (error) {
+              store.addNotification({
+                title: "Error",
+                width: 300,
+                height: 100,
+                message: `Something went wrong while getting minions: \n${handleError(
+                  error
+                )}`,
+                type: "warning", // 'default', 'success', 'info', 'warning'
+                container: "top-left", // where to position the notifications
+                animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+                animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+                dismiss: {
+                  duration: 4000,
+                },
+              });
+            }
+          }
+
+      async updateGameState(gold, health){
+
+              try {
+                    const requestBody = JSON.stringify({
+                      gold: gold,
+                      health: health,
+                    });
+                    const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
+                    localStorage.setItem("continuing",response.data.continuing)
+                    }
+              catch (error) {
+                store.addNotification({
+                  title: "Error",
+                  width: 300,
+                  height: 100,
+                  message: `Something went wrong while updating round: \n${handleError(
+                    error
+                  )}`,
+                  type: "warning", // 'default', 'success', 'info', 'warning'
+                  container: "top-left", // where to position the notifications
+                  animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+                  animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+                  dismiss: {
+                    duration: 4000,
+                  },
+                });
+              }
+            }
 
   async handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
@@ -177,7 +229,7 @@ class Game extends React.Component {
 
     // status bar
     let score = 0;
-    let HP = 10000
+    let HP = localStorage.getItem("health")
     let gold = localStorage.getItem("gold");
     let gameOver = false;
     let prepPhase = true;
@@ -231,7 +283,7 @@ class Game extends React.Component {
         id: "Goblin",
         minionColor: "red",
         minionSize: 32,
-        minionDamage: 10,
+        minionDamage: 1,
         minionSpeed: 4,
         minionHealth: 100,
         minionCost: 100,
@@ -240,7 +292,7 @@ class Game extends React.Component {
         id: 2,
         minionColor: "orange",
         minionSize: 32,
-        minionDamage: 5,
+        minionDamage: 1,
         minionSpeed: 5,
         minionHealth: 75,
         minionCost: 125,
@@ -249,7 +301,7 @@ class Game extends React.Component {
         id: "GoblinOverlord",
         minionColor: "pink",
         minionSize: 60,
-        minionDamage: 50,
+        minionDamage: 5,
         minionSpeed: 3,
         minionHealth: 500,
         minionCost: 1000,
@@ -330,15 +382,16 @@ class Game extends React.Component {
         1216 <= gridPositionX &&
         gridPositionX < 1280 &&
         384 <= gridPositionY &&
-        gridPositionY < 448
+        gridPositionY < 448 &&
+        prepPhase
       ) {
 
         this.ImReady();
-
+        //console.log("current state:  "+ prepPhase)
+        //console.log("arraylength"+ minions.length)
+        prepPhase = false;
         wave = JSON.parse(localStorage.getItem("wave"))
-        //console.log("type is:       " +typeof minionsToSpawn)
-        //console.log(minionsToSpawn[0] === "Goblin")
-        //console.log(minionsToSpawn)
+
         for(let i=0; i< wave.length; i++){
         //console.log(minionsToSpawn[i])
                 switch (wave[i]){
@@ -880,9 +933,7 @@ class Game extends React.Component {
       }
     }
     
-    if(minions.length<1 && !prepPhase){
-      prepPhase = true;
-    }
+
 
     function handleGameGrid() {
       for (let i = 0; i < gameGrid.length; i++) {
@@ -909,33 +960,32 @@ class Game extends React.Component {
         minions[i].update();
         minions[i].draw();
 
+
         if (minions[i].health <= 0) {
           let reward = minions[i].maxHealth / 10;
           gold += reward;
           score += reward;
           // remove last minion
-          minions.splice(i,1); // remove
-          i--; // adjust loop index
+          toBeDeleted.push(i); // remove
+          //i--; // adjust loop index
         }
         else if (minions[i].y > 704 && minions[i].y < 708.4) {
           //if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
-          this.hit(minions[i].minionDamage);
-          if (HP <= 0) {
-            // remove last minion
-            minions.splice(0,minions.length-1); // remove
-            i--; // adjust loop index
-            gameOver = true;
-          }
+          //this.hit(minions[i].minionDamage);
+          toBeDeleted.push(i); //remove
         }
       }
-      for(let i = toBeDeleted.length-1; i>0; i--){
+      for(let i = toBeDeleted.length-1; i>=0; i--){
+        console.log("deleted")
         minions.splice(toBeDeleted[i],1);
+        console.log(minions.length)
       }
 
       // minion spawner
       if (frame % minionsInterval === 0) {
         if (frame % 100 === 0 && minionsToSpawn.length>0) {
+
           minions.push(
           minionsToSpawn.pop()
           );
@@ -945,6 +995,19 @@ class Game extends React.Component {
         if (minionsInterval > 120) minionsInterval -= 50;
       }
     }
+
+    var handleGame =() => {
+        if(minions.length<1 && !prepPhase){
+              console.log("I reach this part")
+              prepPhase = true;
+              this.updateGameState(HP,gold);
+            }
+        if(HP <1 && localStorage.getItem("continuing") === false){
+            gameOver = true;
+            }
+        }
+
+
 
     function handleProjectiles() {
       for (let i = 0; i < projectiles.length; i++) {
@@ -1095,6 +1158,7 @@ class Game extends React.Component {
       handleMinions();
       handleShop();
       handleGameStatus();
+      handleGame();
     }
 
     // actual sequence
@@ -1138,6 +1202,18 @@ class Game extends React.Component {
           height={this.state.canvasHeight}
           id={"gameboard"}
         />
+        <Button
+        onClick={() => {
+            this.rageQuit();
+        }}>
+        leave
+        </Button>
+        <Button
+                onClick={() => {
+                    this.ImReady();
+                }}>
+                Im ready
+                </Button>
       </div>
     );
   }
