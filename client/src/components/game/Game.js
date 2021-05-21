@@ -21,6 +21,7 @@ class Game extends React.Component {
       canvasHeight: 764 + 6, // 704
       canBuy: false,
       wave: [],
+      round: 0,
     };
   }
 
@@ -72,6 +73,8 @@ class Game extends React.Component {
         try {
             const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
             localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
+
+
 
           }
         catch (error) {
@@ -187,12 +190,13 @@ class Game extends React.Component {
     const towerList = []; // all towers in the shop
     const projectiles = []; // all shots
     const weather = localStorage.getItem("weather");
-    let round = 0;
+    let round = 1;
 
     let spawned = false;
 
     var minionsToSpawn = [];
     var wave = []
+    let phase = false;
 
     // status bar
     let score = 0;
@@ -200,6 +204,7 @@ class Game extends React.Component {
     let gold = localStorage.getItem("gold");
     let gameOver = false;
     let prepPhase = true;
+
     
     var towerSelector = "";
     var TOWERS = {
@@ -352,7 +357,7 @@ class Game extends React.Component {
         gridPositionY < 448 &&
         prepPhase
       ) {
-        round += round;
+
         this.ImReady();
 
         //console.log("current state:  "+ prepPhase)
@@ -388,6 +393,7 @@ class Game extends React.Component {
                 }
         localStorage.setItem("wave", [])
         prepPhase = false;
+        phase = false;
         return;
       }
 
@@ -873,7 +879,7 @@ class Game extends React.Component {
       ctx.fillText("Score: " + score, 220, 55);
       ctx.fillText("HP: " + HP, 420, 55);
       ctx.fillText("Current weather: "+ weather,20,100)
-      ctx.fillText("Current phase:  "+ (prepPhase? "Preparation": "Battle"), 420,100)
+      ctx.fillText("Current phase:  "+ (prepPhase ? "Preparation": "Battle"), 420,100)
       ctx.fillText("Current round:  "+round,620,55)
       if (sellSelector) {
         // highlight
@@ -932,7 +938,6 @@ class Game extends React.Component {
         minions[i].update();
         minions[i].draw();
 
-
         if (minions[i].health <= 0) {
           let reward = minions[i].maxHealth / 10;
           gold += reward;
@@ -949,9 +954,14 @@ class Game extends React.Component {
         }
       }
       for(let i = toBeDeleted.length-1; i>=0; i--){
-        console.log("deleted")
+        //console.log("deleted")
         minions.splice(toBeDeleted[i],1);
-        console.log(minions.length)
+        if(minions.length === 0){
+        phase = true;
+        console.log("empty");
+        }
+        //console.log(minions.length)
+
       }
 
       // minion spawner
@@ -969,10 +979,12 @@ class Game extends React.Component {
     }
 
     var handleGame =() => {
-        if(minions.length<1 && !prepPhase){
-              console.log("I reach this part")
+        if(phase && minions.length<1 && !prepPhase){
+              console.log(minions.length)
               prepPhase = true;
               this.updateGameState(HP,gold);
+              round+=1;
+
             }
         if(HP <1 && localStorage.getItem("continuing") === false){
             gameOver = true;
