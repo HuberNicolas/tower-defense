@@ -479,7 +479,7 @@ class Game extends React.Component {
         gridPositionY < 448 &&
         prepPhase
       ) {
-        round += 1;
+
         this.ImReady();
 
         //console.log("current state:  "+ prepPhase)
@@ -520,6 +520,7 @@ class Game extends React.Component {
         }
         localStorage.setItem("wave", []);
         prepPhase = false;
+        phase = false;
         return;
       }
 
@@ -1111,7 +1112,10 @@ class Game extends React.Component {
       for (let i = toBeDeleted.length - 1; i >= 0; i--) {
         console.log("deleted");
         minions.splice(toBeDeleted[i], 1);
-        console.log(minions.length);
+        if(minions.length === 0){
+                phase = true;
+                console.log("empty");
+                }
       }
 
       // minion spawner
