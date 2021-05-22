@@ -179,7 +179,7 @@ class Game extends React.Component {
     const SHOP_WIDTH = 2*tileGap + 400;
     const STATUS_BAR_HEIGHT = 2 * tileSize;
     const STATUS_BAR_WIDTH = BOARD_WIDTH + SHOP_WIDTH;
-    let minionsInterval = 100; // spawn interval
+    let minionsInterval = 90; // spawn interval
     let frame = 0; // frame counter
     const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
 
@@ -367,30 +367,29 @@ class Game extends React.Component {
 
         for(let i=0; i< wave.length; i++){
         //console.log(minionsToSpawn[i])
-                switch (wave[i]){
-                    case "Goblin":
-                        //console.log("me goblin")
-                        minionsToSpawn.push(
-                        new Minion(
-                        MINIONS.CRAWLER.minionColor,
-                        MINIONS.CRAWLER.minionSize,
-                        MINIONS.CRAWLER.minionHealth,
-                        MINIONS.CRAWLER.minionSpeed,
-                        MINIONS.CRAWLER.minionDamage));
-                        break;
+          switch (wave[i]){
+            case "Goblin":
+              //console.log("me goblin")
+              minionsToSpawn.push(
+              new Minion(
+              MINIONS.CRAWLER.minionColor,
+              MINIONS.CRAWLER.minionSize,
+              MINIONS.CRAWLER.minionHealth,
+              MINIONS.CRAWLER.minionSpeed,
+              MINIONS.CRAWLER.minionDamage));
+              break;
 
-                    case "GoblinOverlord":
-                        minionsToSpawn.push(
-                        new Minion(
-                        MINIONS.BOSS.minionColor,
-                        MINIONS.BOSS.minionSize,
-                        MINIONS.BOSS.minionHealth,
-                        MINIONS.BOSS.minionSpeed,
-                        MINIONS.BOSS.minionDamage));
-                        break;
-                    }
-
-                }
+            case "GoblinOverlord":
+              minionsToSpawn.push(
+              new Minion(
+              MINIONS.BOSS.minionColor,
+              MINIONS.BOSS.minionSize,
+              MINIONS.BOSS.minionHealth,
+              MINIONS.BOSS.minionSpeed,
+              MINIONS.BOSS.minionDamage));
+              break;
+            }
+          }
         localStorage.setItem("wave", [])
         prepPhase = false;
         phase = false;
@@ -490,7 +489,6 @@ class Game extends React.Component {
       }
 
       if (!sellSelector) {
-        //let towerCost = 100;
         let towerCost;
         switch (towerSelector) {
           case 1:
@@ -947,51 +945,41 @@ class Game extends React.Component {
           //i--; // adjust loop index
         }
         else if (minions[i].y > 704 && minions[i].y < 708.4) {
-          //if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
           this.hit(minions[i].minionDamage);
           toBeDeleted.push(i); //remove
         }
       }
       for(let i = toBeDeleted.length-1; i>=0; i--){
-        //console.log("deleted")
         minions.splice(toBeDeleted[i],1);
         if(minions.length === 0){
         phase = true;
         console.log("empty");
         }
-        //console.log(minions.length)
-
       }
 
       // minion spawner
-      if (frame % minionsInterval === 0) {
-        if (frame % 100 === 0 && minionsToSpawn.length>0) {
-
+      if (frame % minionsInterval === 0 && minionsToSpawn.length>0) {
           minions.push(
           minionsToSpawn.pop()
           );
-        }
-
-        // minions.push(new Minion(MINIONS.CRAWLER.minionColor, MINIONS.CRAWLER.minionSize));
-        if (minionsInterval > 120) minionsInterval -= 50;
       }
     }
 
     var handleGame =() => {
-        if(phase && minions.length<1 && !prepPhase){
-              console.log(minions.length)
-              prepPhase = true;
-              this.updateGameState(HP,gold);
-              round+=1;
-
-            }
-        if(HP <1 && localStorage.getItem("continuing") === false){
-            gameOver = true;
-            }
+      if(phase && minions.length<1 && !prepPhase){
+        console.log(minions.length)
+        prepPhase = true;
+        this.updateGameState(HP,gold);
+        if (minionsInterval<50){
+          minionsInterval-=5;
         }
-
-
+        round+=1;
+      }
+      if(HP <1 && localStorage.getItem("continuing") === false){
+        gameOver = true;
+        }
+    }
 
     function handleProjectiles() {
       for (let i = 0; i < projectiles.length; i++) {
@@ -1146,14 +1134,12 @@ class Game extends React.Component {
     }
 
     // actual sequence
-
     createGrid();
     createPath();
     createShop();
     animate();
 
     // Helper functions
-
     function collision(first, second) {
       if (
         !(
