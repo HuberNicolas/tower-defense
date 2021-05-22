@@ -1,15 +1,14 @@
 // General imports
-import React  from "react";
+import React from "react";
 import { api, handleError } from "../../helpers/api";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
 
-
-import { Button } from '../../views/design/Button';
-import { Button2 } from '../../views/design/Button2';
+import { Button } from "../../views/design/Button";
+import { Button2 } from "../../views/design/Button2";
 
 class Game extends React.Component {
   constructor() {
@@ -32,15 +31,16 @@ class Game extends React.Component {
       const requestBody = JSON.stringify({
         playable: "FireTower1",
         coordinates: coordinates,
-        
-    });
-      const response = await api.post("games/towers/"+localStorage.getItem("token"), requestBody);
-      this.setState({gold:response.data.gold});
-      console.log("before set state "+this.state.canBuy);
-      this.setState({canBuy:true});
-      console.log("after set state "+this.state.canBuy);
+      });
+      const response = await api.post(
+        "games/towers/" + localStorage.getItem("token"),
+        requestBody
+      );
+      this.setState({ gold: response.data.gold });
+      console.log("before set state " + this.state.canBuy);
+      this.setState({ canBuy: true });
+      console.log("after set state " + this.state.canBuy);
       console.log(localStorage.getItem("board"));
-    
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -57,7 +57,7 @@ class Game extends React.Component {
           duration: 4000,
         },
       });
-      this.setState({canBuy:false})
+      this.setState({ canBuy: false });
     }
   }
 
@@ -66,13 +66,14 @@ class Game extends React.Component {
     try {
       const requestBody = JSON.stringify({
         coordinates: coordinates,
-        
-    });
+      });
       console.log("before sell");
-      const response = await api.delete("games/towers/"+localStorage.getItem("token"), requestBody);
-      this.setState({gold:response.data.gold});
+      const response = await api.delete(
+        "games/towers/" + localStorage.getItem("token"),
+        requestBody
+      );
+      this.setState({ gold: response.data.gold });
       console.log(localStorage.getItem("board"));
-    
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -89,108 +90,105 @@ class Game extends React.Component {
           duration: 4000,
         },
       });
-      this.setState({canBuy:false})
+      this.setState({ canBuy: false });
     }
   }
 
-
-
   // minion reaches the end
   async hit(dmg) {
-      let newHealth = localStorage.getItem("health") - dmg;
-      localStorage.setItem("health", newHealth);
-      this.handleInputChange("health", newHealth);
+    let newHealth = localStorage.getItem("health") - dmg;
+    localStorage.setItem("health", newHealth);
+    this.handleInputChange("health", newHealth);
+  }
+
+  async ImReady() {
+    try {
+      const response = await api.get(
+        `/games/battles/${localStorage.getItem("token")}`
+      );
+      localStorage.setItem(
+        "wave",
+        JSON.stringify(response.data.player1Minions)
+      );
+    } catch (error) {
+      store.addNotification({
+        title: "Error",
+        width: 300,
+        height: 100,
+        message: `Something went wrong while getting minions: \n${handleError(
+          error
+        )}`,
+        type: "warning", // 'default', 'success', 'info', 'warning'
+        container: "top-left", // where to position the notifications
+        animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+        dismiss: {
+          duration: 4000,
+        },
+      });
     }
+  }
 
-  async ImReady(){
-
-        try {
-            const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
-            localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
-
-          }
-        catch (error) {
-          store.addNotification({
-            title: "Error",
-            width: 300,
-            height: 100,
-            message: `Something went wrong while getting minions: \n${handleError(
-              error
-            )}`,
-            type: "warning", // 'default', 'success', 'info', 'warning'
-            container: "top-left", // where to position the notifications
-            animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
-            animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
-            dismiss: {
-              duration: 4000,
-            },
-          });
-        }
-
+  async rageQuit() {
+    try {
+      const response = await api.delete(
+        `/games/${localStorage.getItem("token")}`
+      );
+      this.props.history.push("/main");
+    } catch (error) {
+      store.addNotification({
+        title: "Error",
+        width: 300,
+        height: 100,
+        message: `Something went wrong while getting minions: \n${handleError(
+          error
+        )}`,
+        type: "warning", // 'default', 'success', 'info', 'warning'
+        container: "top-left", // where to position the notifications
+        animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+        dismiss: {
+          duration: 4000,
+        },
+      });
     }
+  }
 
-    async rageQuit(){
-
-            try {
-                const response = await api.delete(`/games/${localStorage.getItem("token")}`);
-                this.props.history.push("/main")
-              }
-            catch (error) {
-              store.addNotification({
-                title: "Error",
-                width: 300,
-                height: 100,
-                message: `Something went wrong while getting minions: \n${handleError(
-                  error
-                )}`,
-                type: "warning", // 'default', 'success', 'info', 'warning'
-                container: "top-left", // where to position the notifications
-                animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
-                animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
-                dismiss: {
-                  duration: 4000,
-                },
-              });
-            }
-          }
-
-      async updateGameState(gold, health){
-
-              try {
-                    const requestBody = JSON.stringify({
-                      gold: gold,
-                      health: health,
-                    });
-                    const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
-                    localStorage.setItem("continuing",response.data.continuing)
-                    }
-              catch (error) {
-                store.addNotification({
-                  title: "Error",
-                  width: 300,
-                  height: 100,
-                  message: `Something went wrong while updating round: \n${handleError(
-                    error
-                  )}`,
-                  type: "warning", // 'default', 'success', 'info', 'warning'
-                  container: "top-left", // where to position the notifications
-                  animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
-                  animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
-                  dismiss: {
-                    duration: 4000,
-                  },
-                });
-              }
-            }
+  async updateGameState(gold, health) {
+    try {
+      const requestBody = JSON.stringify({
+        gold: gold,
+        health: health,
+      });
+      const response = await api.patch(
+        `/games/${localStorage.getItem("token")}`,
+        requestBody
+      );
+      localStorage.setItem("continuing", response.data.continuing);
+    } catch (error) {
+      store.addNotification({
+        title: "Error",
+        width: 300,
+        height: 100,
+        message: `Something went wrong while updating round: \n${handleError(
+          error
+        )}`,
+        type: "warning", // 'default', 'success', 'info', 'warning'
+        container: "top-left", // where to position the notifications
+        animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+        dismiss: {
+          duration: 4000,
+        },
+      });
+    }
+  }
 
   async handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
     this.setState({ [key]: value });
   }
-
-  
-
 
   canvasRef = React.createRef();
   componentDidMount() {
@@ -200,7 +198,7 @@ class Game extends React.Component {
       width: 0.1,
       height: 0.1,
     };
-    
+
     // canvas initialisation
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -211,7 +209,7 @@ class Game extends React.Component {
     const tileGap = 3;
     const BOARD_WIDTH = 960; // 15 * 64
     const BOARD_HEIGHT = 640; // 10 * 64
-    const SHOP_WIDTH = 2*tileGap + 400;
+    const SHOP_WIDTH = 2 * tileGap + 400;
     const STATUS_BAR_HEIGHT = 2 * tileSize;
     const STATUS_BAR_WIDTH = BOARD_WIDTH + SHOP_WIDTH;
     let minionsInterval = 90; // spawn interval
@@ -230,129 +228,143 @@ class Game extends React.Component {
     let spawned = false;
 
     var minionsToSpawn = [];
-    var wave = []
+    var wave = [];
     let phase = false;
 
-
-    
     var towerImages = [];
 
     const t1l1 = new Image();
-    t1l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+    t1l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png";
     towerImages.push(t1l1);
     const t1l2 = new Image();
-    t1l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
+    t1l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png";
     towerImages.push(t1l2);
     const t1l3 = new Image();
-    t1l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"
+    t1l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png";
     towerImages.push(t1l3);
 
     const t2l1 = new Image();
-    t2l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
+    t2l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png";
     towerImages.push(t2l1);
     const t2l2 = new Image();
-    t2l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"
+    t2l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png";
     towerImages.push(t1l2);
     const t2l3 = new Image();
-    t2l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
+    t2l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png";
     towerImages.push(t2l3);
 
     const t3l1 = new Image();
-    t3l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"
+    t3l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png";
     towerImages.push(t3l1);
     const t3l2 = new Image();
-    t3l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"
+    t3l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png";
     towerImages.push(t3l2);
     const t3l3 = new Image();
-    t3l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"
+    t3l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png";
     towerImages.push(t3l3);
 
     const t4l1 = new Image();
-    t4l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png"
+    t4l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png";
     towerImages.push(t4l1);
     const t4l2 = new Image();
-    t4l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png"
+    t4l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png";
     towerImages.push(t4l2);
     const t4l3 = new Image();
-    t4l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png"
+    t4l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png";
     towerImages.push(t4l3);
 
     const t5l1 = new Image();
-    t5l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png"
+    t5l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png";
     towerImages.push(t5l1);
     const t5l2 = new Image();
-    t5l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png"
+    t5l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png";
     towerImages.push(t5l2);
     const t5l3 = new Image();
-    t5l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png"
+    t5l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png";
     towerImages.push(t5l3);
-
 
     var minionImages = [];
     const m1 = new Image();
-    m1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png"
+    m1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png";
     minionImages.push(m1);
     const m2 = new Image();
-    m2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"
+    m2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png";
     minionImages.push(m2);
     const m3 = new Image();
-    m3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png"
+    m3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png";
     minionImages.push(m3);
-
 
     // status bar
     let score = 0;
-    let HP = localStorage.getItem("health")
+    let HP = localStorage.getItem("health");
     let gold = localStorage.getItem("gold");
     let gameOver = false;
     let prepPhase = true;
-    
-    var towerSelector = "";
+
+    var towerSelector = 1;
     var TOWERS = {
       TIER1: {
         id: 1,
         towerColor: "lightgreen",
-        projectileColor: "black",
+        projectileColor: "#00FF00",
         damage: 10,
         speed: 2,
         towerCost: 100,
-        towerImage: towerImages[2]
+        towerImage: towerImages[0],
       },
       TIER2: {
         id: 2,
-        towerColor: "yellow",
-        projectileColor: "black",
+        towerColor: "lightblue",
+        projectileColor: "#099FFF",
         damage: 15,
         speed: 3,
         towerCost: 200,
-        towerImage: towerImages[5]
+        towerImage: towerImages[6],
       },
       TIER3: {
         id: 3,
-        towerColor: "lightblue",
-        projectileColor: "orange",
+        towerColor: "yellow",
+        projectileColor: "#FF3300",
         damage: 20,
         speed: 0.5,
         towerCost: 400,
-        towerImage: towerImages[8]
+        towerImage: towerImages[3],
       },
       TIER4: {
         id: 4,
-        towerColor: "teal",
-        projectileColor: "blue",
+        towerColor: "midnightblue",
+        projectileColor: "#6E0DD0",
         damage: 10,
         speed: 4,
         towerCost: 600,
-        towerImage: towerImages[11]
+        towerImage: towerImages[9],
       },
       TIER5: {
         id: 5,
         towerColor: "indigo",
-        projectileColor: "green",
+        projectileColor: "#FF5F1F",
         damage: 10,
         speed: 6,
         towerCost: 1000,
-        towerImage: towerImages[14]
+        towerImage: towerImages[12],
       },
     };
 
@@ -365,7 +377,7 @@ class Game extends React.Component {
         minionSpeed: 4,
         minionHealth: 100,
         minionCost: 100,
-        minionImage: minionImages[0]
+        minionImage: minionImages[0],
       },
       RUNNER: {
         id: 2,
@@ -375,7 +387,7 @@ class Game extends React.Component {
         minionSpeed: 5,
         minionHealth: 75,
         minionCost: 125,
-        minionImage: minionImages[1]
+        minionImage: minionImages[1],
       },
       BOSS: {
         id: "GoblinOverlord",
@@ -385,7 +397,7 @@ class Game extends React.Component {
         minionSpeed: 3,
         minionHealth: 500,
         minionCost: 1000,
-        minionImage: minionImages[2]
+        minionImage: minionImages[2],
       },
     };
 
@@ -399,11 +411,11 @@ class Game extends React.Component {
 
     var sellSelector = 1;
 
-   // game board
-   const statusBar = {
-    width: STATUS_BAR_WIDTH,
-    height: STATUS_BAR_HEIGHT,
-  };
+    // game board
+    const statusBar = {
+      width: STATUS_BAR_WIDTH,
+      height: STATUS_BAR_HEIGHT,
+    };
 
     // EventListeners
     // fixed bug when resizing
@@ -423,7 +435,6 @@ class Game extends React.Component {
       mouse.y = undefined;
     });
 
-
     canvas.addEventListener("click", () => {
       // get mouse position
       const gridPositionX = mouse.x - (mouse.x % tileSize) + tileGap;
@@ -432,8 +443,9 @@ class Game extends React.Component {
       // clicked on statusbar: do nothing
       if (gridPositionY < STATUS_BAR_HEIGHT) return;
       console.log("clicked");
-      var coordArray = getCoordiantes(gridPositionX,gridPositionY);
-      console.log(coordArray)
+      console.log(mouse.x + " " + mouse.y)
+      var coordArray = getCoordiantes(gridPositionX, gridPositionY);
+      console.log(coordArray);
 
       // clicked on change directory: change directory
       if (
@@ -473,51 +485,50 @@ class Game extends React.Component {
         //console.log("current state:  "+ prepPhase)
         //console.log("arraylength"+ minions.length)
 
-        wave = JSON.parse(localStorage.getItem("wave"))
+        wave = JSON.parse(localStorage.getItem("wave"));
 
-        for(let i=0; i< wave.length; i++){
-        //console.log(minionsToSpawn[i])
-                switch (wave[i]){
-                    case "Goblin":
-                        //console.log("me goblin")
-                        minionsToSpawn.push(
-                        new Minion(
-                        MINIONS.CRAWLER.minionColor,
-                        MINIONS.CRAWLER.minionSize,
-                        MINIONS.CRAWLER.minionHealth,
-                        MINIONS.CRAWLER.minionSpeed,
-                        MINIONS.CRAWLER.minionDamage,
-                        MINIONS.CRAWLER.minionImage)
-                        );
-                        break;
+        for (let i = 0; i < wave.length; i++) {
+          //console.log(minionsToSpawn[i])
+          switch (wave[i]) {
+            case "Goblin":
+              //console.log("me goblin")
+              minionsToSpawn.push(
+                new Minion(
+                  MINIONS.CRAWLER.minionColor,
+                  MINIONS.CRAWLER.minionSize,
+                  MINIONS.CRAWLER.minionHealth,
+                  MINIONS.CRAWLER.minionSpeed,
+                  MINIONS.CRAWLER.minionDamage,
+                  MINIONS.CRAWLER.minionImage
+                )
+              );
+              break;
 
-                    case "GoblinOverlord":
-                        minionsToSpawn.push(
-                        new Minion(
-                        MINIONS.BOSS.minionColor,
-                        MINIONS.BOSS.minionSize,
-                        MINIONS.BOSS.minionHealth,
-                        MINIONS.BOSS.minionSpeed,
-                        MINIONS.BOSS.minionDamage,
-                        MINIONS.BOSS.minionImage)
-                        );
-                        break;
-                    }
-
-            
-          
+            case "GoblinOverlord":
+              minionsToSpawn.push(
+                new Minion(
+                  MINIONS.BOSS.minionColor,
+                  MINIONS.BOSS.minionSize,
+                  MINIONS.BOSS.minionHealth,
+                  MINIONS.BOSS.minionSpeed,
+                  MINIONS.BOSS.minionDamage,
+                  MINIONS.BOSS.minionImage
+                )
+              );
+              break;
           }
-        localStorage.setItem("wave", [])
+        }
+        localStorage.setItem("wave", []);
         prepPhase = false;
         return;
       }
 
       // clicked on different towers: set current tower
       if (
-        1000 <= gridPositionX &&
-        gridPositionX < 1064 &&
-        128 <= gridPositionY &&
-        gridPositionY < 192
+        16*tileSize <= mouse.x &&
+        mouse.x < 17*tileSize &&
+        2.5*tileSize <= mouse.y &&
+        mouse.y < 3.5*tileSize
       ) {
         towerSelector = 1;
         sellSelector = 0;
@@ -526,10 +537,10 @@ class Game extends React.Component {
       }
 
       if (
-        1000 <= gridPositionX &&
-        gridPositionX < 1064 &&
-        256 <= gridPositionY &&
-        gridPositionY < 320
+        16*tileSize <= mouse.x &&
+        mouse.x < 17*tileSize &&
+        4.5*tileSize <= mouse.y &&
+        mouse.y < 5.5*tileSize
       ) {
         towerSelector = 2;
         sellSelector = 0;
@@ -538,10 +549,10 @@ class Game extends React.Component {
       }
 
       if (
-        1000 <= gridPositionX &&
-        gridPositionX < 1064 &&
-        384 <= gridPositionY &&
-        gridPositionY < 448
+        16*tileSize <= mouse.x &&
+        mouse.x < 17*tileSize &&
+        6.5*tileSize <= mouse.y &&
+        mouse.y < 7.5*tileSize
       ) {
         towerSelector = 3;
         sellSelector = 0;
@@ -549,10 +560,10 @@ class Game extends React.Component {
         return;
       }
       if (
-        1000 <= gridPositionX &&
-        gridPositionX < 1064 &&
-        512 <= gridPositionY &&
-        gridPositionY < 576
+        16*tileSize <= mouse.x &&
+        mouse.x < 17*tileSize &&
+        8.5*tileSize <= mouse.y &&
+        mouse.y < 9.5*tileSize
       ) {
         towerSelector = 4;
         sellSelector = 0;
@@ -560,10 +571,10 @@ class Game extends React.Component {
         return;
       }
       if (
-        1000 <= gridPositionX &&
-        gridPositionX < 1064 &&
-        640 <= gridPositionY &&
-        gridPositionY < 704
+        16*tileSize <= mouse.x &&
+        mouse.x < 17*tileSize &&
+        10.5*tileSize <= mouse.y &&
+        mouse.y < 11.5*tileSize
       ) {
         towerSelector = 5;
         sellSelector = 0;
@@ -573,7 +584,7 @@ class Game extends React.Component {
 
       // clicked outside of gameBoard
       if (
-        gridPositionY > BOARD_HEIGHT + 2*tileSize ||
+        gridPositionY > BOARD_HEIGHT + 2 * tileSize ||
         gridPositionX > BOARD_WIDTH
       )
         return;
@@ -595,7 +606,7 @@ class Game extends React.Component {
           if (!sellSelector) {
             return;
           } else {
-            //this.sell(coordArray);
+            this.sell(coordArray);
             //sellSelector = 0; // BUG!!!! DO NOT USE HERE
             gold += towers[i].towerCost / 2;
             towers.splice(i, 1); // remove
@@ -624,10 +635,10 @@ class Game extends React.Component {
             towerCost = TOWERS.TIER5.towerCost;
             break;
         }
-       
+
         this.buy(coordArray);
-        console.log("after this.buy "+this.state.canBuy)
-        if (this.state.canBuy){
+        console.log("after this.buy " + this.state.canBuy);
+        if (this.state.canBuy) {
           // to to Check selected tower variable
           //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
           switch (towerSelector) {
@@ -708,9 +719,9 @@ class Game extends React.Component {
               break;
           }
           //console.log("-towercost..");
-        
+
           gold = this.state.gold;
-          console.log(this.state.gold)
+          console.log(this.state.gold);
         }
       }
     });
@@ -729,30 +740,30 @@ class Game extends React.Component {
 
         if (collision(this, mouse)) {
           // highlights current tile
-          ctx.strokeStyle = "black";
+          ctx.strokeStyle = " ";
           ctx.strokeRect(this.x, this.y, this.width, this.height);
 
           // writes coordinates of tile (upper left corner)
-          ctx.fillStyle = "blue";
+          /*
+          ctx.fillStyle = "white";
           ctx.font = "10px Arial";
           ctx.fillText("y:" + this.y + " x:" + this.x, this.x + 5, this.y + 25);
+          */
         }
+
+        ctx.strokeStyle = "dodgerblue";
+        ctx.rect(this.x, this.y, this.width, this.height);
       }
     }
 
     function createGrid() {
       // fills gameGrid array with tile objects
-      for (let y = 2*tileSize; y < canvas.height - tileSize; y += tileSize) {
+      for (let y = 2 * tileSize; y < canvas.height - tileSize; y += tileSize) {
         for (let x = 0; x < canvas.width - SHOP_WIDTH; x += tileSize) {
           gameGrid.push(new Tile(x, y));
         }
       }
     }
-
-    const path1 = new Image();
-    path1.src = "https://mdn.mozillademos.org/files/5397/rhino.jpg"
-
-    
 
     class Path {
       constructor(x, y) {
@@ -766,12 +777,16 @@ class Game extends React.Component {
         // todo: style path
 
         // highlights current tile
-        ctx.drawImage(path1, this.x, this.y, this.width, this.height);
 
-        // writes coordinates of tile (upper left corner)
+        ctx.fillStyle = "silver";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        // writes coordinates of tile (upper left corner) DEBUGGING
+        /*
         ctx.fillStyle = "blue";
         ctx.font = "10px Arial";
         ctx.fillText("y:" + this.y + " x:" + this.x, this.x + 5, this.y + 25);
+        */
       }
     }
 
@@ -849,8 +864,6 @@ class Game extends React.Component {
         this.towerCost = towerCost;
         this.direction = direction;
         this.towerImage = towerImage;
-        
-        
       }
 
       draw() {
@@ -951,7 +964,7 @@ class Game extends React.Component {
         ctx.arc(
           this.x + this.minionSize / 2,
           this.y + this.minionSize / 2,
-          4*this.minionSize,
+          4 * this.minionSize,
           0,
           Math.PI * 2,
           true
@@ -960,7 +973,13 @@ class Game extends React.Component {
         //ctx.fill();
         ctx.clip();
 
-        ctx.drawImage(this.minionImage, this.x, this.y, 2*this.minionSize, 2*this.minionSize);
+        ctx.drawImage(
+          this.minionImage,
+          this.x,
+          this.y,
+          2 * this.minionSize,
+          2 * this.minionSize
+        );
         //ctx.fillStyle = 'red';
         //ctx.fillRect(this.x, this.y, this.width, this.height);
         ctx.fillStyle = "black";
@@ -1014,9 +1033,13 @@ class Game extends React.Component {
       ctx.fillText("Gold: " + gold, 20, 55);
       ctx.fillText("Score: " + score, 220, 55);
       ctx.fillText("HP: " + HP, 420, 55);
-      ctx.fillText("Current weather: "+ weather,20,100)
-      ctx.fillText("Current phase:  "+ (prepPhase? "Preparation": "Battle"), 420,100)
-      ctx.fillText("Current round:  "+round,620,55)
+      ctx.fillText("Current weather: " + weather, 20, 100);
+      ctx.fillText(
+        "Current phase:  " + (prepPhase ? "Preparation" : "Battle"),
+        420,
+        100
+      );
+      ctx.fillText("Current round:  " + round, 620, 55);
       if (sellSelector) {
         // highlight
         ctx.beginPath();
@@ -1046,8 +1069,6 @@ class Game extends React.Component {
         ctx.fillText("Score: " + score, 200, 550);
       }
     }
-    
-
 
     function handleGameGrid() {
       for (let i = 0; i < gameGrid.length; i++) {
@@ -1068,12 +1089,11 @@ class Game extends React.Component {
       }
     }
 
-    var handleMinions =() => {
-    const toBeDeleted = []
+    var handleMinions = () => {
+      const toBeDeleted = [];
       for (let i = 0; i < minions.length; i++) {
         minions[i].update();
         minions[i].draw();
-
 
         if (minions[i].health <= 0) {
           let reward = minions[i].maxHealth / 10;
@@ -1082,41 +1102,38 @@ class Game extends React.Component {
           // remove last minion
           toBeDeleted.push(i); // remove
           //i--; // adjust loop index
-        }
-        else if (minions[i].y > 704 && minions[i].y < 708.4) {
+        } else if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
           this.hit(minions[i].minionDamage);
           toBeDeleted.push(i); //remove
         }
       }
-      for(let i = toBeDeleted.length-1; i>=0; i--){
-        console.log("deleted")
-        minions.splice(toBeDeleted[i],1);
-        console.log(minions.length)
+      for (let i = toBeDeleted.length - 1; i >= 0; i--) {
+        console.log("deleted");
+        minions.splice(toBeDeleted[i], 1);
+        console.log(minions.length);
       }
 
       // minion spawner
-      if (frame % minionsInterval === 0 && minionsToSpawn.length>0) {
-          minions.push(
-          minionsToSpawn.pop()
-          );
+      if (frame % minionsInterval === 0 && minionsToSpawn.length > 0) {
+        minions.push(minionsToSpawn.pop());
       }
-    }
+    };
 
-    var handleGame =() => {
-      if(phase && minions.length<1 && !prepPhase){
-        console.log(minions.length)
+    var handleGame = () => {
+      if (phase && minions.length < 1 && !prepPhase) {
+        console.log(minions.length);
         prepPhase = true;
-        this.updateGameState(HP,gold);
-        if (minionsInterval<50){
-          minionsInterval-=5;
+        this.updateGameState(HP, gold);
+        if (minionsInterval < 50) {
+          minionsInterval -= 5;
         }
-        round+=1;
+        round += 1;
       }
-      if(HP <1 && localStorage.getItem("continuing") === false){
+      if (HP < 1 && localStorage.getItem("continuing") === false) {
         gameOver = true;
-        }
-    }
+      }
+    };
 
     function handleProjectiles() {
       for (let i = 0; i < projectiles.length; i++) {
@@ -1145,13 +1162,47 @@ class Game extends React.Component {
 
     function handleShop() {
       // separate shop from gamebaord
-      ctx.fillStyle = "black";
+
+      // vertical
       ctx.beginPath();
+      ctx.strokeStyle = "green";
       ctx.lineWidth = 5;
-      ctx.moveTo(BOARD_WIDTH + 2 * tileGap, tileSize * 2);
-      ctx.lineTo(BOARD_WIDTH + 2 * tileGap, tileSize * 12);
+      ctx.moveTo(BOARD_WIDTH + tileGap, tileSize * 2);
+      ctx.lineTo(BOARD_WIDTH + tileGap, tileSize * 12);
       ctx.stroke();
       ctx.lineWidth = 1;
+
+      // vertical
+      ctx.beginPath();
+      ctx.strokeStyle = "green";
+      ctx.lineWidth = 5;
+      ctx.moveTo(BOARD_WIDTH +  3 * tileSize, tileSize * 2);
+      ctx.lineTo(BOARD_WIDTH +  3 * tileSize, tileSize * 12);
+      ctx.stroke();
+      ctx.lineWidth = 1;
+
+      // horicontal
+      ctx.beginPath();
+      ctx.lineWidth = 5;
+      ctx.moveTo(0, tileSize * 2 - tileGap);
+      ctx.lineTo(STATUS_BAR_WIDTH, tileSize * 2 - tileGap);
+      ctx.stroke();
+      ctx.lineWidth = 1;
+
+      // horicontal
+      ctx.beginPath();
+      ctx.lineWidth = 5;
+      ctx.moveTo(tileSize * 18, tileSize * 7);
+      ctx.lineTo(STATUS_BAR_WIDTH, tileSize * 7);
+      ctx.stroke();
+      ctx.lineWidth = 1;
+
+      ctx.fillStyle = "green";
+      ctx.font = "20px Orbitron";
+      ctx.fillText("Info:", tileSize * 18.5, tileSize * 7.5);
+      ctx.fillText("Cost: " + towerList[towerSelector].towerCost, tileSize * 18.5, tileSize * 8);
+      ctx.fillText("Damage: " + towerList[towerSelector].damage, tileSize * 18.5, tileSize * 8.5);
+
 
       // draw towers
       for (let i = 0; i < towerList.length; i++) {
@@ -1161,21 +1212,21 @@ class Game extends React.Component {
       ctx.beginPath();
       ctx.rect(19 * tileSize, 2 * tileSize, 64, 64);
       ctx.font = "30px Arial";
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "green";
       ctx.fillText("-->", 19 * tileSize + 10, 2 * tileSize + 38);
       ctx.stroke();
 
       ctx.beginPath();
       ctx.rect(19 * tileSize, 4 * tileSize, 64, 64);
       ctx.font = "20px Arial";
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "green";
       ctx.fillText("SELL", 19 * tileSize + 10, 4 * tileSize + 38);
       ctx.stroke();
 
       ctx.beginPath();
       ctx.rect(19 * tileSize, 6 * tileSize, 64, 64);
       ctx.font = "20px Arial";
-      ctx.fillStyle = "black";
+      ctx.fillStyle = "green  ";
       ctx.fillText("Ready", 19 * tileSize + 10, 6 * tileSize + 38);
       ctx.stroke();
     }
@@ -1188,7 +1239,7 @@ class Game extends React.Component {
       towerList.push(
         new Tower(
           16 * tileSize,
-          2 * tileSize,
+          2.5 * tileSize,
           TOWERS.TIER1.towerColor,
           TOWERS.TIER1.projectileColor,
           TOWERS.TIER1.damage,
@@ -1201,7 +1252,7 @@ class Game extends React.Component {
       towerList.push(
         new Tower(
           16 * tileSize,
-          4 * tileSize,
+          4.5 * tileSize,
           TOWERS.TIER2.towerColor,
           TOWERS.TIER2.projectileColor,
           TOWERS.TIER2.damage,
@@ -1214,7 +1265,7 @@ class Game extends React.Component {
       towerList.push(
         new Tower(
           16 * tileSize,
-          6 * tileSize,
+          6.5 * tileSize,
           TOWERS.TIER3.towerColor,
           TOWERS.TIER3.projectileColor,
           TOWERS.TIER3.damage,
@@ -1227,7 +1278,7 @@ class Game extends React.Component {
       towerList.push(
         new Tower(
           16 * tileSize,
-          8 * tileSize,
+          8.5 * tileSize,
           TOWERS.TIER4.towerColor,
           TOWERS.TIER4.projectileColor,
           TOWERS.TIER4.damage,
@@ -1240,7 +1291,7 @@ class Game extends React.Component {
       towerList.push(
         new Tower(
           16 * tileSize,
-          10 * tileSize,
+          10.5 * tileSize,
           TOWERS.TIER5.towerColor,
           TOWERS.TIER5.projectileColor,
           TOWERS.TIER5.damage,
@@ -1265,8 +1316,8 @@ class Game extends React.Component {
         requestAnimationFrame(animate);
       }
 
-      handleGameGrid();
       handlePath();
+      handleGameGrid();
       handleTowers();
       handleProjectiles();
       handleMinions();
@@ -1296,46 +1347,63 @@ class Game extends React.Component {
     }
 
     function getCoordiantes(gridPositionX, gridPositionY) {
-      let x = (gridPositionX-tileGap)/tileSize;
-      let y = ((gridPositionY-tileGap-2*tileSize)/tileSize);
+      let x = (gridPositionX - tileGap) / tileSize;
+      let y = (gridPositionY - tileGap - 2 * tileSize) / tileSize;
       console.log("X: " + x + " Y: " + y);
-      const coordArrayforClient = [x,y];
-      const coordArrayforServer = [y,x];
+      const coordArrayforClient = [x, y];
+      const coordArrayforServer = [y, x];
       return coordArrayforServer;
     }
-
-
-
-
   }
 
   render() {
     return (
       <div>
-        <link rel="preconnect" href="https://fonts.gstatic.com"/>
-        <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap" rel="stylesheet"/>
-        
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
+          rel="stylesheet"
+        />
+
         <canvas
           ref={this.canvasRef}
           width={this.state.canvasWidth}
           height={this.state.canvasHeight}
           id={"gameboard"}
-          styles={"z-index:1"}
+          //styles={"z-index:1"}
+          style={{ backgroundColor: "black", zIndex: 1 }}
         />
-        <Button2
-        onClick={() => {
-            this.rageQuit();
-        }}
-        top={"640px"}
-        left={"1280px"}
-        >
-        leave
-        </Button2>
-        <Button2 onClick={() => {
-            alert("changed dir")
-        }}
-        top={"576px"}
-        left={"1280px"}>  /|\ </Button2>     
+
+        <div>
+          <Button2
+            onClick={() => {
+              this.rageQuit();
+            }}
+            top={"0px"}
+            left={"1300px"}
+          >
+            Leave Game
+          </Button2>
+          <Button2
+            onClick={() => {
+              console.log("clicked")
+            }}
+            top={"170px"}
+            left={"1100px"}
+          >
+            ROTATE TOWER
+          </Button2>
+          
+          <Button2
+            onClick={() => {
+              console.log("clicked")
+            }}
+            top={"320px"}
+            left={"1000px"}
+          >
+            SELL
+          </Button2>
+        </div>
       </div>
     );
   }

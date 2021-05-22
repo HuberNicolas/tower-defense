@@ -5,7 +5,7 @@ export const Button2 = styled.button`
     transform: translateY(-2px);
   }
   font-family: 'Press Start 2P';
-  position: absolute;
+  position: relative;
   top: ${props => props.top};
   left: ${props => props.left};
   z-index: 2;
