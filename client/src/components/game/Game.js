@@ -334,7 +334,7 @@ class Game extends React.Component {
     let gameOver = false;
     let prepPhase = true;
 
-    var towerSelector = 1;
+    var towerSelector = 0;
     var TOWERS = {
       TIER1: {
         id: 1,
@@ -1065,11 +1065,20 @@ class Game extends React.Component {
           2 * this.minionSize,
           2 * this.minionSize
         );
-        //ctx.fillStyle = 'red';
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        /* // old HP
         ctx.fillStyle = "black";
         ctx.font = "30px Arial";
         ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
+        */
+
+        ctx.beginPath();
+        ctx.fillStyle = "red";
+        ctx.fillRect(this.x, this.y, this.width*(this.health/this.maxHealth), this.height/4);
+        ctx.closePath();
+
+
+
         ctx.restore();
       }
     }
@@ -1342,11 +1351,25 @@ class Game extends React.Component {
       ctx.stroke();
       ctx.lineWidth = 1;
 
-      ctx.fillStyle = "green";
-      ctx.font = "20px Orbitron";
-      ctx.fillText("Info:", tileSize * 18.5, tileSize * 7.5);
-      ctx.fillText("Cost: " + towerList[towerSelector-1].towerCost, tileSize * 18.5, tileSize * 8);
-      ctx.fillText("Damage: " + towerList[towerSelector-1].damage, tileSize * 18.5, tileSize * 8.5);
+      
+
+      // tower info
+      if(towerSelector==0) {
+        ctx.fillStyle = "green";
+        ctx.font = "18px Orbitron";
+        ctx.fillText("Click on a tower", tileSize * 18.5, tileSize * 7.5);
+        ctx.fillText("to get information", tileSize * 18.5, tileSize * 8);
+      }
+      else {
+        ctx.fillStyle = "green";
+        ctx.font = "20px Orbitron";
+        ctx.fillText("Info:", tileSize * 18.5, tileSize * 7.5);
+        ctx.fillText("Cost: " + towerList[towerSelector-1].towerCost, tileSize * 18.5, tileSize * 8);
+        ctx.fillText("Damage: " + towerList[towerSelector-1].damage, tileSize * 18.5, tileSize * 8.5);
+      }
+
+
+
 
       // draw towers
       for (let i = 0; i < towerList.length; i++) {
@@ -1370,14 +1393,14 @@ class Game extends React.Component {
       ctx.beginPath();
       ctx.rect(19 * tileSize, 6 * tileSize, 64, 64);
       ctx.font = "20px Arial";
-      ctx.fillStyle = "green  ";
+      ctx.fillStyle = "green";
       ctx.fillText("Ready", 19 * tileSize + 10, 6 * tileSize + 38);
       ctx.stroke();
 
       ctx.beginPath();
       ctx.rect(19 * tileSize, 6 * tileSize, 64, 64);
       ctx.font = "20px Arial";
-      ctx.fillStyle = "green  ";
+      ctx.fillStyle = "green";
       ctx.fillText("Collect Interest", 18 * tileSize + 10, 10 * tileSize + 38);
       ctx.stroke();
     }
