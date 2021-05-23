@@ -101,13 +101,16 @@ class Game extends React.Component {
 
   async ImReady() {
     try {
-      const response = await api.get(
-        `/games/battles/${localStorage.getItem("token")}`
-      );
-      localStorage.setItem(
-        "wave",
-        JSON.stringify(response.data.player1Minions)
-      );
+      const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
+      localStorage.setItem("wave", JSON.stringify(response.data.player1Minions));
+
+      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
+      localStorage.setItem("gold", response2.data.player1.gold);
+      localStorage.setItem("health", response2.data.player1.health);
+      localStorage.setItem("board", response2.data.player1.board);
+
+      this.setState({gold: localStorage.getItem("gold")});
+
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -152,28 +155,6 @@ class Game extends React.Component {
     }
   }
 
-  async getGameState() {
-    try{
-      const response = await api.get('/games/'+localStorage.getItem("gameId"));
-      localStorage.setItem("gold", response.data.player1.gold);
-      localStorage.setItem("health", response.data.player1.health);
-      localStorage.setItem("board", response.data.player1.board);
-    } catch (error) {
-      store.addNotification({
-            title: 'Error',
-            width:300,
-            height:100,
-            message: `Something went wrong while starting the game: \n${handleError(error)}`,
-            type: 'warning',                        
-            container: 'top-left',                
-            animationIn: ["animated", "fadeIn"],     
-            animationOut: ["animated", "fadeOut"],   
-            dismiss: {
-              duration: 3000
-            }
-        })
-    }
-  }
 
   async updateGameState(gold, health) {
     try {
@@ -531,8 +512,7 @@ class Game extends React.Component {
         }
         localStorage.setItem("wave", []);
 
-        this.getGameState();
-        this.setState({gold: localStorage.getItem("gold")})
+        gold= parseInt(localStorage.getItem("gold"));
 
         prepPhase = false;
         phase = false;
