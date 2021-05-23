@@ -21,11 +21,11 @@ class Game extends React.Component {
     };
   }
 
-  async buy(coordinates) {
+  async buy(coordinates,towerType) {
     console.log(coordinates);
     try {
       const requestBody = JSON.stringify({
-        playable: "FireTower1",
+        playable: towerType,
         coordinates: coordinates,
       });
       const response = await api.post(
@@ -236,6 +236,7 @@ class Game extends React.Component {
     let collectPhase = false;
     let towerCost = 0;
     let buyCheck = false;
+    let towerType = null;
 
     var towerImages = [];
 
@@ -341,7 +342,7 @@ class Game extends React.Component {
         towerColor: "lightblue",
         projectileColor: "#099FFF",
         damage: 15,
-        speed: 3,
+        speed: 10,
         towerCost: 200,
         towerImage: towerImages[6]
       },
@@ -351,7 +352,7 @@ class Game extends React.Component {
         projectileColor: "#FF3300",
         damage: 20,
         speed: 0.5,
-        towerCost: 400,
+        towerCost: 300,
         towerImage: towerImages[3]
       },
       TIER4: {
@@ -360,7 +361,7 @@ class Game extends React.Component {
         projectileColor: "#6E0DD0",
         damage: 10,
         speed: 4,
-        towerCost: 600,
+        towerCost: 400,
         towerImage: towerImages[9]
       },
       TIER5: {
@@ -369,7 +370,7 @@ class Game extends React.Component {
         projectileColor: "#FF5F1F",
         damage: 10,
         speed: 6,
-        towerCost: 1000,
+        towerCost: 500,
         towerImage: towerImages[12]
       },
     };
@@ -379,7 +380,7 @@ class Game extends React.Component {
         id: "Goblin",
         minionColor: "red",
         minionSize: 32,
-        minionDamage: 50,
+        minionDamage: 1,
         minionSpeed: 4,
         minionHealth: 100,
         minionCost: 100,
@@ -590,6 +591,7 @@ class Game extends React.Component {
         sellSelector = 0;
         towerCost = TOWERS.TIER1.towerCost;
         buyCheck = true;
+        towerType = "PlantTower1"
         console.log("selected first tower");
         return;
       }
@@ -604,6 +606,7 @@ class Game extends React.Component {
         sellSelector = 0;
         towerCost = TOWERS.TIER2.towerCost;
         buyCheck = true;
+        towerType = "WaterTower1"
         console.log("selected second tower");
         return;
       }
@@ -618,6 +621,7 @@ class Game extends React.Component {
         sellSelector = 0;
         towerCost = TOWERS.TIER3.towerCost;
         buyCheck = true;
+        towerType = "FireTower1"
         console.log("selected third tower");
         return;
       }
@@ -631,6 +635,7 @@ class Game extends React.Component {
         sellSelector = 0;
         towerCost = TOWERS.TIER4.towerCost;
         buyCheck = true;
+        towerType = "PsychTower1"
         console.log("selected fourth tower");
         return;
       }
@@ -644,6 +649,7 @@ class Game extends React.Component {
         sellSelector = 0;
         towerCost = TOWERS.TIER5.towerCost;
         buyCheck = true;
+        towerType = "DragonTower1"
         console.log("selected fifth tower");
         return;
       }
@@ -689,7 +695,7 @@ class Game extends React.Component {
           switch (towerSelector) {
             case 1:
             buyCheck = false;
-            this.buy(coordArray)
+            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -707,7 +713,7 @@ class Game extends React.Component {
               break;
             case 2:
             buyCheck = false;
-            this.buy(coordArray)
+            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -725,7 +731,7 @@ class Game extends React.Component {
               break;
             case 3:
             buyCheck = false;
-            this.buy(coordArray)
+            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -743,7 +749,7 @@ class Game extends React.Component {
               break;
             case 4:
             buyCheck = false;
-            this.buy(coordArray)
+            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -761,7 +767,7 @@ class Game extends React.Component {
               break;
             case 5:
             buyCheck = false;
-            this.buy(coordArray)
+            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -782,7 +788,7 @@ class Game extends React.Component {
 
         }
         else{
-        this.buy(coordArray)
+        this.buy(coordArray,towerType)
         buyCheck = false}
       }
     });
@@ -1265,8 +1271,8 @@ class Game extends React.Component {
       ctx.fillStyle = "green";
       ctx.font = "20px Orbitron";
       ctx.fillText("Info:", tileSize * 18.5, tileSize * 7.5);
-      ctx.fillText("Cost: " + towerList[towerSelector].towerCost, tileSize * 18.5, tileSize * 8);
-      ctx.fillText("Damage: " + towerList[towerSelector].damage, tileSize * 18.5, tileSize * 8.5);
+      ctx.fillText("Cost: " + towerList[towerSelector-1].towerCost, tileSize * 18.5, tileSize * 8);
+      ctx.fillText("Damage: " + towerList[towerSelector-1].damage, tileSize * 18.5, tileSize * 8.5);
 
       // draw towers
       for (let i = 0; i < towerList.length; i++) {
