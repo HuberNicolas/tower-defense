@@ -482,16 +482,11 @@ class Game extends React.Component {
 
         this.ImReady();
 
-        //console.log("current state:  "+ prepPhase)
-        //console.log("arraylength"+ minions.length)
-
         wave = JSON.parse(localStorage.getItem("wave"));
 
         for (let i = 0; i < wave.length; i++) {
-          //console.log(minionsToSpawn[i])
           switch (wave[i]) {
             case "Goblin":
-              //console.log("me goblin")
               minionsToSpawn.push(
                 new Minion(
                   MINIONS.CRAWLER.minionColor,
@@ -612,7 +607,6 @@ class Game extends React.Component {
             gold += towers[i].towerCost / 2;
             towers.splice(i, 1); // remove
             i--; // adjust for loop index
-            console.log("sell");
           }
         }
       }
@@ -1110,12 +1104,10 @@ class Game extends React.Component {
         }
       }
       for (let i = toBeDeleted.length - 1; i >= 0; i--) {
-        console.log("deleted");
         minions.splice(toBeDeleted[i], 1);
         if(minions.length === 0){
-                phase = true;
-                console.log("empty");
-                }
+          phase = true;
+        }
       }
 
       // minion spawner
@@ -1126,10 +1118,9 @@ class Game extends React.Component {
 
     var handleGame = () => {
       if (phase && minions.length < 1 && !prepPhase) {
-        console.log(minions.length);
         prepPhase = true;
         this.updateGameState(HP, gold);
-        if (minionsInterval < 50) {
+        if (minionsInterval > 50) {
           minionsInterval -= 5;
         }
         round += 1;
@@ -1390,7 +1381,6 @@ class Game extends React.Component {
           </Button2>
           <Button2
             onClick={() => {
-              console.log("clicked")
             }}
             top={"170px"}
             left={"1100px"}
@@ -1400,7 +1390,6 @@ class Game extends React.Component {
           
           <Button2
             onClick={() => {
-              console.log("clicked")
             }}
             top={"320px"}
             left={"1000px"}
