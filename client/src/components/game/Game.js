@@ -35,10 +35,7 @@ class Game extends React.Component {
         requestBody
       );
       this.setState({ gold: response.data.gold });
-      console.log("before set state " + this.state.canBuy);
       this.setState({ canBuy: true });
-      console.log("after set state " + this.state.canBuy);
-      console.log(localStorage.getItem("board"));
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -108,7 +105,6 @@ class Game extends React.Component {
       localStorage.setItem("gold", response2.data.player1.gold);
       localStorage.setItem("health", response2.data.player1.health);
       localStorage.setItem("board", response2.data.player1.board);
-
       this.setState({gold: localStorage.getItem("gold")});
 
     } catch (error) {
@@ -135,6 +131,13 @@ class Game extends React.Component {
       await api.delete(
         `/games/${localStorage.getItem("token")}`
       );
+      localStorage.removeItem("gold")
+      localStorage.removeItem("gameId")
+      localStorage.removeItem("health")
+      localStorage.removeItem("board")
+      localStorage.removeItem("wave")
+      localStorage.removeItem("continuing")
+      localStorage.removeItem("weather")
       this.props.history.push("/main");
     } catch (error) {
       store.addNotification({
@@ -163,7 +166,13 @@ class Game extends React.Component {
         health: health,
       });
       const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
+
+      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
+      localStorage.setItem("gold", response2.data.player1.gold);
+      this.setState({gold: localStorage.getItem("gold")});
+
       localStorage.setItem("continuing", response.data.continuing);
+
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -227,6 +236,7 @@ class Game extends React.Component {
     var minionsToSpawn = [];
     var wave = [];
     let phase = false;
+    let collectPhase = false;
 
     var towerImages = [];
 
@@ -325,7 +335,7 @@ class Game extends React.Component {
         damage: 10,
         speed: 2,
         towerCost: 100,
-        towerImage: towerImages[0],
+        towerImage: towerImages[0]
       },
       TIER2: {
         id: 2,
@@ -334,7 +344,7 @@ class Game extends React.Component {
         damage: 15,
         speed: 3,
         towerCost: 200,
-        towerImage: towerImages[6],
+        towerImage: towerImages[6]
       },
       TIER3: {
         id: 3,
@@ -343,7 +353,7 @@ class Game extends React.Component {
         damage: 20,
         speed: 0.5,
         towerCost: 400,
-        towerImage: towerImages[3],
+        towerImage: towerImages[3]
       },
       TIER4: {
         id: 4,
@@ -352,7 +362,7 @@ class Game extends React.Component {
         damage: 10,
         speed: 4,
         towerCost: 600,
-        towerImage: towerImages[9],
+        towerImage: towerImages[9]
       },
       TIER5: {
         id: 5,
@@ -361,7 +371,7 @@ class Game extends React.Component {
         damage: 10,
         speed: 6,
         towerCost: 1000,
-        towerImage: towerImages[12],
+        towerImage: towerImages[12]
       },
     };
 
@@ -468,19 +478,70 @@ class Game extends React.Component {
         return;
       }
 
+      //if clicked on collect interest:
+      if (
+              18 * tileSize + 10 <= gridPositionX &&
+              gridPositionX < 19 * tileSize + 10 &&
+              10 * tileSize + 38 <= gridPositionY &&
+              gridPositionY < 11 * tileSize + 38 &&
+              prepPhase && collectPhase
+            )
+        {
+        for (let i = 0; i < wave.length; i++) {
+                  switch (wave[i]) {
+                    case "Goblin":
+                      minionsToSpawn.push(
+                        new Minion(
+                          MINIONS.CRAWLER.minionColor,
+                          MINIONS.CRAWLER.minionSize,
+                          MINIONS.CRAWLER.minionHealth,
+                          MINIONS.CRAWLER.minionSpeed,
+                          MINIONS.CRAWLER.minionDamage,
+                          MINIONS.CRAWLER.minionImage
+                        )
+                      );
+                      break;
+
+                    case "GoblinOverlord":
+                      minionsToSpawn.push(
+                        new Minion(
+                          MINIONS.BOSS.minionColor,
+                          MINIONS.BOSS.minionSize,
+                          MINIONS.BOSS.minionHealth,
+                          MINIONS.BOSS.minionSpeed,
+                          MINIONS.BOSS.minionDamage,
+                          MINIONS.BOSS.minionImage
+                        )
+                      );
+                      break;
+                  }
+                }
+
+                localStorage.setItem("wave", []);
+                gold = parseInt(localStorage.getItem("gold"));
+                prepPhase = false;
+                phase = false;
+                collectPhase = false;
+                return;
+        }
+
+
+
       // clicked on sell: change sellSelector
       if (
         1216 <= gridPositionX &&
         gridPositionX < 1280 &&
         384 <= gridPositionY &&
         gridPositionY < 448 &&
-        prepPhase
-      ) {
+        prepPhase && !collectPhase
+      )
+       {
 
-        this.ImReady();
+        this.ImReady()
+        .then(result => wave = JSON.parse(localStorage.getItem("wave")))
+        collectPhase = true;
 
-        wave = JSON.parse(localStorage.getItem("wave"));
-
+/*
         for (let i = 0; i < wave.length; i++) {
           switch (wave[i]) {
             case "Goblin":
@@ -510,13 +571,13 @@ class Game extends React.Component {
               break;
           }
         }
-        localStorage.setItem("wave", []);
 
-        gold= parseInt(localStorage.getItem("gold"));
+        localStorage.setItem("wave", []);
 
         prepPhase = false;
         phase = false;
         return;
+        */
       }
 
       // clicked on different towers: set current tower
@@ -631,8 +692,9 @@ class Game extends React.Component {
             break;
         }
 
-        this.buy(coordArray);
-        console.log("after this.buy " + this.state.canBuy);
+        this.buy(coordArray)
+
+
         if (this.state.canBuy) {
           // to to Check selected tower variable
           //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
@@ -648,7 +710,8 @@ class Game extends React.Component {
                   TOWERS.TIER1.speed,
                   TOWERS.TIER1.towerCost,
                   directionSelector,
-                  TOWERS.TIER1.towerImage
+                  TOWERS.TIER1.towerImage,
+
                 )
               );
               break;
@@ -663,7 +726,8 @@ class Game extends React.Component {
                   TOWERS.TIER2.speed,
                   TOWERS.TIER2.towerCost,
                   directionSelector,
-                  TOWERS.TIER2.towerImage
+                  TOWERS.TIER2.towerImage,
+
                 )
               );
               break;
@@ -679,6 +743,7 @@ class Game extends React.Component {
                   TOWERS.TIER3.towerCost,
                   directionSelector,
                   TOWERS.TIER3.towerImage
+
                 )
               );
               break;
@@ -693,7 +758,8 @@ class Game extends React.Component {
                   TOWERS.TIER4.speed,
                   TOWERS.TIER4.towerCost,
                   directionSelector,
-                  TOWERS.TIER4.towerImage
+                  TOWERS.TIER4.towerImage,
+
                 )
               );
               break;
@@ -708,15 +774,16 @@ class Game extends React.Component {
                   TOWERS.TIER5.speed,
                   TOWERS.TIER5.towerCost,
                   directionSelector,
-                  TOWERS.TIER5.towerImage
+                  TOWERS.TIER5.towerImage,
+
                 )
               );
               break;
           }
-          //console.log("-towercost..");
+
 
           gold = this.state.gold;
-          console.log(this.state.gold);
+
         }
       }
     });
@@ -842,7 +909,8 @@ class Game extends React.Component {
         speed,
         towerCost,
         direction,
-        towerImage
+        towerImage,
+
       ) {
         // 2dim. array attribute
         this.x = x;
@@ -853,6 +921,7 @@ class Game extends React.Component {
         this.projectiles = [];
         this.timer = 0;
         this.towerColor = towerColor;
+
         this.projectileColor = projectileColor;
         this.damage = damage;
         this.speed = speed;
@@ -1223,6 +1292,13 @@ class Game extends React.Component {
       ctx.fillStyle = "green  ";
       ctx.fillText("Ready", 19 * tileSize + 10, 6 * tileSize + 38);
       ctx.stroke();
+
+      ctx.beginPath();
+      ctx.rect(19 * tileSize, 6 * tileSize, 64, 64);
+      ctx.font = "20px Arial";
+      ctx.fillStyle = "green  ";
+      ctx.fillText("Collect Interest", 18 * tileSize + 10, 10 * tileSize + 38);
+      ctx.stroke();
     }
 
     function createShop() {
@@ -1235,6 +1311,7 @@ class Game extends React.Component {
           16 * tileSize,
           2.5 * tileSize,
           TOWERS.TIER1.towerColor,
+
           TOWERS.TIER1.projectileColor,
           TOWERS.TIER1.damage,
           TOWERS.TIER1.speed,
@@ -1316,8 +1393,8 @@ class Game extends React.Component {
       handleProjectiles();
       handleMinions();
       handleShop();
-      handleGameStatus();
       handleGame();
+      handleGameStatus();
     }
 
     // actual sequence

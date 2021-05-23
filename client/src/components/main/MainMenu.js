@@ -118,7 +118,7 @@ class Login extends React.Component {
      }
  //logout removes your token
      logout() {
-         localStorage.removeItem('token');
+         localStorage.clear();
          this.props.history.push('/login');
        }
 
