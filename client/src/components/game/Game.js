@@ -32,6 +32,10 @@ class Game extends React.Component {
         "games/towers/" + localStorage.getItem("token"),
         requestBody
       );
+
+      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
+      localStorage.setItem("board", response2.data.player1.board);
+
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -58,13 +62,17 @@ class Game extends React.Component {
       const requestBody = JSON.stringify({
         coordinates: coordinates,
       });
-      console.log("before sell");
-      const response = await api.delete(
-        "games/towers/" + localStorage.getItem("token"),
+
+      const response = await api.patch(
+        "games/towers/sales/" + localStorage.getItem("token"),
         requestBody
       );
       this.setState({ gold: response.data.gold });
-      console.log(localStorage.getItem("board"));
+
+      // update board
+      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
+      localStorage.setItem("board", response2.data.player1.board);
+
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -446,13 +454,19 @@ class Game extends React.Component {
       // get mouse position
       const gridPositionX = mouse.x - (mouse.x % tileSize) + tileGap;
       const gridPositionY = mouse.y - (mouse.y % tileSize) + tileGap;
-
+      
+      // get indices of coordinates [y, x] 
+      var coordArray = getCoordiantes(gridPositionX, gridPositionY);
+      
       // clicked on statusbar: do nothing
       if (gridPositionY < STATUS_BAR_HEIGHT) return;
-      console.log("clicked");
-      console.log(mouse.x + " " + mouse.y)
-      var coordArray = getCoordiantes(gridPositionX, gridPositionY);
+
+      /* // DEBUG
+      console.log("CLICK");
       console.log(coordArray);
+      console.log(mouse.x + " " + mouse.y);
+      */
+
 
       // clicked on change directory: change directory
       if (
@@ -536,6 +550,8 @@ class Game extends React.Component {
         prepPhase && !collectPhase
       )
        {
+        // empty projectiles
+        projectiles.splice(0,projectiles.length)
 
         this.ImReady()
         .then(result => wave = JSON.parse(localStorage.getItem("wave")))
@@ -707,7 +723,6 @@ class Game extends React.Component {
                   TOWERS.TIER1.towerCost,
                   directionSelector,
                   TOWERS.TIER1.towerImage,
-
                 )
               );
               break;
@@ -725,7 +740,6 @@ class Game extends React.Component {
                   TOWERS.TIER2.towerCost,
                   directionSelector,
                   TOWERS.TIER2.towerImage,
-
                 )
               );
               break;
@@ -787,11 +801,13 @@ class Game extends React.Component {
           gold -= towerCost;
 
         }
-        else{
-        this.buy(coordArray,towerType)
-        buyCheck = false}
+        else {
+          this.buy(coordArray,towerType)
+          buyCheck = false;
+        }
       }
-    });
+    }
+    );
 
     // ENTITIES
 
@@ -1109,16 +1125,70 @@ class Game extends React.Component {
         100
       );
       ctx.fillText("Current round:  " + round, 620, 55);
+      
+      // highlight sell selector
       if (sellSelector) {
         // highlight
         ctx.beginPath();
 
-        ctx.rect(19 * tileSize, 4 * tileSize, 64, 64);
+        ctx.rect(19 * tileSize, 4 * tileSize, tileSize, tileSize);
         ctx.lineWidth = 5;
-        ctx.strokeStyle = "blue";
+        ctx.strokeStyle = "dodgerblue";
         ctx.stroke();
         ctx.closePath(); // https://stackoverflow.com/questions/9475432/html5-canvas-different-strokes/9475478
       }
+
+      // highlight selected tower
+      if (!sellSelector) {
+        switch (towerSelector ) {
+        
+          case(1):
+            ctx.beginPath();
+            ctx.rect(16 * tileSize, 2.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "dodgerblue";
+            ctx.stroke();
+            ctx.closePath();
+            break;
+  
+          case(2):
+            ctx.beginPath();
+            ctx.rect(16 * tileSize, 4.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "dodgerblue";
+            ctx.stroke();
+            ctx.closePath();
+            break;
+  
+            case(3):
+            ctx.beginPath();
+            ctx.rect(16 * tileSize, 6.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "dodgerblue";
+            ctx.stroke();
+            ctx.closePath();
+            break;
+  
+            case(4):
+            ctx.beginPath();
+            ctx.rect(16 * tileSize, 8.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "dodgerblue";
+            ctx.stroke();
+            ctx.closePath();
+            break;
+  
+            case(5):
+            ctx.beginPath();
+            ctx.rect(16 * tileSize, 10.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "dodgerblue";
+            ctx.stroke();
+            ctx.closePath();
+            break;
+        }
+      }
+      
 
       if (gameOver) {
         // defeat screen
@@ -1137,6 +1207,10 @@ class Game extends React.Component {
         ctx.fillText("you have been defeated... ", 45, 450);
         ctx.fillText("Score: " + score, 200, 550);
       }
+
+
+
+
     }
 
     function handleGameGrid() {
