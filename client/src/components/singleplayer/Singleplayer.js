@@ -119,7 +119,7 @@ class Login extends React.Component {
       });
       const response = await api.post('/games', requestBody);
       // Store everything relevant to the game into the local storage.
-      localStorage.setItem('gameId', response.data.player1.gameId);
+      localStorage.setItem('gameId', response.data.gameId);
       localStorage.setItem("weather", response.data.player1.weather);
       localStorage.setItem("gold", response.data.player1.gold);
       localStorage.setItem("health", response.data.player1.health);
@@ -127,19 +127,19 @@ class Login extends React.Component {
       this.props.history.push(`/game`);
     } catch (error) {
       store.addNotification({
-                title: 'Error',
-                width:300,
-                height:100,
-                message: `Something went wrong while starting the game: \n${handleError(error)}`,
-                type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                container: 'top-left',                // where to position the notifications
-                animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                dismiss: {
-                  duration: 4000
-                }
-            })
-        }
+            title: 'Error',
+            width:300,
+            height:100,
+            message: `Something went wrong while starting the game: \n${handleError(error)}`,
+            type: 'warning',                         // 'default', 'success', 'info', 'warning'
+            container: 'top-left',                // where to position the notifications
+            animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+            animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+            dismiss: {
+              duration: 4000
+            }
+        })
+    }
   }
 
   /**

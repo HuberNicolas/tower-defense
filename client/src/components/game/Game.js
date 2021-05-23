@@ -6,8 +6,6 @@ import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-
-import { Button } from "../../views/design/Button";
 import { Button2 } from "../../views/design/Button2";
 
 class Game extends React.Component {
@@ -54,7 +52,7 @@ class Game extends React.Component {
         animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
         animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
         dismiss: {
-          duration: 4000,
+          duration: 3000,
         },
       });
       this.setState({ canBuy: false });
@@ -87,7 +85,7 @@ class Game extends React.Component {
         animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
         animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
         dismiss: {
-          duration: 4000,
+          duration: 3000,
         },
       });
       this.setState({ canBuy: false });
@@ -131,7 +129,7 @@ class Game extends React.Component {
 
   async rageQuit() {
     try {
-      const response = await api.delete(
+      await api.delete(
         `/games/${localStorage.getItem("token")}`
       );
       this.props.history.push("/main");
@@ -148,9 +146,32 @@ class Game extends React.Component {
         animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
         animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
         dismiss: {
-          duration: 4000,
+          duration: 3000,
         },
       });
+    }
+  }
+
+  async getGameState() {
+    try{
+      const response = await api.get('/games/'+localStorage.getItem("gameId"));
+      localStorage.setItem("gold", response.data.player1.gold);
+      localStorage.setItem("health", response.data.player1.health);
+      localStorage.setItem("board", response.data.player1.board);
+    } catch (error) {
+      store.addNotification({
+            title: 'Error',
+            width:300,
+            height:100,
+            message: `Something went wrong while starting the game: \n${handleError(error)}`,
+            type: 'warning',                        
+            container: 'top-left',                
+            animationIn: ["animated", "fadeIn"],     
+            animationOut: ["animated", "fadeOut"],   
+            dismiss: {
+              duration: 3000
+            }
+        })
     }
   }
 
@@ -160,10 +181,7 @@ class Game extends React.Component {
         gold: gold,
         health: health,
       });
-      const response = await api.patch(
-        `/games/${localStorage.getItem("token")}`,
-        requestBody
-      );
+      const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
       localStorage.setItem("continuing", response.data.continuing);
     } catch (error) {
       store.addNotification({
@@ -178,7 +196,7 @@ class Game extends React.Component {
         animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
         animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
         dismiss: {
-          duration: 4000,
+          duration: 3000,
         },
       });
     }
@@ -224,8 +242,6 @@ class Game extends React.Component {
     const projectiles = []; // all shots
     const weather = localStorage.getItem("weather");
     let round = 1;
-
-    let spawned = false;
 
     var minionsToSpawn = [];
     var wave = [];
@@ -514,6 +530,10 @@ class Game extends React.Component {
           }
         }
         localStorage.setItem("wave", []);
+
+        this.getGameState();
+        this.setState({gold: localStorage.getItem("gold")})
+
         prepPhase = false;
         phase = false;
         return;
@@ -1120,7 +1140,7 @@ class Game extends React.Component {
       if (phase && minions.length < 1 && !prepPhase) {
         prepPhase = true;
         this.updateGameState(HP, gold);
-        if (minionsInterval > 50) {
+        if (minionsInterval > 40) {
           minionsInterval -= 5;
         }
         round += 1;
@@ -1197,7 +1217,6 @@ class Game extends React.Component {
       ctx.fillText("Info:", tileSize * 18.5, tileSize * 7.5);
       ctx.fillText("Cost: " + towerList[towerSelector].towerCost, tileSize * 18.5, tileSize * 8);
       ctx.fillText("Damage: " + towerList[towerSelector].damage, tileSize * 18.5, tileSize * 8.5);
-
 
       // draw towers
       for (let i = 0; i < towerList.length; i++) {
