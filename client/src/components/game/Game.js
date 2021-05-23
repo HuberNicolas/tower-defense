@@ -12,12 +12,10 @@ class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      gold: localStorage.getItem("gold"),
       health: null,
       board: null,
       canvasWidth: 1366, // 960 (Board) + 400 (Shop) + 6 (2xGap)
       canvasHeight: 764 + 6, // 704
-      canBuy: false,
       wave: [],
       round: 0,
     };
@@ -34,8 +32,6 @@ class Game extends React.Component {
         "games/towers/" + localStorage.getItem("token"),
         requestBody
       );
-      this.setState({ gold: response.data.gold });
-      this.setState({ canBuy: true });
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -52,7 +48,7 @@ class Game extends React.Component {
           duration: 3000,
         },
       });
-      this.setState({ canBuy: false });
+
     }
   }
 
@@ -85,7 +81,7 @@ class Game extends React.Component {
           duration: 3000,
         },
       });
-      this.setState({ canBuy: false });
+
     }
   }
 
@@ -128,9 +124,7 @@ class Game extends React.Component {
 
   async rageQuit() {
     try {
-      await api.delete(
-        `/games/${localStorage.getItem("token")}`
-      );
+
       localStorage.removeItem("gold")
       localStorage.removeItem("gameId")
       localStorage.removeItem("health")
@@ -139,6 +133,9 @@ class Game extends React.Component {
       localStorage.removeItem("continuing")
       localStorage.removeItem("weather")
       this.props.history.push("/main");
+      await api.delete(
+              `/games/${localStorage.getItem("token")}`
+            );
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -237,6 +234,8 @@ class Game extends React.Component {
     var wave = [];
     let phase = false;
     let collectPhase = false;
+    let towerCost = 0;
+    let buyCheck = false;
 
     var towerImages = [];
 
@@ -380,7 +379,7 @@ class Game extends React.Component {
         id: "Goblin",
         minionColor: "red",
         minionSize: 32,
-        minionDamage: 1,
+        minionDamage: 50,
         minionSpeed: 4,
         minionHealth: 100,
         minionCost: 100,
@@ -589,6 +588,8 @@ class Game extends React.Component {
       ) {
         towerSelector = 1;
         sellSelector = 0;
+        towerCost = TOWERS.TIER1.towerCost;
+        buyCheck = true;
         console.log("selected first tower");
         return;
       }
@@ -601,6 +602,8 @@ class Game extends React.Component {
       ) {
         towerSelector = 2;
         sellSelector = 0;
+        towerCost = TOWERS.TIER2.towerCost;
+        buyCheck = true;
         console.log("selected second tower");
         return;
       }
@@ -613,6 +616,8 @@ class Game extends React.Component {
       ) {
         towerSelector = 3;
         sellSelector = 0;
+        towerCost = TOWERS.TIER3.towerCost;
+        buyCheck = true;
         console.log("selected third tower");
         return;
       }
@@ -624,6 +629,8 @@ class Game extends React.Component {
       ) {
         towerSelector = 4;
         sellSelector = 0;
+        towerCost = TOWERS.TIER4.towerCost;
+        buyCheck = true;
         console.log("selected fourth tower");
         return;
       }
@@ -635,6 +642,8 @@ class Game extends React.Component {
       ) {
         towerSelector = 5;
         sellSelector = 0;
+        towerCost = TOWERS.TIER5.towerCost;
+        buyCheck = true;
         console.log("selected fifth tower");
         return;
       }
@@ -672,34 +681,15 @@ class Game extends React.Component {
         }
       }
 
-      if (!sellSelector) {
-        let towerCost;
-        switch (towerSelector) {
-          case 1:
-            towerCost = TOWERS.TIER1.towerCost;
-            break;
-          case 2:
-            towerCost = TOWERS.TIER2.towerCost;
-            break;
-          case 3:
-            towerCost = TOWERS.TIER3.towerCost;
-            break;
-          case 4:
-            towerCost = TOWERS.TIER4.towerCost;
-            break;
-          case 5:
-            towerCost = TOWERS.TIER5.towerCost;
-            break;
-        }
+      if (!sellSelector && prepPhase) {
 
-        this.buy(coordArray)
-
-
-        if (this.state.canBuy) {
+        if (buyCheck&&gold >= towerCost) {
           // to to Check selected tower variable
           //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
           switch (towerSelector) {
             case 1:
+            buyCheck = false;
+            this.buy(coordArray)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -716,6 +706,8 @@ class Game extends React.Component {
               );
               break;
             case 2:
+            buyCheck = false;
+            this.buy(coordArray)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -732,6 +724,8 @@ class Game extends React.Component {
               );
               break;
             case 3:
+            buyCheck = false;
+            this.buy(coordArray)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -748,6 +742,8 @@ class Game extends React.Component {
               );
               break;
             case 4:
+            buyCheck = false;
+            this.buy(coordArray)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -764,6 +760,8 @@ class Game extends React.Component {
               );
               break;
             case 5:
+            buyCheck = false;
+            this.buy(coordArray)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -780,11 +778,12 @@ class Game extends React.Component {
               );
               break;
           }
-
-
-          gold = this.state.gold;
+          gold -= towerCost;
 
         }
+        else{
+        this.buy(coordArray)
+        buyCheck = false}
       }
     });
 
@@ -1186,20 +1185,22 @@ class Game extends React.Component {
     };
 
     var handleGame = () => {
+    if (HP < 1 ) {
+            gameOver = true;
+          }
       if (phase && minions.length < 1 && !prepPhase) {
         prepPhase = true;
-        this.updateGameState(HP, gold);
+        this.updateGameState(gold,HP);
         if (minionsInterval > 40) {
           minionsInterval -= 5;
         }
         round += 1;
       }
-      if (HP < 1 && localStorage.getItem("continuing") === false) {
-        gameOver = true;
-      }
+
     };
 
     function handleProjectiles() {
+    if(!prepPhase){
       for (let i = 0; i < projectiles.length; i++) {
         projectiles[i].update();
         projectiles[i].draw();
@@ -1222,7 +1223,7 @@ class Game extends React.Component {
           i--; // adjust for loop index
         }
       }
-    }
+    }}
 
     function handleShop() {
       // separate shop from gamebaord
