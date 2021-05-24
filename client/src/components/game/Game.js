@@ -241,6 +241,8 @@ class Game extends React.Component {
 
   canvasRef = React.createRef();
   componentDidMount() {
+    
+
     const mouse = {
       x: 10,
       y: 10,
@@ -265,14 +267,19 @@ class Game extends React.Component {
     let frame = 0; // frame counter
     const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
 
+    const statusBar = {
+      width: STATUS_BAR_WIDTH,
+      height: STATUS_BAR_HEIGHT,
+    };
+
+    // Array for Game Objects
     const gameGrid = []; // all cells
     const pathTiles = []; // all paths
     const minions = []; // all minions
     const towers = []; // all towers
     const towerList = []; // all towers in the shop
     const projectiles = []; // all shots
-    const weather = localStorage.getItem("weather");
-    let round = 1;
+
 
     var minionsToSpawn = [];
     var wave = [];
@@ -281,93 +288,8 @@ class Game extends React.Component {
     let towerCost = 0;
     let buyCheck = false;
     let towerType = null;
-
-    var towerImages = [];
-
-    const t1l1 = new Image();
-    t1l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png";
-    towerImages.push(t1l1);
-    const t1l2 = new Image();
-    t1l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png";
-    towerImages.push(t1l2);
-    const t1l3 = new Image();
-    t1l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png";
-    towerImages.push(t1l3);
-
-    const t2l1 = new Image();
-    t2l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png";
-    towerImages.push(t2l1);
-    const t2l2 = new Image();
-    t2l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png";
-    towerImages.push(t1l2);
-    const t2l3 = new Image();
-    t2l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png";
-    towerImages.push(t2l3);
-
-    const t3l1 = new Image();
-    t3l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png";
-    towerImages.push(t3l1);
-    const t3l2 = new Image();
-    t3l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png";
-    towerImages.push(t3l2);
-    const t3l3 = new Image();
-    t3l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png";
-    towerImages.push(t3l3);
-
-    const t4l1 = new Image();
-    t4l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png";
-    towerImages.push(t4l1);
-    const t4l2 = new Image();
-    t4l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png";
-    towerImages.push(t4l2);
-    const t4l3 = new Image();
-    t4l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png";
-    towerImages.push(t4l3);
-
-    const t5l1 = new Image();
-    t5l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png";
-    towerImages.push(t5l1);
-    const t5l2 = new Image();
-    t5l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png";
-    towerImages.push(t5l2);
-    const t5l3 = new Image();
-    t5l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png";
-    towerImages.push(t5l3);
-
-    var minionImages = [];
-    const m1 = new Image();
-    m1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png";
-    minionImages.push(m1);
-    const m2 = new Image();
-    m2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png";
-    minionImages.push(m2);
-    const m3 = new Image();
-    m3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png";
-    minionImages.push(m3);
-
-
-    var sounds = [];
-
-    var damage1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_damage_hit1.mp3?raw=true'); // don't forget raw=true!
-    sounds.push(damage1);
+    const weather = localStorage.getItem("weather");
+    let round = 1;
 
     // status bar
     let score = 0;
@@ -375,9 +297,120 @@ class Game extends React.Component {
     let gold = localStorage.getItem("gold");
     let gameOver = false;
     let prepPhase = true;
-
+    
+    // SELECTORS
     var upgradeSelctor = 0;
     var towerSelector = 0;
+    var directionSelector = 1;
+    var sellSelector = 1;
+
+
+    // MEDIA - ASSETS
+    var towerImages = [];
+    var minionImages = [];
+    var sounds = [];
+
+    // TOWERS
+    const t1l1 = new Image();
+    t1l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"; // Bisasam
+    towerImages.push(t1l1);
+    const t1l2 = new Image();
+    t1l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"; // Bisaknosp
+    towerImages.push(t1l2);
+    const t1l3 = new Image();
+    t1l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"; // Bisaflor
+    towerImages.push(t1l3);
+
+    const t2l1 = new Image();
+    t2l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"; // Schiggy
+    towerImages.push(t2l1);
+    const t2l2 = new Image();
+    t2l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"; // Schillok
+    towerImages.push(t1l2);
+    const t2l3 = new Image();
+    t2l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"; // Turtok
+    towerImages.push(t2l3);
+
+    const t3l1 = new Image();
+    t3l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"; // Glumanda
+    towerImages.push(t3l1);
+    const t3l2 = new Image();
+    t3l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"; // Glutexo
+    towerImages.push(t3l2);
+    const t3l3 = new Image();
+    t3l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"; // Glurak
+    towerImages.push(t3l3);
+
+    const t4l1 = new Image();
+    t4l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png"; // Abra
+    towerImages.push(t4l1);
+    const t4l2 = new Image();
+    t4l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png"; // Kadabra
+    towerImages.push(t4l2);
+    const t4l3 = new Image();
+    t4l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png"; // Simsala
+    towerImages.push(t4l3);
+
+    const t5l1 = new Image();
+    t5l1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png"; // Dratini
+    towerImages.push(t5l1);
+    const t5l2 = new Image();
+    t5l2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png"; // Dragonir
+    towerImages.push(t5l2);
+    const t5l3 = new Image();
+    t5l3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png"; // Dragoran
+    towerImages.push(t5l3);
+
+
+    // MINIONS
+    const m1 = new Image();
+    m1.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png"; // Karpador
+    minionImages.push(m1);
+    const m2 = new Image();
+    m2.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"; // Gengar
+    minionImages.push(m2);
+    const m3 = new Image();
+    m3.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png"; // Garados
+    minionImages.push(m3);
+
+
+    // SOUNDS
+    var damage1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_damage_hit1.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(damage1);
+    var click1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_menu_move3.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(click1);
+    var upgradeTower = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(upgradeTower);
+    var lost = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sound_shutdown2.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(lost);
+    var sellTower = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_double3.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(sellTower);
+    var earnMinionGold = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_cluster3.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(earnMinionGold);
+    var waveStarts = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_alarm_loop3.mp3?raw=true');
+    sounds.push(waveStarts);
+    
+
+
+    // ATTRIBUTES
     var TOWERS = {
     //classic tower: normal damage cheap
       TIER1: {
@@ -469,7 +502,6 @@ class Game extends React.Component {
       },
     };
 
-    var directionSelector = 1;
     var PROJECTILE_DIRECTIONS = {
       UP: { id: 0 },
       RIGHT: { id: 1 },
@@ -477,13 +509,9 @@ class Game extends React.Component {
       LEFT: { id: 3 },
     };
 
-    var sellSelector = 1;
 
-    // game board
-    const statusBar = {
-      width: STATUS_BAR_WIDTH,
-      height: STATUS_BAR_HEIGHT,
-    };
+
+
 
     // EventListeners
     // fixed bug when resizing
@@ -528,6 +556,7 @@ class Game extends React.Component {
         2*tileSize <= gridPositionY &&
         gridPositionY < 3*tileSize
       ) {
+        sounds[1].play();
         directionSelector = (directionSelector + 1) % 4;
         console.log("changed directory " + directionSelector);
         return;
@@ -540,6 +569,7 @@ class Game extends React.Component {
         4*tileSize <= gridPositionY &&
         gridPositionY < 5*tileSize
       ) {
+        sounds[1].play();
         sellSelector = (sellSelector + 1) % 2;
         console.log("selected sell selector " + sellSelector);
         return;
@@ -552,6 +582,7 @@ class Game extends React.Component {
         4*tileSize <= gridPositionY &&
         gridPositionY < 5*tileSize
       ) {
+        sounds[1].play();
         upgradeSelctor = (upgradeSelctor + 1) % 2;
         console.log("selected upgrade selector " + upgradeSelctor);
         return;
@@ -566,6 +597,7 @@ class Game extends React.Component {
               prepPhase && collectPhase
             )
         {
+          sounds[6].play();
         for (let i = 0; i < wave.length; i++) {
                   switch (wave[i]) {
                     case "Karpador":
@@ -608,18 +640,20 @@ class Game extends React.Component {
 
       // clicked on sell: change sellSelector
       if (
-        1216 <= gridPositionX &&
-        gridPositionX < 1280 &&
-        384 <= gridPositionY &&
-        gridPositionY < 448 &&
+        19 * tileSize <= gridPositionX &&
+        gridPositionX < 20 * tileSize &&
+        6 * tileSize <= gridPositionY &&
+        gridPositionY < 7 * tileSize &&
         prepPhase && !collectPhase
       )
        {
+        sounds[1].play();
         // empty projectiles
         projectiles.splice(0,projectiles.length)
 
         this.ImReady()
         .then(result => wave = JSON.parse(localStorage.getItem("wave")))
+        
         collectPhase = true;
 
 /*
@@ -767,11 +801,13 @@ class Game extends React.Component {
           if(upgradeSelctor) {
             console.log("upgrade");
             this.upgrade(coordArray);
+            sounds[2].play();
             return;
           }
           if(sellSelector && !upgradeSelctor) {
             this.sell(coordArray);
             //sellSelector = 0; // BUG!!!! DO NOT USE HERE
+            sounds[4].play();
             gold += towers[i].towerCost / 2;
             towers.splice(i, 1); // remove
             i--; // adjust for loop index
@@ -1311,6 +1347,7 @@ class Game extends React.Component {
 
       if (gameOver) {
         // defeat screen
+        sounds[3].play();
         ctx.beginPath();
         ctx.rect(0, 64, 960, 640);
         ctx.lineWidth = "3";
@@ -1358,6 +1395,7 @@ class Game extends React.Component {
         minions[i].draw();
 
         if (minions[i].health <= 0) {
+          sounds[5].play();
           let reward = minions[i].maxHealth / 10;
           gold += reward;
           score += reward;
