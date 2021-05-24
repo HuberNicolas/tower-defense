@@ -395,7 +395,7 @@ class Game extends React.Component {
 
     var MINIONS = {
       CRAWLER: {
-        id: "Goblin",
+        id: "Karpador",
         minionColor: "red",
         minionSize: 32,
         minionDamage: 1,
@@ -415,7 +415,7 @@ class Game extends React.Component {
         minionImage: minionImages[1],
       },
       BOSS: {
-        id: "GoblinOverlord",
+        id: "Garados",
         minionColor: "pink",
         minionSize: 60,
         minionDamage: 5,
@@ -513,7 +513,7 @@ class Game extends React.Component {
         {
         for (let i = 0; i < wave.length; i++) {
                   switch (wave[i]) {
-                    case "Goblin":
+                    case "Karpador":
                       minionsToSpawn.push(
                         new Minion(
                           MINIONS.CRAWLER.minionColor,
@@ -526,7 +526,7 @@ class Game extends React.Component {
                       );
                       break;
 
-                    case "GoblinOverlord":
+                    case "Garados":
                       minionsToSpawn.push(
                         new Minion(
                           MINIONS.BOSS.minionColor,
