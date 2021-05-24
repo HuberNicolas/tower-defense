@@ -69,7 +69,7 @@ class Game extends React.Component {
 
       const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
       localStorage.setItem("board", response2.data.player1.board);
-      localStorage.setItem("gold", response2.data.player1.gold);
+      //localStorage.setItem("gold", response2.data.player1.gold);
 
     } catch (error) {
       store.addNotification({
@@ -362,6 +362,12 @@ class Game extends React.Component {
     m3.src =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png";
     minionImages.push(m3);
+
+
+    var sounds = [];
+
+    var damage1 = new Audio("https://opengameart.org/sites/default/files/Laser%20Shot.mp3");
+    sounds.push(damage1);
 
     // status bar
     let score = 0;
@@ -1211,6 +1217,23 @@ class Game extends React.Component {
         100
       );
       ctx.fillText("Current round:  " + round, 620, 55);
+
+      // player health bar
+      ctx.beginPath();
+      if(37.5 < HP && HP <= 50) {
+        ctx.fillStyle = "green";  
+      }
+      else if(25 < HP && HP <= 37.5) {
+        ctx.fillStyle = "orange";  
+      }
+      else if(12.5 < HP && HP <= 25) {
+        ctx.fillStyle = "yellow";  
+      }
+      else if(0 < HP && HP <= 12.5) {
+        ctx.fillStyle = "red";  
+      }
+      ctx.fillRect(420, 60, 2*tileSize*(HP/50), 16);
+      ctx.closePath();
       
       // highlight sell selector
       if (sellSelector) {
@@ -1344,6 +1367,7 @@ class Game extends React.Component {
         } else if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
           this.hit(minions[i].minionDamage);
+          sounds[0].play();
           toBeDeleted.push(i); //remove
         }
       }
