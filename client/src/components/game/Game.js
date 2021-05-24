@@ -366,7 +366,7 @@ class Game extends React.Component {
 
     var sounds = [];
 
-    var damage1 = new Audio("https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_damage1.mp3");
+    var damage1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_damage_hit1.mp3?raw=true'); // don't forget raw=true!
     sounds.push(damage1);
 
     // status bar
