@@ -336,50 +336,60 @@ class Game extends React.Component {
 
     var towerSelector = 0;
     var TOWERS = {
+    //classic tower: normal damage cheap
       TIER1: {
         id: 1,
         towerColor: "lightgreen",
         projectileColor: "#00FF00",
-        damage: 10,
-        speed: 2,
+        damage: 20,
+        speed: 5,
         towerCost: 100,
-        towerImage: towerImages[0]
+        towerImage: towerImages[0],
+        attackSpeed: 100
       },
+      // double everything? double the fun! actually don't buy this; you know why the 1st tower is better
       TIER2: {
         id: 2,
         towerColor: "lightblue",
         projectileColor: "#099FFF",
-        damage: 15,
-        speed: 10,
+        damage: 40,
+        speed: 7,
         towerCost: 200,
-        towerImage: towerImages[6]
+        towerImage: towerImages[6],
+        attackSpeed: 100
       },
+      //lazor tower
       TIER3: {
         id: 3,
         towerColor: "yellow",
         projectileColor: "#FF3300",
-        damage: 20,
-        speed: 0.5,
+        damage: 1,
+        speed: 20,
         towerCost: 300,
-        towerImage: towerImages[3]
+        towerImage: towerImages[3],
+        attackSpeed: 2
       },
+      //not implemented
       TIER4: {
         id: 4,
         towerColor: "midnightblue",
         projectileColor: "#6E0DD0",
         damage: 10,
         speed: 4,
-        towerCost: 400,
-        towerImage: towerImages[9]
+        towerCost: 10000,
+        towerImage: towerImages[9],
+        attackSpeed: 100
       },
+      //oneshot
       TIER5: {
         id: 5,
         towerColor: "indigo",
         projectileColor: "#FF5F1F",
-        damage: 10,
-        speed: 6,
+        damage: 300,
+        speed: 5,
         towerCost: 500,
-        towerImage: towerImages[12]
+        towerImage: towerImages[12],
+        attackSpeed: 150
       },
     };
 
@@ -723,6 +733,7 @@ class Game extends React.Component {
                   TOWERS.TIER1.towerCost,
                   directionSelector,
                   TOWERS.TIER1.towerImage,
+                  TOWERS.TIER1.attackSpeed
                 )
               );
               break;
@@ -740,6 +751,7 @@ class Game extends React.Component {
                   TOWERS.TIER2.towerCost,
                   directionSelector,
                   TOWERS.TIER2.towerImage,
+                  TOWERS.TIER2.attackSpeed
                 )
               );
               break;
@@ -756,7 +768,8 @@ class Game extends React.Component {
                   TOWERS.TIER3.speed,
                   TOWERS.TIER3.towerCost,
                   directionSelector,
-                  TOWERS.TIER3.towerImage
+                  TOWERS.TIER3.towerImage,
+                  TOWERS.TIER3.attackSpeed
 
                 )
               );
@@ -775,7 +788,7 @@ class Game extends React.Component {
                   TOWERS.TIER4.towerCost,
                   directionSelector,
                   TOWERS.TIER4.towerImage,
-
+                  TOWERS.TIER4.attackSpeed
                 )
               );
               break;
@@ -793,7 +806,7 @@ class Game extends React.Component {
                   TOWERS.TIER5.towerCost,
                   directionSelector,
                   TOWERS.TIER5.towerImage,
-
+                  TOWERS.TIER5.attackSpeed
                 )
               );
               break;
@@ -931,6 +944,7 @@ class Game extends React.Component {
         towerCost,
         direction,
         towerImage,
+        attackSpeed,
 
       ) {
         // 2dim. array attribute
@@ -942,7 +956,7 @@ class Game extends React.Component {
         this.projectiles = [];
         this.timer = 0;
         this.towerColor = towerColor;
-
+        this.attackSpeed = attackSpeed;
         this.projectileColor = projectileColor;
         this.damage = damage;
         this.speed = speed;
@@ -959,12 +973,12 @@ class Game extends React.Component {
         // draw damage
         ctx.fillStyle = "black";
         ctx.font = "20px Arial";
-        ctx.fillText(this.damage, this.x + 15, this.y + 30);
+        //ctx.fillText(this.damage, this.x + 15, this.y + 30);
       }
 
       update() {
         this.timer++;
-        if (this.timer % 100 === 0) {
+        if (this.timer % this.attackSpeed === 0) {
           projectiles.push(
             new Projectiles(
               this.x + 30,
@@ -972,7 +986,8 @@ class Game extends React.Component {
               this.damage,
               this.projectileColor,
               this.speed,
-              this.direction
+              this.direction,
+              this.attackSpeed
             )
           );
           //var audio = new Audio('https://opengameart.org/sites/default/files/Laser%20Shot.mp3');
@@ -1421,7 +1436,8 @@ class Game extends React.Component {
           TOWERS.TIER1.speed,
           TOWERS.TIER1.towerCost,
           directionSelector,
-          TOWERS.TIER1.towerImage
+          TOWERS.TIER1.towerImage,
+          TOWERS.TIER1.attackSpeed
         )
       );
       towerList.push(
@@ -1434,7 +1450,8 @@ class Game extends React.Component {
           TOWERS.TIER2.speed,
           TOWERS.TIER2.towerCost,
           directionSelector,
-          TOWERS.TIER2.towerImage
+          TOWERS.TIER2.towerImage,
+          TOWERS.TIER2.attackSpeed
         )
       );
       towerList.push(
@@ -1447,7 +1464,8 @@ class Game extends React.Component {
           TOWERS.TIER3.speed,
           TOWERS.TIER3.towerCost,
           directionSelector,
-          TOWERS.TIER3.towerImage
+          TOWERS.TIER3.towerImage,
+          TOWERS.TIER3.attackSpeed
         )
       );
       towerList.push(
@@ -1460,7 +1478,8 @@ class Game extends React.Component {
           TOWERS.TIER4.speed,
           TOWERS.TIER4.towerCost,
           directionSelector,
-          TOWERS.TIER4.towerImage
+          TOWERS.TIER4.towerImage,
+          TOWERS.TIER4.attackSpeed
         )
       );
       towerList.push(
@@ -1473,7 +1492,8 @@ class Game extends React.Component {
           TOWERS.TIER5.speed,
           TOWERS.TIER5.towerCost,
           directionSelector,
-          TOWERS.TIER5.towerImage
+          TOWERS.TIER5.towerImage,
+          TOWERS.TIER5.attackSpeed
         )
       );
     }
