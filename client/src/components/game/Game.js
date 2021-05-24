@@ -56,6 +56,42 @@ class Game extends React.Component {
     }
   }
 
+  async upgrade(coordinates) {
+    console.log(coordinates);
+    try {
+      const requestBody = JSON.stringify({
+        coordinates: coordinates,
+      });
+      const response = await api.patch(
+        "games/towers/" + localStorage.getItem("token"),
+        requestBody
+      );
+
+      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
+      localStorage.setItem("board", response2.data.player1.board);
+      localStorage.setItem("gold", response2.data.player1.gold);
+
+    } catch (error) {
+      store.addNotification({
+        title: "Error",
+        width: 300,
+        height: 100,
+        message: `Something went wrong while upgrading a tower: \n${handleError(
+          error
+        )}`,
+        type: "warning", // 'default', 'success', 'info', 'warning'
+        container: "top-left", // where to position the notifications
+        animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"], // animate.css classes that's applied
+        dismiss: {
+          duration: 3000,
+        },
+      });
+
+    }
+  }
+
+
   async sell(coordinates) {
     console.log(coordinates);
     try {
@@ -334,6 +370,7 @@ class Game extends React.Component {
     let gameOver = false;
     let prepPhase = true;
 
+    var upgradeSelctor = 0;
     var towerSelector = 0;
     var TOWERS = {
     //classic tower: normal damage cheap
@@ -343,7 +380,7 @@ class Game extends React.Component {
         projectileColor: "#00FF00",
         damage: 20,
         speed: 5,
-        towerCost: 100,
+        towerCost: 300,
         towerImage: towerImages[0],
         attackSpeed: 100
       },
@@ -365,7 +402,7 @@ class Game extends React.Component {
         projectileColor: "#FF3300",
         damage: 1,
         speed: 20,
-        towerCost: 300,
+        towerCost: 100,
         towerImage: towerImages[3],
         attackSpeed: 2
       },
@@ -376,7 +413,7 @@ class Game extends React.Component {
         projectileColor: "#6E0DD0",
         damage: 10,
         speed: 4,
-        towerCost: 10000,
+        towerCost: 400,
         towerImage: towerImages[9],
         attackSpeed: 100
       },
@@ -387,7 +424,7 @@ class Game extends React.Component {
         projectileColor: "#FF5F1F",
         damage: 300,
         speed: 5,
-        towerCost: 500,
+        towerCost: 1000,
         towerImage: towerImages[12],
         attackSpeed: 150
       },
@@ -480,10 +517,10 @@ class Game extends React.Component {
 
       // clicked on change directory: change directory
       if (
-        1216 <= gridPositionX &&
-        gridPositionX < 1280 &&
-        128 <= gridPositionY &&
-        gridPositionY < 192
+        19*tileSize <= gridPositionX &&
+        gridPositionX < 20*tileSize &&
+        2*tileSize <= gridPositionY &&
+        gridPositionY < 3*tileSize
       ) {
         directionSelector = (directionSelector + 1) % 4;
         console.log("changed directory " + directionSelector);
@@ -492,13 +529,25 @@ class Game extends React.Component {
 
       // clicked on sell: change sellSelector
       if (
-        1216 <= gridPositionX &&
-        gridPositionX < 1280 &&
-        256 <= gridPositionY &&
-        gridPositionY < 320
+        19*tileSize <= gridPositionX &&
+        gridPositionX < 20*tileSize &&
+        4*tileSize <= gridPositionY &&
+        gridPositionY < 5*tileSize
       ) {
         sellSelector = (sellSelector + 1) % 2;
         console.log("selected sell selector " + sellSelector);
+        return;
+      }
+
+       // clicked on upgrade
+       if (
+        20*tileSize <= gridPositionX &&
+        gridPositionX < 21*tileSize &&
+        4*tileSize <= gridPositionY &&
+        gridPositionY < 5*tileSize
+      ) {
+        upgradeSelctor = (upgradeSelctor + 1) % 2;
+        console.log("selected upgrade selector " + upgradeSelctor);
         return;
       }
 
@@ -699,20 +748,33 @@ class Game extends React.Component {
       }
 
       // check if there is already a Tower
+      // either sell or upgrade
       for (let i = 0; i < towers.length; i++) {
         if (towers[i].x == gridPositionX && towers[i].y == gridPositionY) {
-          if (!sellSelector) {
+          // CHECK LOGIC HERE
+          
+
+          
+          if (!sellSelector && !upgradeSelctor) {
             return;
-          } else {
+          } 
+          if(upgradeSelctor) {
+            console.log("upgrade");
+            this.upgrade(coordArray);
+            return;
+          }
+          if(sellSelector && !upgradeSelctor) {
             this.sell(coordArray);
             //sellSelector = 0; // BUG!!!! DO NOT USE HERE
             gold += towers[i].towerCost / 2;
             towers.splice(i, 1); // remove
             i--; // adjust for loop index
           }
+
         }
       }
 
+      // place tower
       if (!sellSelector && prepPhase) {
 
         if (buyCheck&&gold >= towerCost) {
@@ -1212,6 +1274,16 @@ class Game extends React.Component {
             break;
         }
       }
+
+      if (upgradeSelctor) {
+        // highlight
+        ctx.beginPath();
+        ctx.rect(20 * tileSize, 4 * tileSize, tileSize, tileSize);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "dodgerblue";
+        ctx.stroke();
+        ctx.closePath();
+      }
       
 
       if (gameOver) {
@@ -1403,6 +1475,13 @@ class Game extends React.Component {
       ctx.font = "20px Arial";
       ctx.fillStyle = "green";
       ctx.fillText("SELL", 19 * tileSize + 10, 4 * tileSize + 38);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.rect(20 * tileSize, 4 * tileSize, 64, 64);
+      ctx.font = "14px Arial";
+      ctx.fillStyle = "green";
+      ctx.fillText("UPGRADE", 20 * tileSize + 10, 4 * tileSize + 38);
       ctx.stroke();
 
       ctx.beginPath();
