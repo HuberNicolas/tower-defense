@@ -1846,7 +1846,12 @@ class Game extends React.Component {
           }
         }
 
-        if (projectiles[i] && projectiles[i].x > BOARD_WIDTH) {
+        if (   
+              (projectiles[i] && projectiles[i].y < 2*tileSize + 3*tileGap) || // upper bound
+              (projectiles[i] && projectiles[i].x > BOARD_WIDTH - 3*tileGap) || // right bound
+              (projectiles[i] && projectiles[i].y > 2*tileSize+BOARD_HEIGHT - 3*tileGap) ||  // bottom bound
+              (projectiles[i] && projectiles[i].x < 0 + 3*tileGap) // left bound
+          ) {
           projectiles.splice(i, 1); // remove
           i--; // adjust for loop index
         }
