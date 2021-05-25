@@ -7,7 +7,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Open Sans", sans-serif;
-  background: #001c31;  
+  background: black ;  /* #001c31*/
 }
 
 input,
@@ -31,15 +31,29 @@ button {
 
 
 
+#header {
+  display: flex;
+  align-items: baseline;
+  margin: 15px;
+  color: white;
+}
 
-/* added for game2 */
 
-#gameboard {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width:1366px;
-  height: 768px;
-  background: white;
+ /* blinking cursor */
+#cursor {
+  background: lime;
+  line-height: 17px;
+  margin-left: 3px;
+  width: 8px;
+  height: 4px;
+  animation-name: blink;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+  
+
+}
+@keyframes blink {
+  0% {background: #222}
+  50% {background: lime}
+  100% {background: #222}
 }

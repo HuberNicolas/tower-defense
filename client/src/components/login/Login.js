@@ -1,20 +1,27 @@
-import React from 'react';
+import React, {useState} from "react";
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
+import { Button2 } from '../../views/design/Button2';
 import login from "../../login.jpg";
 import { store } from 'react-notifications-component';
 
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 
+//import Typewriter from "typewriter-effect";
+
 var sectionStyle = {
   width: "100%",
   height: "768px",
-  backgroundImage: "url(" +  login  + ")"
+  background: "black"
+};
+
+var typewriterStyle = {
+  color: "white",
 };
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -29,14 +36,14 @@ const Form = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 60%;
-  height: 375px;
+  width: 40%;
+  height: 500px;
   font-size: 16px;
   font-weight: 300;
   padding-left: 37px;
   padding-right: 37px;
   border-radius: 5px;
-  background: linear-gradient(rgb(27, 124, 186), rgb(2, 46, 101));
+  background: black;
   transition: opacity 0.5s ease, transform 0.5s ease;
 `;
 
@@ -55,6 +62,7 @@ const InputField = styled.input`
 `;
 
 const Label = styled.label`
+  font-family: 'Press Start 2P';
   color: white;
   margin-bottom: 10px;
   text-transform: uppercase;
@@ -67,17 +75,27 @@ const ButtonContainer = styled.div`
 `;
 const Title = styled.h1`
   font-weight: bold;
+  font-family: 'Press Start 2P';
   color: white;
   text-align: center;
 `;
 
+const TerminalContainer = styled.div`
+  border-style: solid;
+  border-width: 2px;
+  border-color: green;
+  font-family: 'Press Start 2P';
+  font-size: 12px;
+  color: white;
+`;
+
 class Login extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       username: null,
-      password: null
+      password: null,
     };
   }
   
@@ -125,9 +143,25 @@ class Login extends React.Component {
   componentDidMount() {}
 
   render() {
+  
     return (
     <div style={sectionStyle}>
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link
+          href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
+          rel="stylesheet"
+      />
       <BaseContainer>
+      <TerminalContainer>
+
+        <p style={typewriterStyle}>
+          <div id="header"> 
+              <p> player@towers-vs-monsters:~/game$</p>
+              <div id="cursor"> </div>
+          </div>
+      </p>
+
+      </TerminalContainer>
         <FormContainer>
         <Title>Login</Title>
           <Form>
@@ -146,7 +180,7 @@ class Login extends React.Component {
               }}
             />
             <ButtonContainer>
-              <Button
+              <Button2
                 disabled={!this.state.username || !this.state.password}
                 width="50%"
                 onClick={() => {
@@ -154,15 +188,15 @@ class Login extends React.Component {
                 }}
               >
                 Login
-              </Button>
-              <Button
+              </Button2>
+              <Button2
                   width="50%"
                   onClick={() => {
                     this.props.history.push(`/registration`);
                   }}
               >
                 Create new account!
-              </Button>
+              </Button2>
             </ButtonContainer>
           </Form>
         </FormContainer>
