@@ -313,67 +313,67 @@ class Game extends React.Component {
     // TOWERS
     const t1l1 = new Image();
     t1l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"; // Bisasam
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"; // Bisasam 0
     towerImages.push(t1l1);
     const t1l2 = new Image();
     t1l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"; // Bisaknosp
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"; // Bisaknosp 1
     towerImages.push(t1l2);
     const t1l3 = new Image();
     t1l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"; // Bisaflor
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"; // Bisaflor 2
     towerImages.push(t1l3);
 
     const t2l1 = new Image();
     t2l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"; // Schiggy
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"; // GLumanda 3
     towerImages.push(t2l1);
     const t2l2 = new Image();
     t2l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"; // Schillok
-    towerImages.push(t1l2);
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"; // Glutexo 4
+    towerImages.push(t2l2);
     const t2l3 = new Image();
     t2l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"; // Turtok
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"; // Glurak 5
     towerImages.push(t2l3);
 
     const t3l1 = new Image();
     t3l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"; // Glumanda
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"; // Schiggy 6
     towerImages.push(t3l1);
     const t3l2 = new Image();
     t3l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"; // Glutexo
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"; // Schillok 7
     towerImages.push(t3l2);
     const t3l3 = new Image();
     t3l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"; // Glurak
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"; // Turtok 8
     towerImages.push(t3l3);
 
     const t4l1 = new Image();
     t4l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png"; // Abra
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png"; // Abra 9
     towerImages.push(t4l1);
     const t4l2 = new Image();
     t4l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png"; // Kadabra
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png"; // Kadabra 10
     towerImages.push(t4l2);
     const t4l3 = new Image();
     t4l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png"; // Simsala
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png"; // Simsala 11
     towerImages.push(t4l3);
 
     const t5l1 = new Image();
     t5l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png"; // Dratini
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png"; // Dratini 12
     towerImages.push(t5l1);
     const t5l2 = new Image();
     t5l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png"; // Dragonir
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png"; // Dragonir 13
     towerImages.push(t5l2);
     const t5l3 = new Image();
     t5l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png"; // Dragoran
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png"; // Dragoran 14
     towerImages.push(t5l3);
 
 
@@ -397,8 +397,8 @@ class Game extends React.Component {
     sounds.push(damage1);
     var click1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_menu_move3.mp3?raw=true'); // don't forget raw=true!
     sounds.push(click1);
-    var upgradeTower = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); // don't forget raw=true!
-    sounds.push(upgradeTower);
+    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_powerup5.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(upgradeTower1);
     var lost = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sound_shutdown2.mp3?raw=true'); // don't forget raw=true!
     sounds.push(lost);
     var sellTower = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_double3.mp3?raw=true'); // don't forget raw=true!
@@ -407,13 +407,16 @@ class Game extends React.Component {
     sounds.push(earnMinionGold);
     var waveStarts = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_alarm_loop3.mp3?raw=true');
     sounds.push(waveStarts);
+    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); // don't forget raw=true!
+    sounds.push(upgradeTower1);
     
-
+    
+    
 
     // ATTRIBUTES
     var TOWERS = {
     //classic tower: normal damage cheap
-      TIER1: {
+      PLANT: {
         id: 1,
         towerColor: "lightgreen",
         projectileColor: "#00FF00",
@@ -424,7 +427,7 @@ class Game extends React.Component {
         attackSpeed: 100
       },
       // double everything? double the fun! actually don't buy this; you know why the 1st tower is better
-      TIER2: {
+      WATER: {
         id: 2,
         towerColor: "lightblue",
         projectileColor: "#099FFF",
@@ -435,7 +438,7 @@ class Game extends React.Component {
         attackSpeed: 100
       },
       //lazor tower
-      TIER3: {
+      FIRE: {
         id: 3,
         towerColor: "yellow",
         projectileColor: "#FF3300",
@@ -446,7 +449,7 @@ class Game extends React.Component {
         attackSpeed: 2
       },
       //not implemented
-      TIER4: {
+      PSYCH: {
         id: 4,
         towerColor: "midnightblue",
         projectileColor: "#6E0DD0",
@@ -457,7 +460,7 @@ class Game extends React.Component {
         attackSpeed: 100
       },
       //oneshot
-      TIER5: {
+      DRAGON: {
         id: 5,
         towerColor: "indigo",
         projectileColor: "#FF5F1F",
@@ -468,6 +471,122 @@ class Game extends React.Component {
         attackSpeed: 150
       },
     };
+
+    var TOWERS2 = {
+      //classic tower: normal damage cheap
+        PLANT: {
+          id: 6,
+          towerColor: "green",
+          projectileColor: "#00FF00",
+          damage: 20,
+          speed: 5,
+          towerCost: 300,
+          towerImage: towerImages[1],
+          attackSpeed: 100
+        },
+        // double everything? double the fun! actually don't buy this; you know why the 1st tower is better
+        WATER: {
+          id: 7,
+          towerColor: "lightblue",
+          projectileColor: "#099FFF",
+          damage: 40,
+          speed: 7,
+          towerCost: 200,
+          towerImage: towerImages[7],
+          attackSpeed: 100
+        },
+        //lazor tower
+        FIRE: {
+          id: 8,
+          towerColor: "yellow",
+          projectileColor: "#FF3300",
+          damage: 1,
+          speed: 20,
+          towerCost: 100,
+          towerImage: towerImages[4],
+          attackSpeed: 2
+        },
+        //not implemented
+        PSYCH: {
+          id: 9,
+          towerColor: "midnightblue",
+          projectileColor: "#6E0DD0",
+          damage: 10,
+          speed: 4,
+          towerCost: 400,
+          towerImage: towerImages[10],
+          attackSpeed: 100
+        },
+        //oneshot
+        DRAGON: {
+          id: 10,
+          towerColor: "indigo",
+          projectileColor: "#FF5F1F",
+          damage: 300,
+          speed: 5,
+          towerCost: 1000,
+          towerImage: towerImages[13],
+          attackSpeed: 150
+        },
+      };
+
+      var TOWERS3 = {
+        //classic tower: normal damage cheap
+          PLANT: {
+            id: 11,
+            towerColor: "green",
+            projectileColor: "#00FF00",
+            damage: 20,
+            speed: 5,
+            towerCost: 300,
+            towerImage: towerImages[2],
+            attackSpeed: 100
+          },
+          // double everything? double the fun! actually don't buy this; you know why the 1st tower is better
+          WATER: {
+            id: 12,
+            towerColor: "blue",
+            projectileColor: "#099FFF",
+            damage: 40,
+            speed: 7,
+            towerCost: 200,
+            towerImage: towerImages[8],
+            attackSpeed: 100
+          },
+          //lazor tower
+          FIRE: {
+            id: 13,
+            towerColor: "red",
+            projectileColor: "#FF3300",
+            damage: 1,
+            speed: 20,
+            towerCost: 100,
+            towerImage: towerImages[5],
+            attackSpeed: 2
+          },
+          //not implemented
+          PSYCH: {
+            id: 14,
+            towerColor: "midnightblue",
+            projectileColor: "#6E0DD0",
+            damage: 10,
+            speed: 4,
+            towerCost: 400,
+            towerImage: towerImages[11],
+            attackSpeed: 100
+          },
+          //oneshot
+          DRAGON: {
+            id: 15,
+            towerColor: "indigo",
+            projectileColor: "#FF5F1F",
+            damage: 300,
+            speed: 5,
+            towerCost: 1000,
+            towerImage: towerImages[14],
+            attackSpeed: 150
+          },
+        };
 
     var MINIONS = {
       CRAWLER: {
@@ -704,7 +823,7 @@ class Game extends React.Component {
       ) {
         towerSelector = 1;
         sellSelector = 0;
-        towerCost = TOWERS.TIER1.towerCost;
+        towerCost = TOWERS.PLANT.towerCost;
         buyCheck = true;
         towerType = "PlantTower1"
         console.log("selected first tower");
@@ -719,7 +838,7 @@ class Game extends React.Component {
       ) {
         towerSelector = 2;
         sellSelector = 0;
-        towerCost = TOWERS.TIER2.towerCost;
+        towerCost = TOWERS.WATER.towerCost;
         buyCheck = true;
         towerType = "WaterTower1"
         console.log("selected second tower");
@@ -734,7 +853,7 @@ class Game extends React.Component {
       ) {
         towerSelector = 3;
         sellSelector = 0;
-        towerCost = TOWERS.TIER3.towerCost;
+        towerCost = TOWERS.FIRE.towerCost;
         buyCheck = true;
         towerType = "FireTower1"
         console.log("selected third tower");
@@ -748,7 +867,7 @@ class Game extends React.Component {
       ) {
         towerSelector = 4;
         sellSelector = 0;
-        towerCost = TOWERS.TIER4.towerCost;
+        towerCost = TOWERS.PSYCH.towerCost;
         buyCheck = true;
         towerType = "PsychTower1"
         console.log("selected fourth tower");
@@ -762,7 +881,7 @@ class Game extends React.Component {
       ) {
         towerSelector = 5;
         sellSelector = 0;
-        towerCost = TOWERS.TIER5.towerCost;
+        towerCost = TOWERS.DRAGON.towerCost;
         buyCheck = true;
         towerType = "DragonTower1"
         console.log("selected fifth tower");
@@ -801,7 +920,172 @@ class Game extends React.Component {
           if(upgradeSelctor) {
             console.log("upgrade");
             this.upgrade(coordArray);
-            sounds[2].play();
+            var tempID = towers[i].id
+            var tempDirection = towers[i].direction;
+            towers.splice(i,1); // remove tower
+            // place new one
+            switch(tempID) {
+              case 1:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS2.PLANT.towerColor,
+                  TOWERS2.PLANT.projectileColor,
+                  TOWERS2.PLANT.damage,
+                  TOWERS2.PLANT.speed,
+                  TOWERS2.PLANT.towerCost,
+                  tempDirection,
+                  TOWERS2.PLANT.towerImage,
+                  TOWERS2.PLANT.attackSpeed,
+                  TOWERS2.PLANT.id
+                ))
+                
+                break;
+              case 2:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS2.WATER.towerColor,
+                  TOWERS2.WATER.projectileColor,
+                  TOWERS2.WATER.damage,
+                  TOWERS2.WATER.speed,
+                  TOWERS2.WATER.towerCost,
+                  tempDirection,
+                  TOWERS2.WATER.towerImage,
+                  TOWERS2.WATER.attackSpeed,
+                  TOWERS2.WATER.id
+                ))
+                break;
+                case 3:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS2.FIRE.towerColor,
+                  TOWERS2.FIRE.projectileColor,
+                  TOWERS2.FIRE.damage,
+                  TOWERS2.FIRE.speed,
+                  TOWERS2.FIRE.towerCost,
+                  tempDirection,
+                  TOWERS2.FIRE.towerImage,
+                  TOWERS2.FIRE.attackSpeed,
+                  TOWERS2.FIRE.id
+                ))
+                break;
+              case 4:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS2.PSYCH.towerColor,
+                  TOWERS2.PSYCH.projectileColor,
+                  TOWERS2.PSYCH.damage,
+                  TOWERS2.PSYCH.speed,
+                  TOWERS2.PSYCH.towerCost,
+                  tempDirection,
+                  TOWERS2.PSYCH.towerImage,
+                  TOWERS2.PSYCH.attackSpeed,
+                  TOWERS2.PSYCH.id
+                ))
+                break;
+                case 5:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS2.DRAGON.towerColor,
+                  TOWERS2.DRAGON.projectileColor,
+                  TOWERS2.DRAGON.damage,
+                  TOWERS2.DRAGON.speed,
+                  TOWERS2.DRAGON.towerCost,
+                  tempDirection,
+                  TOWERS2.DRAGON.towerImage,
+                  TOWERS2.DRAGON.attackSpeed,
+                  TOWERS2.DRAGON.id
+                ))
+                break;
+                case 6:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS3.PLANT.towerColor,
+                  TOWERS3.PLANT.projectileColor,
+                  TOWERS3.PLANT.damage,
+                  TOWERS3.PLANT.speed,
+                  TOWERS3.PLANT.towerCost,
+                  tempDirection,
+                  TOWERS3.PLANT.towerImage,
+                  TOWERS3.PLANT.attackSpeed,
+                  TOWERS3.PLANT.id
+                ))
+                break;
+              case 7:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS3.WATER.towerColor,
+                  TOWERS3.WATER.projectileColor,
+                  TOWERS3.WATER.damage,
+                  TOWERS3.WATER.speed,
+                  TOWERS3.WATER.towerCost,
+                  tempDirection,
+                  TOWERS3.WATER.towerImage,
+                  TOWERS3.WATER.attackSpeed,
+                  TOWERS3.WATER.id
+                ))
+                break;
+                case 8:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS3.FIRE.towerColor,
+                  TOWERS3.FIRE.projectileColor,
+                  TOWERS3.FIRE.damage,
+                  TOWERS3.FIRE.speed,
+                  TOWERS3.FIRE.towerCost,
+                  tempDirection,
+                  TOWERS3.FIRE.towerImage,
+                  TOWERS3.FIRE.attackSpeed,
+                  TOWERS3.FIRE.id
+                ))
+                break;
+              case 9:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS3.PSYCH.towerColor,
+                  TOWERS3.PSYCH.projectileColor,
+                  TOWERS3.PSYCH.damage,
+                  TOWERS3.PSYCH.speed,
+                  TOWERS3.PSYCH.towerCost,
+                  tempDirection,
+                  TOWERS3.PSYCH.towerImage,
+                  TOWERS3.PSYCH.attackSpeed,
+                  TOWERS3.PSYCH.id
+                ))
+                break;
+                case 10:
+                towers.push(new Tower(
+                  gridPositionX,
+                  gridPositionY,
+                  TOWERS3.DRAGON.towerColor,
+                  TOWERS3.DRAGON.projectileColor,
+                  TOWERS3.DRAGON.damage,
+                  TOWERS3.DRAGON.speed,
+                  TOWERS3.DRAGON.towerCost,
+                  tempDirection,
+                  TOWERS3.DRAGON.towerImage,
+                  TOWERS3.DRAGON.attackSpeed,
+                  TOWERS3.DRAGON.id
+                ))
+                break;
+            }
+
+            if(tempID <=5 ) {
+              sounds[2].play();
+            }
+            else if(tempID >= 6) {
+              sounds[7].play();
+            } 
+            
+            
             return;
           }
           if(sellSelector && !upgradeSelctor) {
@@ -830,14 +1114,15 @@ class Game extends React.Component {
                 new Tower(
                   gridPositionX,
                   gridPositionY,
-                  TOWERS.TIER1.towerColor,
-                  TOWERS.TIER1.projectileColor,
-                  TOWERS.TIER1.damage,
-                  TOWERS.TIER1.speed,
-                  TOWERS.TIER1.towerCost,
+                  TOWERS.PLANT.towerColor,
+                  TOWERS.PLANT.projectileColor,
+                  TOWERS.PLANT.damage,
+                  TOWERS.PLANT.speed,
+                  TOWERS.PLANT.towerCost,
                   directionSelector,
-                  TOWERS.TIER1.towerImage,
-                  TOWERS.TIER1.attackSpeed
+                  TOWERS.PLANT.towerImage,
+                  TOWERS.PLANT.attackSpeed,
+                  TOWERS.PLANT.id
                 )
               );
               break;
@@ -848,14 +1133,15 @@ class Game extends React.Component {
                 new Tower(
                   gridPositionX,
                   gridPositionY,
-                  TOWERS.TIER2.towerColor,
-                  TOWERS.TIER2.projectileColor,
-                  TOWERS.TIER2.damage,
-                  TOWERS.TIER2.speed,
-                  TOWERS.TIER2.towerCost,
+                  TOWERS.WATER.towerColor,
+                  TOWERS.WATER.projectileColor,
+                  TOWERS.WATER.damage,
+                  TOWERS.WATER.speed,
+                  TOWERS.WATER.towerCost,
                   directionSelector,
-                  TOWERS.TIER2.towerImage,
-                  TOWERS.TIER2.attackSpeed
+                  TOWERS.WATER.towerImage,
+                  TOWERS.WATER.attackSpeed,
+                  TOWERS.WATER.id
                 )
               );
               break;
@@ -866,14 +1152,15 @@ class Game extends React.Component {
                 new Tower(
                   gridPositionX,
                   gridPositionY,
-                  TOWERS.TIER3.towerColor,
-                  TOWERS.TIER3.projectileColor,
-                  TOWERS.TIER3.damage,
-                  TOWERS.TIER3.speed,
-                  TOWERS.TIER3.towerCost,
+                  TOWERS.FIRE.towerColor,
+                  TOWERS.FIRE.projectileColor,
+                  TOWERS.FIRE.damage,
+                  TOWERS.FIRE.speed,
+                  TOWERS.FIRE.towerCost,
                   directionSelector,
-                  TOWERS.TIER3.towerImage,
-                  TOWERS.TIER3.attackSpeed
+                  TOWERS.FIRE.towerImage,
+                  TOWERS.FIRE.attackSpeed,
+                  TOWERS.FIRE.id
 
                 )
               );
@@ -885,14 +1172,15 @@ class Game extends React.Component {
                 new Tower(
                   gridPositionX,
                   gridPositionY,
-                  TOWERS.TIER4.towerColor,
-                  TOWERS.TIER4.projectileColor,
-                  TOWERS.TIER4.damage,
-                  TOWERS.TIER4.speed,
-                  TOWERS.TIER4.towerCost,
+                  TOWERS.PSYCH.towerColor,
+                  TOWERS.PSYCH.projectileColor,
+                  TOWERS.PSYCH.damage,
+                  TOWERS.PSYCH.speed,
+                  TOWERS.PSYCH.towerCost,
                   directionSelector,
-                  TOWERS.TIER4.towerImage,
-                  TOWERS.TIER4.attackSpeed
+                  TOWERS.PSYCH.towerImage,
+                  TOWERS.PSYCH.attackSpeed,
+                  TOWERS.PSYCH.id
                 )
               );
               break;
@@ -903,14 +1191,15 @@ class Game extends React.Component {
                 new Tower(
                   gridPositionX,
                   gridPositionY,
-                  TOWERS.TIER5.towerColor,
-                  TOWERS.TIER5.projectileColor,
-                  TOWERS.TIER5.damage,
-                  TOWERS.TIER5.speed,
-                  TOWERS.TIER5.towerCost,
+                  TOWERS.DRAGON.towerColor,
+                  TOWERS.DRAGON.projectileColor,
+                  TOWERS.DRAGON.damage,
+                  TOWERS.DRAGON.speed,
+                  TOWERS.DRAGON.towerCost,
                   directionSelector,
-                  TOWERS.TIER5.towerImage,
-                  TOWERS.TIER5.attackSpeed
+                  TOWERS.DRAGON.towerImage,
+                  TOWERS.DRAGON.attackSpeed,
+                  TOWERS.DRAGON.id
                 )
               );
               break;
@@ -1049,6 +1338,7 @@ class Game extends React.Component {
         direction,
         towerImage,
         attackSpeed,
+        towerId,
 
       ) {
         // 2dim. array attribute
@@ -1067,6 +1357,7 @@ class Game extends React.Component {
         this.towerCost = towerCost;
         this.direction = direction;
         this.towerImage = towerImage;
+        this.id = towerId;
       }
 
       draw() {
@@ -1570,71 +1861,76 @@ class Game extends React.Component {
         new Tower(
           16 * tileSize,
           2.5 * tileSize,
-          TOWERS.TIER1.towerColor,
+          TOWERS.PLANT.towerColor,
 
-          TOWERS.TIER1.projectileColor,
-          TOWERS.TIER1.damage,
-          TOWERS.TIER1.speed,
-          TOWERS.TIER1.towerCost,
+          TOWERS.PLANT.projectileColor,
+          TOWERS.PLANT.damage,
+          TOWERS.PLANT.speed,
+          TOWERS.PLANT.towerCost,
           directionSelector,
-          TOWERS.TIER1.towerImage,
-          TOWERS.TIER1.attackSpeed
+          TOWERS.PLANT.towerImage,
+          TOWERS.PLANT.attackSpeed,
+          TOWERS.PLANT.id
         )
       );
       towerList.push(
         new Tower(
           16 * tileSize,
           4.5 * tileSize,
-          TOWERS.TIER2.towerColor,
-          TOWERS.TIER2.projectileColor,
-          TOWERS.TIER2.damage,
-          TOWERS.TIER2.speed,
-          TOWERS.TIER2.towerCost,
+          TOWERS.WATER.towerColor,
+          TOWERS.WATER.projectileColor,
+          TOWERS.WATER.damage,
+          TOWERS.WATER.speed,
+          TOWERS.WATER.towerCost,
           directionSelector,
-          TOWERS.TIER2.towerImage,
-          TOWERS.TIER2.attackSpeed
+          TOWERS.WATER.towerImage,
+          TOWERS.WATER.attackSpeed,
+          TOWERS.WATER.id
         )
       );
       towerList.push(
         new Tower(
           16 * tileSize,
           6.5 * tileSize,
-          TOWERS.TIER3.towerColor,
-          TOWERS.TIER3.projectileColor,
-          TOWERS.TIER3.damage,
-          TOWERS.TIER3.speed,
-          TOWERS.TIER3.towerCost,
+          TOWERS.FIRE.towerColor,
+          TOWERS.FIRE.projectileColor,
+          TOWERS.FIRE.damage,
+          TOWERS.FIRE.speed,
+          TOWERS.FIRE.towerCost,
           directionSelector,
-          TOWERS.TIER3.towerImage,
-          TOWERS.TIER3.attackSpeed
+          TOWERS.FIRE.towerImage,
+          TOWERS.FIRE.attackSpeed,
+          TOWERS.FIRE.id
         )
       );
       towerList.push(
         new Tower(
           16 * tileSize,
           8.5 * tileSize,
-          TOWERS.TIER4.towerColor,
-          TOWERS.TIER4.projectileColor,
-          TOWERS.TIER4.damage,
-          TOWERS.TIER4.speed,
-          TOWERS.TIER4.towerCost,
+          TOWERS.PSYCH.towerColor,
+          TOWERS.PSYCH.projectileColor,
+          TOWERS.PSYCH.damage,
+          TOWERS.PSYCH.speed,
+          TOWERS.PSYCH.towerCost,
           directionSelector,
-          TOWERS.TIER4.towerImage,
-          TOWERS.TIER4.attackSpeed
+          TOWERS.PSYCH.towerImage,
+          TOWERS.PSYCH.attackSpeed,
+          TOWERS.PSYCH.id
         )
       );
       towerList.push(
         new Tower(
           16 * tileSize,
           10.5 * tileSize,
-          TOWERS.TIER5.towerColor,
-          TOWERS.TIER5.projectileColor,
-          TOWERS.TIER5.damage,
-          TOWERS.TIER5.speed,
-          TOWERS.TIER5.towerCost,
+          TOWERS.DRAGON.towerColor,
+          TOWERS.DRAGON.projectileColor,
+          TOWERS.DRAGON.damage,
+          TOWERS.DRAGON.speed,
+          TOWERS.DRAGON.towerCost,
           directionSelector,
-          TOWERS.TIER5.towerImage,
-          TOWERS.TIER5.attackSpeed
+          TOWERS.DRAGON.towerImage,
+          TOWERS.DRAGON.attackSpeed,
+          TOWERS.DRAGON.id
         )
       );
     }
