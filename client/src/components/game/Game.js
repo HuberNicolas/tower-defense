@@ -390,6 +390,22 @@ class Game extends React.Component {
     m3.src =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png"; // Garados
     minionImages.push(m3);
+    const m4 = new Image();
+    m4.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/92.png"; // Nebulak
+    minionImages.push(m4);
+    const m5 = new Image();
+    m5.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png"; // Zapdos
+    minionImages.push(m5);
+    const m6 = new Image();
+    m6.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png"; // Lavados
+    minionImages.push(m6);
+    const m7 = new Image();
+    m7.src =
+      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png"; // Arktos
+    minionImages.push(m7);
 
 
     // SOUNDS
@@ -448,13 +464,13 @@ class Game extends React.Component {
         towerImage: towerImages[3],
         attackSpeed: 2
       },
-      //not implemented
+      //allrounder/slow shots
       PSYCH: {
         id: 4,
         towerColor: "midnightblue",
         projectileColor: "#6E0DD0",
-        damage: 50,
-        speed: 3,
+        damage: 40,
+        speed: 2,
         towerCost: 400,
         towerImage: towerImages[9],
         attackSpeed: 40
@@ -478,11 +494,11 @@ class Game extends React.Component {
           id: 6,
           towerColor: "green",
           projectileColor: "#00FF00",
-          damage: 20,
+          damage: 35,
           speed: 5,
-          towerCost: 300,
+          towerCost: 100,
           towerImage: towerImages[1],
-          attackSpeed: 100
+          attackSpeed: 90
         },
         // double everything? double the fun! actually don't buy this; you know why the 1st tower is better
         WATER: {
@@ -500,9 +516,9 @@ class Game extends React.Component {
           id: 8,
           towerColor: "yellow",
           projectileColor: "#FF3300",
-          damage: 1,
+          damage: 2,
           speed: 20,
-          towerCost: 100,
+          towerCost: 300,
           towerImage: towerImages[4],
           attackSpeed: 2
         },
@@ -511,11 +527,11 @@ class Game extends React.Component {
           id: 9,
           towerColor: "midnightblue",
           projectileColor: "#6E0DD0",
-          damage: 10,
-          speed: 4,
-          towerCost: 400,
+          damage: 70,
+          speed: 2,
+          towerCost: 1000,
           towerImage: towerImages[10],
-          attackSpeed: 100
+          attackSpeed: 40
         },
         //oneshot
         DRAGON: {
@@ -536,7 +552,7 @@ class Game extends React.Component {
             id: 11,
             towerColor: "green",
             projectileColor: "#00FF00",
-            damage: 20,
+            damage: 75,
             speed: 5,
             towerCost: 300,
             towerImage: towerImages[2],
@@ -547,41 +563,41 @@ class Game extends React.Component {
             id: 12,
             towerColor: "blue",
             projectileColor: "#099FFF",
-            damage: 40,
-            speed: 7,
-            towerCost: 200,
+            damage: 60,
+            speed: 10,
+            towerCost: 1000,
             towerImage: towerImages[8],
-            attackSpeed: 100
+            attackSpeed: 50
           },
           //lazor tower
           FIRE: {
             id: 13,
             towerColor: "red",
             projectileColor: "#FF3300",
-            damage: 1,
+            damage: 2,
             speed: 20,
             towerCost: 100,
             towerImage: towerImages[5],
-            attackSpeed: 2
+            attackSpeed: 1
           },
           //not implemented
           PSYCH: {
             id: 14,
             towerColor: "midnightblue",
             projectileColor: "#6E0DD0",
-            damage: 10,
-            speed: 4,
+            damage: 100,
+            speed: 2,
             towerCost: 400,
             towerImage: towerImages[11],
-            attackSpeed: 100
+            attackSpeed: 30
           },
           //oneshot
           DRAGON: {
             id: 15,
             towerColor: "indigo",
             projectileColor: "#FF5F1F",
-            damage: 300,
-            speed: 5,
+            damage: 1500,
+            speed: 7,
             towerCost: 1000,
             towerImage: towerImages[14],
             attackSpeed: 150
@@ -605,19 +621,59 @@ class Game extends React.Component {
         minionSize: 32,
         minionDamage: 1,
         minionSpeed: 5,
-        minionHealth: 75,
+        minionHealth: 175,
         minionCost: 125,
+        minionImage: minionImages[3],
+      },
+      Gengar: {
+        id: "Gengar",
+        minionColor: "pink",
+        minionSize: 32,
+        minionDamage: 2,
+        minionSpeed: 5,
+        minionHealth: 225,
+        minionCost: 225,
         minionImage: minionImages[1],
       },
       Garados: {
         id: "Garados",
         minionColor: "pink",
         minionSize: 60,
-        minionDamage: 5,
+        minionDamage: 15,
         minionSpeed: 3,
-        minionHealth: 500,
+        minionHealth: 1000,
         minionCost: 1000,
         minionImage: minionImages[2],
+      },
+      Zapdos: {
+        id: "Zapdos",
+        minionColor: "pink",
+        minionSize: 60,
+        minionDamage: 8,
+        minionSpeed: 6,
+        minionHealth: 2500,
+        minionCost: 1000,
+        minionImage: minionImages[4],
+      },
+      Lavados: {
+        id: "Lavados",
+        minionColor: "pink",
+        minionSize: 60,
+        minionDamage: 8,
+        minionSpeed: 3,
+        minionHealth: 4000,
+        minionCost: 1000,
+        minionImage: minionImages[4],
+      },
+      Arktos: {
+        id: "Arktos",
+        minionColor: "pink",
+        minionSize: 60,
+        minionDamage: 8,
+        minionSpeed: 2,
+        minionHealth: 7000,
+        minionCost: 1000,
+        minionImage: minionImages[4],
       },
     };
 
@@ -627,10 +683,6 @@ class Game extends React.Component {
       DOWN: { id: 2 },
       LEFT: { id: 3 },
     };
-
-
-
-
 
     // EventListeners
     // fixed bug when resizing
@@ -718,44 +770,100 @@ class Game extends React.Component {
         {
           sounds[6].play();
         for (let i = 0; i < wave.length; i++) {
-                  switch (wave[i]) {
-                    case "Karpador":
-                      minionsToSpawn.push(
-                        new Minion(
-                          MINIONS.Karpador.minionColor,
-                          MINIONS.Karpador.minionSize,
-                          MINIONS.Karpador.minionHealth,
-                          MINIONS.Karpador.minionSpeed,
-                          MINIONS.Karpador.minionDamage,
-                          MINIONS.Karpador.minionImage
-                        )
-                      );
-                      break;
-
-                    case "Garados":
-                      minionsToSpawn.push(
-                        new Minion(
-                          MINIONS.Garados.minionColor,
-                          MINIONS.Garados.minionSize,
-                          MINIONS.Garados.minionHealth,
-                          MINIONS.Garados.minionSpeed,
-                          MINIONS.Garados.minionDamage,
-                          MINIONS.Garados.minionImage
-                        )
-                      );
-                      break;
-                  }
-                }
-
-                localStorage.setItem("wave", []);
-                gold = parseInt(localStorage.getItem("gold"));
-                prepPhase = false;
-                phase = false;
-                collectPhase = false;
-                return;
+          switch (wave[i]) {
+            case "Karpador":
+              minionsToSpawn.push(
+                new Minion(
+                  MINIONS.Karpador.minionColor,
+                  MINIONS.Karpador.minionSize,
+                  MINIONS.Karpador.minionHealth,
+                  MINIONS.Karpador.minionSpeed,
+                  MINIONS.Karpador.minionDamage,
+                  MINIONS.Karpador.minionImage
+                )
+              );
+              break;
+            case "Nebulak":
+              minionsToSpawn.push(
+                new Minion(
+                  MINIONS.Nebulak.minionColor,
+                  MINIONS.Nebulak.minionSize,
+                  MINIONS.Nebulak.minionHealth,
+                  MINIONS.Nebulak.minionSpeed,
+                  MINIONS.Nebulak.minionDamage,
+                  MINIONS.Nebulak.minionImage
+                )
+              );
+              break;
+            case "Gengar":
+              minionsToSpawn.push(
+                new Minion(
+                  MINIONS.Gengar.minionColor,
+                  MINIONS.Gengar.minionSize,
+                  MINIONS.Gengar.minionHealth,
+                  MINIONS.Gengar.minionSpeed,
+                  MINIONS.Gengar.minionDamage,
+                  MINIONS.Gengar.minionImage
+                )
+              );
+              break;
+            case "Zapdos":
+              minionsToSpawn.push(
+                new Minion(
+                  MINIONS.Zapdos.minionColor,
+                  MINIONS.Zapdos.minionSize,
+                  MINIONS.Zapdos.minionHealth,
+                  MINIONS.Zapdos.minionSpeed,
+                  MINIONS.Zapdos.minionDamage,
+                  MINIONS.Zapdos.minionImage
+                )
+              );
+              break;
+              case "Arktos":
+                minionsToSpawn.push(
+                  new Minion(
+                    MINIONS.Arktos.minionColor,
+                    MINIONS.Arktos.minionSize,
+                    MINIONS.Arktos.minionHealth,
+                    MINIONS.Arktos.minionSpeed,
+                    MINIONS.Arktos.minionDamage,
+                    MINIONS.Arktos.minionImage
+                  )
+                );
+                break;
+                case "Lavados":
+                  minionsToSpawn.push(
+                    new Minion(
+                      MINIONS.Lavados.minionColor,
+                      MINIONS.Lavados.minionSize,
+                      MINIONS.Lavados.minionHealth,
+                      MINIONS.Lavados.minionSpeed,
+                      MINIONS.Lavados.minionDamage,
+                      MINIONS.Lavados.minionImage
+                    )
+                  );
+                  break;
+            case "Garados":
+              minionsToSpawn.push(
+                new Minion(
+                  MINIONS.Garados.minionColor,
+                  MINIONS.Garados.minionSize,
+                  MINIONS.Garados.minionHealth,
+                  MINIONS.Garados.minionSpeed,
+                  MINIONS.Garados.minionDamage,
+                  MINIONS.Garados.minionImage
+                )
+              );
+              break;
+          }
         }
-
-
+        localStorage.setItem("wave", []);
+        gold = parseInt(localStorage.getItem("gold"));
+        prepPhase = false;
+        phase = false;
+        collectPhase = false;
+        return;
+        }
 
       // clicked on sell: change sellSelector
       if (
@@ -911,8 +1019,6 @@ class Game extends React.Component {
       for (let i = 0; i < towers.length; i++) {
         if (towers[i].x == gridPositionX && towers[i].y == gridPositionY) {
           // CHECK LOGIC HERE
-          
-
           
           if (!sellSelector && !upgradeSelctor) {
             return;
@@ -1084,8 +1190,6 @@ class Game extends React.Component {
             else if(tempID >= 6) {
               sounds[7].play();
             } 
-            
-            
             return;
           }
           if(sellSelector && !upgradeSelctor) {
@@ -1216,7 +1320,6 @@ class Game extends React.Component {
     );
 
     // ENTITIES
-
     class Tile {
       constructor(x, y) {
         this.x = x;
@@ -1654,10 +1757,6 @@ class Game extends React.Component {
         ctx.fillText("you have been defeated... ", 45, 450);
         ctx.fillText("Score: " + score, 200, 550);
       }
-
-
-
-
     }
 
     function handleGameGrid() {
@@ -1791,8 +1890,6 @@ class Game extends React.Component {
       ctx.stroke();
       ctx.lineWidth = 1;
 
-      
-
       // tower info
       if(towerSelector==0) {
         ctx.fillStyle = "green";
@@ -1807,9 +1904,6 @@ class Game extends React.Component {
         ctx.fillText("Cost: " + towerList[towerSelector-1].towerCost, tileSize * 18.5, tileSize * 8);
         ctx.fillText("Damage: " + towerList[towerSelector-1].damage, tileSize * 18.5, tileSize * 8.5);
       }
-
-
-
 
       // draw towers
       for (let i = 0; i < towerList.length; i++) {
@@ -1996,7 +2090,6 @@ class Game extends React.Component {
           href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
           rel="stylesheet"
         />
-
         <canvas
           ref={this.canvasRef}
           width={this.state.canvasWidth}
