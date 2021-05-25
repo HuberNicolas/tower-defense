@@ -57,3 +57,14 @@ button {
   50% {background: lime}
   100% {background: #222}
 }
+
+
+#gameboard {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width:1366px;
+  height: 768px;
+  background: white;
+}
