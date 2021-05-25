@@ -711,7 +711,7 @@ class Game extends React.Component {
       var coordArray = getCoordiantes(gridPositionX, gridPositionY);
       
       // clicked on statusbar: do nothing
-      if (gridPositionY < STATUS_BAR_HEIGHT) return;
+      //if (gridPositionY < STATUS_BAR_HEIGHT) return;
 
       /* // DEBUG
       console.log("CLICK");
@@ -722,10 +722,10 @@ class Game extends React.Component {
 
       // clicked on change directory: change directory
       if (
-        19*tileSize <= gridPositionX &&
-        gridPositionX < 20*tileSize &&
-        2*tileSize <= gridPositionY &&
-        gridPositionY < 3*tileSize
+        18.5*tileSize <= mouse.x &&
+        mouse.x < 19.5*tileSize &&
+        2.5*tileSize <= mouse.y &&
+        mouse.y < 3.5*tileSize
       ) {
         sounds[1].play();
         directionSelector = (directionSelector + 1) % 4;
@@ -735,10 +735,10 @@ class Game extends React.Component {
 
       // clicked on sell: change sellSelector
       if (
-        19*tileSize <= gridPositionX &&
-        gridPositionX < 20*tileSize &&
-        4*tileSize <= gridPositionY &&
-        gridPositionY < 5*tileSize
+        18.5*tileSize <= mouse.x &&
+        mouse.x < 19.5*tileSize &&
+        4.5*tileSize <= mouse.y &&
+        mouse.y < 5.5*tileSize
       ) {
         sounds[1].play();
         sellSelector = (sellSelector + 1) % 2;
@@ -748,10 +748,10 @@ class Game extends React.Component {
 
        // clicked on upgrade
        if (
-        20*tileSize <= gridPositionX &&
-        gridPositionX < 21*tileSize &&
-        4*tileSize <= gridPositionY &&
-        gridPositionY < 5*tileSize
+        20*tileSize <= mouse.x &&
+        mouse.x < 21*tileSize &&
+        4.5*tileSize <= mouse.y &&
+        mouse.y  < 5.5*tileSize
       ) {
         sounds[1].play();
         upgradeSelctor = (upgradeSelctor + 1) % 2;
@@ -761,13 +761,14 @@ class Game extends React.Component {
 
       //if clicked on collect interest:
       if (
-              18 * tileSize + 10 <= gridPositionX &&
-              gridPositionX < 19 * tileSize + 10 &&
-              10 * tileSize + 38 <= gridPositionY &&
-              gridPositionY < 11 * tileSize + 38 &&
+              20 * tileSize <= mouse.x &&
+              mouse.x < 21 * tileSize &&
+              6.5 * tileSize <= mouse.y &&
+              mouse.y < 7.5 * tileSize &&
               prepPhase && collectPhase
             )
         {
+          console.log("spawn wave")
           sounds[6].play();
         for (let i = 0; i < wave.length; i++) {
           switch (wave[i]) {
@@ -865,15 +866,16 @@ class Game extends React.Component {
         return;
         }
 
-      // clicked on sell: change sellSelector
+      // clicked on ready
       if (
-        19 * tileSize <= gridPositionX &&
-        gridPositionX < 20 * tileSize &&
-        6 * tileSize <= gridPositionY &&
-        gridPositionY < 7 * tileSize &&
+        18.5 * tileSize <= mouse.x &&
+        mouse.x < 19.5 * tileSize &&
+        6.5 *  tileSize<= mouse.y &&
+        mouse.y < 7.5 * tileSize  &&
         prepPhase && !collectPhase
       )
        {
+        console.log("ready");
         sounds[1].play();
         // empty projectiles
         projectiles.splice(0,projectiles.length)
@@ -882,44 +884,6 @@ class Game extends React.Component {
         .then(result => wave = JSON.parse(localStorage.getItem("wave")))
         
         collectPhase = true;
-
-/*
-        for (let i = 0; i < wave.length; i++) {
-          switch (wave[i]) {
-            case "Goblin":
-              minionsToSpawn.push(
-                new Minion(
-                  MINIONS.CRAWLER.minionColor,
-                  MINIONS.CRAWLER.minionSize,
-                  MINIONS.CRAWLER.minionHealth,
-                  MINIONS.CRAWLER.minionSpeed,
-                  MINIONS.CRAWLER.minionDamage,
-                  MINIONS.CRAWLER.minionImage
-                )
-              );
-              break;
-
-            case "GoblinOverlord":
-              minionsToSpawn.push(
-                new Minion(
-                  MINIONS.BOSS.minionColor,
-                  MINIONS.BOSS.minionSize,
-                  MINIONS.BOSS.minionHealth,
-                  MINIONS.BOSS.minionSpeed,
-                  MINIONS.BOSS.minionDamage,
-                  MINIONS.BOSS.minionImage
-                )
-              );
-              break;
-          }
-        }
-
-        localStorage.setItem("wave", []);
-
-        prepPhase = false;
-        phase = false;
-        return;
-        */
       }
 
       // clicked on different towers: set current tower
@@ -1357,6 +1321,16 @@ class Game extends React.Component {
       }
     }
 
+    // DEBUG ONLY
+    function createGrid1() {
+      // fills gameGrid array with tile objects
+      for (let y = 0; y < canvas.height; y += tileSize) {
+        for (let x = 0; x < canvas.width; x += tileSize) {
+          gameGrid.push(new Tile(x, y));
+        }
+      }
+    }
+
     class Path {
       constructor(x, y) {
         this.x = x;
@@ -1478,6 +1452,7 @@ class Game extends React.Component {
         this.timer++;
         if (this.timer % this.attackSpeed === 0) {
           projectiles.push(
+            // water tower multiple projectiles
             new Projectiles(
               this.x + 30,
               this.y + 30,
@@ -1670,7 +1645,7 @@ class Game extends React.Component {
         // highlight
         ctx.beginPath();
 
-        ctx.rect(19 * tileSize, 4 * tileSize, tileSize, tileSize);
+        ctx.rect(18.5 * tileSize, 4.5 * tileSize, tileSize, tileSize);
         ctx.lineWidth = 5;
         ctx.strokeStyle = "dodgerblue";
         ctx.stroke();
@@ -1731,13 +1706,105 @@ class Game extends React.Component {
       if (upgradeSelctor) {
         // highlight
         ctx.beginPath();
-        ctx.rect(20 * tileSize, 4 * tileSize, tileSize, tileSize);
+        ctx.rect(20 * tileSize, 4.5 * tileSize, tileSize, tileSize);
         ctx.lineWidth = 5;
         ctx.strokeStyle = "dodgerblue";
         ctx.stroke();
         ctx.closePath();
       }
+
       
+      if (collectPhase) {
+        // highlight
+        ctx.beginPath();
+        ctx.rect(20 * tileSize, 6.5 * tileSize, tileSize, tileSize);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "green";
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+      if (!collectPhase) {
+        // highlight
+        ctx.beginPath();
+        ctx.rect(20 * tileSize, 6.5 * tileSize, tileSize, tileSize);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+      if (prepPhase &&! collectPhase) {
+        // highlight
+        ctx.beginPath();
+        ctx.rect(20 * tileSize, 6.5 * tileSize, tileSize, tileSize);
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "orange";
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+
+      switch(directionSelector) {
+        case 0:
+          ctx.beginPath();
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "green";
+          ctx.moveTo(20.5*tileSize, 3.25*tileSize);
+          ctx.lineTo(20.5*tileSize, 2.75*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.25*tileSize, 3*tileSize);
+          ctx.lineTo(20.5*tileSize, 3.25*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.75*tileSize, 3*tileSize);
+          ctx.lineTo(20.5*tileSize, 3.25*tileSize);
+          ctx.stroke();
+          break;
+        case 1:
+          ctx.beginPath();
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "green";
+          ctx.moveTo(20.75*tileSize, 3*tileSize);
+          ctx.lineTo(20.25*tileSize, 3*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.5*tileSize, 2.75*tileSize);
+          ctx.lineTo(20.75*tileSize, 3*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.5*tileSize, 3.25*tileSize);
+          ctx.lineTo(20.75*tileSize, 3*tileSize);
+          ctx.stroke();
+          break;
+        case 2:
+          ctx.beginPath();
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "green";
+          ctx.moveTo(20.5*tileSize, 3.25*tileSize);
+          ctx.lineTo(20.5*tileSize, 2.75*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.25*tileSize, 3*tileSize);
+          ctx.lineTo(20.5*tileSize, 2.75*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.75*tileSize, 3*tileSize);
+          ctx.lineTo(20.5*tileSize, 2.75*tileSize);
+          ctx.stroke();
+          break;
+        case 3:
+          ctx.beginPath();
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = "green";
+          ctx.moveTo(20.75*tileSize, 3*tileSize);
+          ctx.lineTo(20.25*tileSize, 3*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.5*tileSize, 2.75*tileSize);
+          ctx.lineTo(20.25*tileSize, 3*tileSize);
+          ctx.stroke();
+          ctx.moveTo(20.5*tileSize, 3.25*tileSize);
+          ctx.lineTo(20.25*tileSize, 3*tileSize);
+          ctx.stroke();
+          break;
+
+      }
+
 
       if (gameOver) {
         // defeat screen
@@ -1890,8 +1957,8 @@ class Game extends React.Component {
       // horicontal
       ctx.beginPath();
       ctx.lineWidth = 5;
-      ctx.moveTo(tileSize * 18, tileSize * 7);
-      ctx.lineTo(STATUS_BAR_WIDTH, tileSize * 7);
+      ctx.moveTo(tileSize * 18, tileSize * 8);
+      ctx.lineTo(STATUS_BAR_WIDTH, tileSize * 8);
       ctx.stroke();
       ctx.lineWidth = 1;
 
@@ -1899,16 +1966,60 @@ class Game extends React.Component {
       if(towerSelector==0) {
         ctx.fillStyle = "green";
         ctx.font = "18px Orbitron";
-        ctx.fillText("Click on a tower", tileSize * 18.5, tileSize * 7.5);
-        ctx.fillText("to get information", tileSize * 18.5, tileSize * 8);
+        ctx.fillText("Click on a tower", tileSize * 18.5, tileSize * 8.5);
+        ctx.fillText("to get information", tileSize * 18.5, tileSize * 9);
       }
       else {
         ctx.fillStyle = "green";
-        ctx.font = "20px Orbitron";
-        ctx.fillText("Info:", tileSize * 18.5, tileSize * 7.5);
-        ctx.fillText("Cost: " + towerList[towerSelector-1].towerCost, tileSize * 18.5, tileSize * 8);
-        ctx.fillText("Damage: " + towerList[towerSelector-1].damage, tileSize * 18.5, tileSize * 8.5);
+        ctx.font = "18px Orbitron";
+        ctx.fillText("LEVEL 1/2/3", tileSize * 18.25  , tileSize * 8.5);
+        switch(towerSelector-1) {
+          case(0):
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
+            ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.PLANT.towerCost + " / " + TOWERS3.PLANT.towerCost, tileSize * 18.25, tileSize * 9.5);
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.PLANT.damage + " / " + TOWERS3.PLANT.damage, tileSize * 18.25, tileSize * 10.75);
+            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.PLANT.attackSpeed + " / " + TOWERS3.PLANT.attackSpeed, tileSize * 18.25, tileSize * 12);
+            break;
+
+          case(1):
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
+            ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.WATER.towerCost + " / " + TOWERS3.WATER.towerCost, tileSize * 18.25, tileSize * 9.5);
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.WATER.damage + " / " + TOWERS3.WATER.damage, tileSize * 18.25, tileSize * 10.75);
+            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.WATER.attackSpeed + " / " + TOWERS3.WATER.attackSpeed, tileSize * 18.25, tileSize * 12);
+            break;
+          case(2):
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
+            ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.FIRE.towerCost + " / " + TOWERS3.FIRE.towerCost, tileSize * 18.25, tileSize * 9.5);
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.FIRE.damage + " / " + TOWERS3.FIRE.damage, tileSize * 18.25, tileSize * 10.75);
+            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.FIRE.attackSpeed + " / " + TOWERS3.FIRE.attackSpeed, tileSize * 18.25, tileSize * 12);
+            break;
+
+          case(3):
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
+            ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.PSYCH.towerCost + " / " + TOWERS3.PSYCH.towerCost, tileSize * 18.25, tileSize * 9.5);
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.PSYCH.damage + " / " + TOWERS3.PSYCH.damage, tileSize * 18.25, tileSize * 10.75);
+            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.PSYCH.attackSpeed + " / " + TOWERS3.PSYCH.attackSpeed, tileSize * 18.25, tileSize * 12);
+            break;
+          case(4):
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
+            ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.DRAGON.towerCost + " / " + TOWERS3.DRAGON.towerCost, tileSize * 18.25, tileSize * 9.5);
+            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.DRAGON.damage + " / " + TOWERS3.DRAGON.damage, tileSize * 18.25, tileSize * 10.75);
+            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.DRAGON.attackSpeed + " / " + TOWERS3.DRAGON.attackSpeed, tileSize * 18.25, tileSize * 12);
+            break;
+        }
+
       }
+      //towerList[towerSelector-1].id
 
       // draw towers
       for (let i = 0; i < towerList.length; i++) {
@@ -1916,46 +2027,47 @@ class Game extends React.Component {
       }
 
       ctx.beginPath();
-      ctx.rect(19 * tileSize, 2 * tileSize, 64, 64);
-      ctx.font = "30px Arial";
+      ctx.rect(18.5 * tileSize, 2.5 * tileSize, 64, 64);
+      ctx.font = "14px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("-->", 19 * tileSize + 10, 2 * tileSize + 38);
+      ctx.fillText("Rotate", 18.5 * tileSize + 7.5, 2.5 * tileSize + 38);
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.rect(19 * tileSize, 4 * tileSize, 64, 64);
-      ctx.font = "20px Arial";
-      ctx.fillStyle = "green";
-      ctx.fillText("SELL", 19 * tileSize + 10, 4 * tileSize + 38);
+      ctx.rect(20 * tileSize, 2.5 * tileSize, 64, 64);  
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.rect(20 * tileSize, 4 * tileSize, 64, 64);
-      ctx.font = "14px Arial";
+      ctx.rect(18.5 * tileSize, 4.5 * tileSize, 64, 64);
+      ctx.font = "20px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("UPGRADE", 20 * tileSize + 10, 4 * tileSize + 38);
+      ctx.fillText("Sell", 18.5 * tileSize + 10, 4.5 * tileSize + 38);
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.rect(19 * tileSize, 6 * tileSize, 64, 64);
-      ctx.font = "20px Arial";
+      ctx.rect(20 * tileSize, 4.5 * tileSize, 64, 64);
+      ctx.font = "12px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("Ready", 19 * tileSize + 10, 6 * tileSize + 38);
+      ctx.fillText("Upgrade", 20 * tileSize + 5, 4.5 * tileSize + 38);
       ctx.stroke();
 
       ctx.beginPath();
-      ctx.rect(19 * tileSize, 6 * tileSize, 64, 64);
-      ctx.font = "20px Arial";
+      ctx.rect(18.5 * tileSize, 6.5 * tileSize, 64, 64);
+      ctx.font = "14px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("Collect Interest", 18 * tileSize + 10, 10 * tileSize + 38);
+      ctx.fillText("Ready", 18.5 * tileSize + 5, 6.5 * tileSize + 38);
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.rect(20 * tileSize, 6.5 * tileSize, 64, 64);
+      ctx.font = "12px Orbitron";
+      ctx.fillStyle = "green";
+      ctx.fillText("Spawn", 20 * tileSize + 10, 6.5 * tileSize + 38);
+      ctx.fillText("Wave", 20 * tileSize + 10, 6.8 * tileSize + 38);
       ctx.stroke();
     }
 
     function createShop() {
-      // to do: fill automatically
-      for (let k = 1; k <= 3; k++) {
-        for (let j = 1; j <= 2; j++) {}
-      }
       towerList.push(
         new Tower(
           16 * tileSize,
@@ -2085,7 +2197,15 @@ class Game extends React.Component {
       const coordArrayforServer = [y, x];
       return coordArrayforServer;
     }
+
+    function getKeyByValue(object, value) {
+      return Object.keys(object).find(key => object[key] === value);
+    }
+
+
   }
+
+  
 
   render() {
     return (
@@ -2109,27 +2229,10 @@ class Game extends React.Component {
             onClick={() => {
               this.rageQuit();
             }}
-            top={"0px"}
-            left={"1300px"}
+            top={"150px"}
+            left={"1450px"}
           >
             Leave Game
-          </Button2>
-          <Button2
-            onClick={() => {
-            }}
-            top={"170px"}
-            left={"1100px"}
-          >
-            ROTATE TOWER
-          </Button2>
-          
-          <Button2
-            onClick={() => {
-            }}
-            top={"320px"}
-            left={"1000px"}
-          >
-            SELL
           </Button2>
         </div>
       </div>
