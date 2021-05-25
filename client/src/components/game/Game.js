@@ -422,9 +422,9 @@ class Game extends React.Component {
         projectileColor: "#00FF00",
         damage: 20,
         speed: 5,
-        towerCost: 300,
+        towerCost: 100,
         towerImage: towerImages[0],
-        attackSpeed: 100
+        attackSpeed: 80
       },
       // double everything? double the fun! actually don't buy this; you know why the 1st tower is better
       WATER: {
@@ -444,7 +444,7 @@ class Game extends React.Component {
         projectileColor: "#FF3300",
         damage: 1,
         speed: 20,
-        towerCost: 100,
+        towerCost: 300,
         towerImage: towerImages[3],
         attackSpeed: 2
       },
@@ -453,11 +453,11 @@ class Game extends React.Component {
         id: 4,
         towerColor: "midnightblue",
         projectileColor: "#6E0DD0",
-        damage: 10,
-        speed: 4,
+        damage: 50,
+        speed: 3,
         towerCost: 400,
         towerImage: towerImages[9],
-        attackSpeed: 100
+        attackSpeed: 40
       },
       //oneshot
       DRAGON: {
@@ -468,7 +468,7 @@ class Game extends React.Component {
         speed: 5,
         towerCost: 1000,
         towerImage: towerImages[12],
-        attackSpeed: 150
+        attackSpeed: 70
       },
     };
 
@@ -589,7 +589,7 @@ class Game extends React.Component {
         };
 
     var MINIONS = {
-      CRAWLER: {
+      Karpador: {
         id: "Karpador",
         minionColor: "red",
         minionSize: 32,
@@ -599,8 +599,8 @@ class Game extends React.Component {
         minionCost: 100,
         minionImage: minionImages[0],
       },
-      RUNNER: {
-        id: 2,
+      Nebulak: {
+        id: "Nebulak",
         minionColor: "orange",
         minionSize: 32,
         minionDamage: 1,
@@ -609,7 +609,7 @@ class Game extends React.Component {
         minionCost: 125,
         minionImage: minionImages[1],
       },
-      BOSS: {
+      Garados: {
         id: "Garados",
         minionColor: "pink",
         minionSize: 60,
@@ -722,12 +722,12 @@ class Game extends React.Component {
                     case "Karpador":
                       minionsToSpawn.push(
                         new Minion(
-                          MINIONS.CRAWLER.minionColor,
-                          MINIONS.CRAWLER.minionSize,
-                          MINIONS.CRAWLER.minionHealth,
-                          MINIONS.CRAWLER.minionSpeed,
-                          MINIONS.CRAWLER.minionDamage,
-                          MINIONS.CRAWLER.minionImage
+                          MINIONS.Karpador.minionColor,
+                          MINIONS.Karpador.minionSize,
+                          MINIONS.Karpador.minionHealth,
+                          MINIONS.Karpador.minionSpeed,
+                          MINIONS.Karpador.minionDamage,
+                          MINIONS.Karpador.minionImage
                         )
                       );
                       break;
@@ -735,12 +735,12 @@ class Game extends React.Component {
                     case "Garados":
                       minionsToSpawn.push(
                         new Minion(
-                          MINIONS.BOSS.minionColor,
-                          MINIONS.BOSS.minionSize,
-                          MINIONS.BOSS.minionHealth,
-                          MINIONS.BOSS.minionSpeed,
-                          MINIONS.BOSS.minionDamage,
-                          MINIONS.BOSS.minionImage
+                          MINIONS.Garados.minionColor,
+                          MINIONS.Garados.minionSize,
+                          MINIONS.Garados.minionHealth,
+                          MINIONS.Garados.minionSpeed,
+                          MINIONS.Garados.minionDamage,
+                          MINIONS.Garados.minionImage
                         )
                       );
                       break;
@@ -1717,7 +1717,7 @@ class Game extends React.Component {
     if (HP < 1 ) {
             gameOver = true;
           }
-      if (phase && minions.length < 1 && !prepPhase) {
+      if (phase && minions.length < 1 && minionsToSpawn.length < 1 && !prepPhase) {
         prepPhase = true;
         this.updateGameState(gold,HP);
         if (minionsInterval > 40) {
