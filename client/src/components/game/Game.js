@@ -425,6 +425,36 @@ class Game extends React.Component {
     sounds.push(waveStarts);
     var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); // don't forget raw=true!
     sounds.push(upgradeTower1);
+
+// weather
+    const thunderstorm = new Image();
+    thunderstorm.src =
+    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/thunderstorm.png";
+    
+    const cloudy = new Image();
+    cloudy.src =
+    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudy.png";
+    
+    const cloudyAndSun = new Image();
+    cloudyAndSun.src =
+    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudyAndSun.png";
+    
+    const rainy = new Image();
+    rainy.src =
+    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/rainy.png";
+    
+    const snowy = new Image();
+    snowy.src =
+    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/snowy.png";
+    
+    const sunny = new Image();
+    sunny.src =
+    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/sunny.png";
+    
+    const windy = new Image();
+    windy.src =
+    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/windy.png";
+    
     
     
     
@@ -719,6 +749,16 @@ class Game extends React.Component {
       console.log(mouse.x + " " + mouse.y);
       */
 
+      // clicked on quit
+      if (
+        18.5*tileSize <= mouse.x &&
+        mouse.x < 19.5*tileSize &&
+        50 <= mouse.y &&
+        mouse.y < 50+tileSize
+      ) {
+        this.rageQuit();
+        return;
+      }
 
       // clicked on change directory: change directory
       if (
@@ -741,12 +781,13 @@ class Game extends React.Component {
         mouse.y < 5.5*tileSize
       ) {
         sounds[1].play();
+        upgradeSelctor = 0;
         sellSelector = (sellSelector + 1) % 2;
         console.log("selected sell selector " + sellSelector);
         return;
       }
 
-       // clicked on upgrade
+       // clicked on upgrade: change upgradeSelector
        if (
         20*tileSize <= mouse.x &&
         mouse.x < 21*tileSize &&
@@ -754,6 +795,7 @@ class Game extends React.Component {
         mouse.y  < 5.5*tileSize
       ) {
         sounds[1].play();
+        sellSelector = 0;
         upgradeSelctor = (upgradeSelctor + 1) % 2;
         console.log("selected upgrade selector " + upgradeSelctor);
         return;
@@ -1296,7 +1338,7 @@ class Game extends React.Component {
 
         if (collision(this, mouse)) {
           // highlights current tile
-          ctx.strokeStyle = " ";
+          ctx.strokeStyle = "dodgerblue";
           ctx.strokeRect(this.x, this.y, this.width, this.height);
 
           // writes coordinates of tile (upper left corner)
@@ -1602,20 +1644,15 @@ class Game extends React.Component {
           2 * this.minionSize,
           2 * this.minionSize
         );
-
         /* // old HP
         ctx.fillStyle = "black";
         ctx.font = "30px Arial";
         ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
         */
-
         ctx.beginPath();
         ctx.fillStyle = "red";
         ctx.fillRect(this.x, this.y, this.width*(this.health/this.maxHealth), this.height/4);
         ctx.closePath();
-
-
-
         ctx.restore();
       }
     }
@@ -1667,36 +1704,6 @@ class Game extends React.Component {
       ctx.font = "20px Orbitron";
       ctx.fillText("Weather: ", 15.5*tileSize, 55);
 
-
-      const thunderstorm = new Image();
-      thunderstorm.src =
-      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/thunderstorm.png";
-      
-      const cloudy = new Image();
-      cloudy.src =
-      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudy.png";
-      
-      const cloudyAndSun = new Image();
-      cloudyAndSun.src =
-      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudyAndSun.png";
-      
-      const rainy = new Image();
-      rainy.src =
-      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/rainy.png";
-      
-      const snowy = new Image();
-      snowy.src =
-      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/snowy.png";
-      
-      const sunny = new Image();
-      sunny.src =
-      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/sunny.png";
-      
-      const windy = new Image();
-      windy.src =
-      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/windy.png";
-      
-
       //ctx.fillText(weather, 16*tileSize, 1.5*tileSize);
       switch(weather) {
         case "Clouds":
@@ -1745,6 +1752,19 @@ class Game extends React.Component {
       //ctx.fillStyle = "gray" make grey health
       //ctx.fillRect(3*tileSize, 1.5*tileSize, 3*tileSize*(HP/50), 16);
       ctx.closePath();
+
+
+      // leave game
+      ctx.beginPath();
+      ctx.rect(18.5 * tileSize, 50, 2.5*tileSize, tileSize);
+      ctx.strokeStyle = "green";
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+      ctx.font = "32px Orbitron";
+      ctx.fillStyle = "green";
+      ctx.fillText("Quit", 19.25 * tileSize, 1.5 * tileSize);
+      ctx.stroke();
+
       
       // highlight sell selector
       if (sellSelector) {
@@ -2083,7 +2103,7 @@ class Game extends React.Component {
           case(0):
             ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.PLANT.towerCost + " / " + TOWERS3.PLANT.towerCost, tileSize * 18.25, tileSize * 9.5);
-            ctx.fillText("DAmage:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.PLANT.damage + " / " + TOWERS3.PLANT.damage, tileSize * 18.25, tileSize * 10.75);
             ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.PLANT.attackSpeed + " / " + TOWERS3.PLANT.attackSpeed, tileSize * 18.25, tileSize * 12);
@@ -2303,12 +2323,6 @@ class Game extends React.Component {
       const coordArrayforServer = [y, x];
       return coordArrayforServer;
     }
-
-    function getKeyByValue(object, value) {
-      return Object.keys(object).find(key => object[key] === value);
-    }
-
-
   }
 
   
@@ -2329,18 +2343,6 @@ class Game extends React.Component {
           //styles={"z-index:1"}
           style={{ backgroundColor: "black", zIndex: 1 }}
         />
-
-        <div>
-          <Button2
-            onClick={() => {
-              this.rageQuit();
-            }}
-            top={"500px"}
-            left={"1450px"}
-          >
-            Leave Game
-          </Button2>
-        </div>
       </div>
     );
   }
