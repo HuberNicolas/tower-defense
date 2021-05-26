@@ -1451,18 +1451,67 @@ class Game extends React.Component {
       update() {
         this.timer++;
         if (this.timer % this.attackSpeed === 0) {
-          projectiles.push(
-            // water tower multiple projectiles
-            new Projectiles(
-              this.x + 30,
-              this.y + 30,
-              this.damage,
-              this.projectileColor,
-              this.speed,
-              this.direction,
-              this.attackSpeed
-            )
-          );
+          if(this.id == 2 || this.id == 7 || this.id == 12) {
+            // water tower multiple projectiles  
+            projectiles.push(  
+              new Projectiles(
+                this.x + 30,
+                this.y + 30,
+                this.damage,
+                this.projectileColor,
+                this.speed,
+                0,
+                this.attackSpeed
+                )
+              )
+              projectiles.push(  
+                new Projectiles(
+                  this.x + 30,
+                  this.y + 30,
+                  this.damage,
+                  this.projectileColor,
+                  this.speed,
+                  1,
+                  this.attackSpeed
+                  )
+                )
+              projectiles.push(  
+                  new Projectiles(
+                    this.x + 30,
+                    this.y + 30,
+                    this.damage,
+                    this.projectileColor,
+                    this.speed,
+                    2,
+                    this.attackSpeed
+                    )
+                  )
+                  projectiles.push(  
+                    new Projectiles(
+                      this.x + 30,
+                      this.y + 30,
+                      this.damage,
+                      this.projectileColor,
+                      this.speed,
+                      3,
+                      this.attackSpeed
+                      )
+                    )      
+          }
+          else {
+            projectiles.push(
+              // water tower multiple projectiles
+              new Projectiles(
+                this.x + 30,
+                this.y + 30,
+                this.damage,
+                this.projectileColor,
+                this.speed,
+                this.direction,
+                this.attackSpeed
+                )
+              ) 
+            }
           //var audio = new Audio('https://opengameart.org/sites/default/files/Laser%20Shot.mp3');
           //audio.play();
         }
@@ -1977,7 +2026,7 @@ class Game extends React.Component {
           case(0):
             ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.PLANT.towerCost + " / " + TOWERS3.PLANT.towerCost, tileSize * 18.25, tileSize * 9.5);
-            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText("DAmage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.PLANT.damage + " / " + TOWERS3.PLANT.damage, tileSize * 18.25, tileSize * 10.75);
             ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.PLANT.attackSpeed + " / " + TOWERS3.PLANT.attackSpeed, tileSize * 18.25, tileSize * 12);
@@ -1986,7 +2035,7 @@ class Game extends React.Component {
           case(1):
             ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.WATER.towerCost + " / " + TOWERS3.WATER.towerCost, tileSize * 18.25, tileSize * 9.5);
-            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.WATER.damage + " / " + TOWERS3.WATER.damage, tileSize * 18.25, tileSize * 10.75);
             ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.WATER.attackSpeed + " / " + TOWERS3.WATER.attackSpeed, tileSize * 18.25, tileSize * 12);
@@ -1994,7 +2043,7 @@ class Game extends React.Component {
           case(2):
             ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.FIRE.towerCost + " / " + TOWERS3.FIRE.towerCost, tileSize * 18.25, tileSize * 9.5);
-            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.FIRE.damage + " / " + TOWERS3.FIRE.damage, tileSize * 18.25, tileSize * 10.75);
             ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.FIRE.attackSpeed + " / " + TOWERS3.FIRE.attackSpeed, tileSize * 18.25, tileSize * 12);
@@ -2003,7 +2052,7 @@ class Game extends React.Component {
           case(3):
             ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.PSYCH.towerCost + " / " + TOWERS3.PSYCH.towerCost, tileSize * 18.25, tileSize * 9.5);
-            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.PSYCH.damage + " / " + TOWERS3.PSYCH.damage, tileSize * 18.25, tileSize * 10.75);
             ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.PSYCH.attackSpeed + " / " + TOWERS3.PSYCH.attackSpeed, tileSize * 18.25, tileSize * 12);
@@ -2011,7 +2060,7 @@ class Game extends React.Component {
           case(4):
             ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.DRAGON.towerCost + " / " + TOWERS3.DRAGON.towerCost, tileSize * 18.25, tileSize * 9.5);
-            ctx.fillText("Cost:", tileSize * 18.25, tileSize * 10.25);
+            ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.DRAGON.damage + " / " + TOWERS3.DRAGON.damage, tileSize * 18.25, tileSize * 10.75);
             ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.DRAGON.attackSpeed + " / " + TOWERS3.DRAGON.attackSpeed, tileSize * 18.25, tileSize * 12);
