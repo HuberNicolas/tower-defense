@@ -1660,17 +1660,72 @@ class Game extends React.Component {
 
     function handleGameStatus() {
       ctx.fillStyle = "green";
+      ctx.font = "28px Orbitron";
+      ctx.fillText("Gold: " + gold, 2.5*tileSize, 1.25*tileSize);
+      ctx.fillText("Score: " + score, 6.5*tileSize, 1.25*tileSize);
+      ctx.fillText("HP: " + HP, 0*tileSize, 1.25*tileSize);
       ctx.font = "20px Orbitron";
-      ctx.fillText("Gold: " + gold, 20, 55);
-      ctx.fillText("Score: " + score, 220, 55);
-      ctx.fillText("HP: " + HP, 420, 55);
-      ctx.fillText("Current weather: " + weather, 20, 100);
+      ctx.fillText("Weather: ", 15.5*tileSize, 55);
+
+
+      const thunderstorm = new Image();
+      thunderstorm.src =
+      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/thunderstorm.png";
+      
+      const cloudy = new Image();
+      cloudy.src =
+      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudy.png";
+      
+      const cloudyAndSun = new Image();
+      cloudyAndSun.src =
+      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudyAndSun.png";
+      
+      const rainy = new Image();
+      rainy.src =
+      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/rainy.png";
+      
+      const snowy = new Image();
+      snowy.src =
+      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/snowy.png";
+      
+      const sunny = new Image();
+      sunny.src =
+      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/sunny.png";
+      
+      const windy = new Image();
+      windy.src =
+      "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/windy.png";
+      
+
+      //ctx.fillText(weather, 16*tileSize, 1.5*tileSize);
+      switch(weather) {
+        case "Clouds":
+          ctx.drawImage(cloudy,16*tileSize, 1*tileSize,1*tileSize,1*tileSize);
+          break;
+        case "Rain":
+          ctx.drawImage(rainy,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
+          break;
+        case "Clear":
+          ctx.drawImage(sunny,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
+          break;
+        case "Snow":
+          ctx.drawImage(snowy,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
+          break;
+        case "Thunderstorm":
+          ctx.drawImage(thunderstorm,16*tileSize, 1*tileSize,1*tileSize,1*tileSize);
+          break;
+        case "Tornado":
+          ctx.drawImage(windy,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
+          break;
+        
+      }
+      
       ctx.fillText(
-        "Current phase:  " + (prepPhase ? "Preparation" : "Battle"),
-        420,
+        "Current phase: " + (prepPhase ? "Preparation" : "Battle"),
+        10.25*tileSize,
         100
       );
-      ctx.fillText("Current round:  " + round, 620, 55);
+      ctx.fillText("Current round:  " + round, 10.25*tileSize, 55);
 
       // player health bar
       ctx.beginPath();
@@ -1686,7 +1741,9 @@ class Game extends React.Component {
       else if(0 < HP && HP <= 12.5) {
         ctx.fillStyle = "red";  
       }
-      ctx.fillRect(420, 60, 2*tileSize*(HP/50), 16);
+      ctx.fillRect(0*tileSize, 0.5*tileSize, 2*tileSize*(HP/50), 16);
+      //ctx.fillStyle = "gray" make grey health
+      //ctx.fillRect(3*tileSize, 1.5*tileSize, 3*tileSize*(HP/50), 16);
       ctx.closePath();
       
       // highlight sell selector
@@ -2278,7 +2335,7 @@ class Game extends React.Component {
             onClick={() => {
               this.rageQuit();
             }}
-            top={"150px"}
+            top={"500px"}
             left={"1450px"}
           >
             Leave Game
