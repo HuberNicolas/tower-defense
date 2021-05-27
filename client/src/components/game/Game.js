@@ -27,13 +27,7 @@ class Game extends React.Component {
         playable: towerType,
         coordinates: coordinates,
       });
-      const response = await api.post(
-        "games/towers/" + localStorage.getItem("token"),
-        requestBody
-      );
-
-      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
-      localStorage.setItem("board", response2.data.player1.board);
+      await api.post("games/towers/" + localStorage.getItem("token"),requestBody);
 
     } catch (error) {
       store.addNotification({
@@ -60,14 +54,7 @@ class Game extends React.Component {
       const requestBody = JSON.stringify({
         coordinates: coordinates,
       });
-      const response = await api.patch(
-        "games/towers/" + localStorage.getItem("token"),
-        requestBody
-      );
-
-      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
-      localStorage.setItem("board", response2.data.player1.board);
-      //localStorage.setItem("gold", response2.data.player1.gold);
+      await api.patch("games/towers/" + localStorage.getItem("token"),requestBody);
 
     } catch (error) {
       store.addNotification({
@@ -100,10 +87,6 @@ class Game extends React.Component {
         requestBody
       );
       this.setState({ gold: response.data.gold });
-
-      // update board
-      const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
-      localStorage.setItem("board", response2.data.player1.board);
 
     } catch (error) {
       store.addNotification({
@@ -1013,6 +996,7 @@ class Game extends React.Component {
             var tempID = towers[i].id
             var tempDirection = towers[i].direction;
             towers.splice(i,1); // remove tower
+            let upgradecost =0;
             // place new one
             switch(tempID) {
               case 1:
@@ -1029,7 +1013,7 @@ class Game extends React.Component {
                   TOWERS2.PLANT.attackSpeed,
                   TOWERS2.PLANT.id
                 ))
-                
+                upgradecost=TOWERS2.PLANT.towerCost;
                 break;
               case 2:
                 towers.push(new Tower(
@@ -1045,6 +1029,7 @@ class Game extends React.Component {
                   TOWERS2.WATER.attackSpeed,
                   TOWERS2.WATER.id
                 ))
+                upgradecost=TOWERS2.WATER.towerCost;
                 break;
                 case 3:
                 towers.push(new Tower(
@@ -1060,6 +1045,7 @@ class Game extends React.Component {
                   TOWERS2.FIRE.attackSpeed,
                   TOWERS2.FIRE.id
                 ))
+                upgradecost=TOWERS2.FIRE.towerCost;
                 break;
               case 4:
                 towers.push(new Tower(
@@ -1075,6 +1061,7 @@ class Game extends React.Component {
                   TOWERS2.PSYCH.attackSpeed,
                   TOWERS2.PSYCH.id
                 ))
+                upgradecost=TOWERS2.PSYCH.towerCost;
                 break;
                 case 5:
                 towers.push(new Tower(
@@ -1090,6 +1077,7 @@ class Game extends React.Component {
                   TOWERS2.DRAGON.attackSpeed,
                   TOWERS2.DRAGON.id
                 ))
+                upgradecost=TOWERS2.DRAGON.towerCost;
                 break;
                 case 6:
                 towers.push(new Tower(
@@ -1105,6 +1093,7 @@ class Game extends React.Component {
                   TOWERS3.PLANT.attackSpeed,
                   TOWERS3.PLANT.id
                 ))
+                upgradecost=TOWERS3.PLANT.towerCost;
                 break;
               case 7:
                 towers.push(new Tower(
@@ -1120,6 +1109,7 @@ class Game extends React.Component {
                   TOWERS3.WATER.attackSpeed,
                   TOWERS3.WATER.id
                 ))
+                upgradecost=TOWERS3.WATER.towerCost;
                 break;
                 case 8:
                 towers.push(new Tower(
@@ -1135,6 +1125,7 @@ class Game extends React.Component {
                   TOWERS3.FIRE.attackSpeed,
                   TOWERS3.FIRE.id
                 ))
+                upgradecost=TOWERS3.FIRE.towerCost;
                 break;
               case 9:
                 towers.push(new Tower(
@@ -1150,6 +1141,7 @@ class Game extends React.Component {
                   TOWERS3.PSYCH.attackSpeed,
                   TOWERS3.PSYCH.id
                 ))
+                upgradecost=TOWERS3.PSYCH.towerCost;
                 break;
                 case 10:
                 towers.push(new Tower(
@@ -1165,6 +1157,7 @@ class Game extends React.Component {
                   TOWERS3.DRAGON.attackSpeed,
                   TOWERS3.DRAGON.id
                 ))
+                upgradecost=TOWERS3.DRAGON.towerCost;
                 break;
             }
 
@@ -1174,6 +1167,7 @@ class Game extends React.Component {
             else if(tempID >= 6) {
               sounds[7].play();
             } 
+            gold -=upgradecost;
             return;
           }
           if(sellSelector && !upgradeSelctor) {
@@ -1184,7 +1178,6 @@ class Game extends React.Component {
             towers.splice(i, 1); // remove
             i--; // adjust for loop index
           }
-
         }
       }
 
