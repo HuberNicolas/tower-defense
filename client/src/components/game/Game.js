@@ -696,6 +696,23 @@ class Game extends React.Component {
       canvasPosition = canvas.getBoundingClientRect();
     });
 
+    // ragequit is to slow
+    /*
+    window.addEventListener("keydown", (e) => {
+      var keyCode = e.key;
+      if(keyCode == "Escape") {
+        if (window.confirm('Do you really want to quit?')) {
+            console.log("Quit");
+            this.rageQuit();
+        } else {
+          console.log("Not Quit")
+          return;
+        }
+      }
+    });
+    */
+
+
     // get mouse position
     canvas.addEventListener("mousemove", function (e) {
       mouse.x = e.x - canvasPosition.left;
@@ -719,16 +736,32 @@ class Game extends React.Component {
       // clicked on statusbar: do nothing
       //if (gridPositionY < STATUS_BAR_HEIGHT) return;
 
-      // clicked on quit
+      // clicked on quit (quit while playing)
       if (
         18.5*tileSize <= mouse.x &&
         mouse.x < 19.5*tileSize &&
         50 <= mouse.y &&
-        mouse.y < 50+tileSize
+        mouse.y < 50+tileSize &&
+        !gameOver
       ) {
         this.rageQuit();
         return;
       }
+
+      // clicked on main menu (quit after playing)
+      if (
+        18.5*tileSize <= mouse.x &&
+        mouse.x < 21*tileSize &&
+        10.5*tileSize <= mouse.y &&
+        mouse.y < 11.5*tileSize &&
+        gameOver
+      ) {
+        this.rageQuit();
+        return;
+      }
+
+
+
 
       // clicked on change directory: change directory
       if (
@@ -1744,7 +1777,8 @@ class Game extends React.Component {
       //ctx.fillRect(3*tileSize, 1.5*tileSize, 3*tileSize*(HP/50), 16);
       ctx.closePath();
 
-      // leave game
+     // leave game
+     if(!gameOver) {
       ctx.beginPath();
       ctx.rect(18.5 * tileSize, 50, 2.5*tileSize, tileSize);
       ctx.strokeStyle = "green";
@@ -1754,6 +1788,7 @@ class Game extends React.Component {
       ctx.fillStyle = "green";
       ctx.fillText("Quit", 19.25 * tileSize, 1.5 * tileSize);
       ctx.stroke();
+    }
       
       // highlight sell selector
       if (sellSelector) {
@@ -1918,19 +1953,32 @@ class Game extends React.Component {
         // defeat screen
         sounds[3].play();
         ctx.beginPath();
-        ctx.rect(0, 64, 960, 640);
+        ctx.rect(0, 2*tileSize,21.25*tileSize+2*tileGap  , 10*tileSize);
         ctx.lineWidth = "3";
         ctx.strokeStyle = "green";
         ctx.fillStyle = "black";
         ctx.fill();
         ctx.stroke();
 
+        // display score
         ctx.fillStyle = "red";
-        ctx.font = "150px Arial";
-        ctx.fillText("Gameover", 50, 350);
-        ctx.font = "80px Arial";
-        ctx.fillText("you have been defeated... ", 45, 450);
-        ctx.fillText("Score: " + score, 200, 550);
+        ctx.font = "150px Orbitron";
+        ctx.fillText("Gameover", 3.75*tileSize, 5*tileSize);
+        ctx.font = "80px Orbitron";
+        ctx.fillText("Survived Waves: " + round, 3.75*tileSize, 7*tileSize);
+        ctx.fillText("Score: " + score, 3.75*tileSize, 9*tileSize);
+
+
+        // draw back to main menu button
+        ctx.beginPath();
+        ctx.rect(18.5 * tileSize, 10.5*tileSize, 2.5*tileSize, 1*tileSize);
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.font = "24px Orbitron";
+        ctx.fillStyle = "green";
+        ctx.fillText("Mainmenu", 18.75 * tileSize, 11.20 * tileSize);
+        ctx.stroke();
       }
     }
 
