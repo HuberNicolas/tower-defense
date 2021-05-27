@@ -975,8 +975,8 @@ class Game extends React.Component {
       // check if we clicked on path
       for (let i = 0; i < pathTiles.length; i++) {
         if (
-          pathTiles[i].x + tileGap == gridPositionX &&
-          pathTiles[i].y + tileGap == gridPositionY
+          pathTiles[i].x + tileGap === gridPositionX &&
+          pathTiles[i].y + tileGap === gridPositionY
         ) {
           return;
         }
@@ -985,180 +985,204 @@ class Game extends React.Component {
       // check if there is already a Tower
       // either sell or upgrade
       for (let i = 0; i < towers.length; i++) {
-        if (towers[i].x == gridPositionX && towers[i].y == gridPositionY) {
-          // CHECK LOGIC HERE
+        if (towers[i].x === gridPositionX && towers[i].y === gridPositionY) {
+          let sellValue = Math.floor(.7*towers[i].towerCost)
           
           if (!sellSelector && !upgradeSelctor) {
             return;
           } 
           if(upgradeSelctor) {
-            this.upgrade(coordArray);
-            var tempID = towers[i].id
-            var tempDirection = towers[i].direction;
-            towers.splice(i,1); // remove tower
-            let upgradecost =0;
+            let towerType = towers[i].id
+            let upgradecost = 0;
             // place new one
-            switch(tempID) {
+            switch(towerType) {
               case 1:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS2.PLANT.towerColor,
-                  TOWERS2.PLANT.projectileColor,
-                  TOWERS2.PLANT.damage,
-                  TOWERS2.PLANT.speed,
-                  TOWERS2.PLANT.towerCost,
-                  tempDirection,
-                  TOWERS2.PLANT.towerImage,
-                  TOWERS2.PLANT.attackSpeed,
-                  TOWERS2.PLANT.id
-                ))
                 upgradecost=TOWERS2.PLANT.towerCost;
                 break;
               case 2:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS2.WATER.towerColor,
-                  TOWERS2.WATER.projectileColor,
-                  TOWERS2.WATER.damage,
-                  TOWERS2.WATER.speed,
-                  TOWERS2.WATER.towerCost,
-                  tempDirection,
-                  TOWERS2.WATER.towerImage,
-                  TOWERS2.WATER.attackSpeed,
-                  TOWERS2.WATER.id
-                ))
                 upgradecost=TOWERS2.WATER.towerCost;
                 break;
                 case 3:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS2.FIRE.towerColor,
-                  TOWERS2.FIRE.projectileColor,
-                  TOWERS2.FIRE.damage,
-                  TOWERS2.FIRE.speed,
-                  TOWERS2.FIRE.towerCost,
-                  tempDirection,
-                  TOWERS2.FIRE.towerImage,
-                  TOWERS2.FIRE.attackSpeed,
-                  TOWERS2.FIRE.id
-                ))
-                upgradecost=TOWERS2.FIRE.towerCost;
-                break;
-              case 4:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS2.PSYCH.towerColor,
-                  TOWERS2.PSYCH.projectileColor,
-                  TOWERS2.PSYCH.damage,
-                  TOWERS2.PSYCH.speed,
-                  TOWERS2.PSYCH.towerCost,
-                  tempDirection,
-                  TOWERS2.PSYCH.towerImage,
-                  TOWERS2.PSYCH.attackSpeed,
-                  TOWERS2.PSYCH.id
-                ))
                 upgradecost=TOWERS2.PSYCH.towerCost;
                 break;
                 case 5:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS2.DRAGON.towerColor,
-                  TOWERS2.DRAGON.projectileColor,
-                  TOWERS2.DRAGON.damage,
-                  TOWERS2.DRAGON.speed,
-                  TOWERS2.DRAGON.towerCost,
-                  tempDirection,
-                  TOWERS2.DRAGON.towerImage,
-                  TOWERS2.DRAGON.attackSpeed,
-                  TOWERS2.DRAGON.id
-                ))
                 upgradecost=TOWERS2.DRAGON.towerCost;
                 break;
                 case 6:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS3.PLANT.towerColor,
-                  TOWERS3.PLANT.projectileColor,
-                  TOWERS3.PLANT.damage,
-                  TOWERS3.PLANT.speed,
-                  TOWERS3.PLANT.towerCost,
-                  tempDirection,
-                  TOWERS3.PLANT.towerImage,
-                  TOWERS3.PLANT.attackSpeed,
-                  TOWERS3.PLANT.id
-                ))
                 upgradecost=TOWERS3.PLANT.towerCost;
                 break;
               case 7:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS3.WATER.towerColor,
-                  TOWERS3.WATER.projectileColor,
-                  TOWERS3.WATER.damage,
-                  TOWERS3.WATER.speed,
-                  TOWERS3.WATER.towerCost,
-                  tempDirection,
-                  TOWERS3.WATER.towerImage,
-                  TOWERS3.WATER.attackSpeed,
-                  TOWERS3.WATER.id
-                ))
                 upgradecost=TOWERS3.WATER.towerCost;
                 break;
                 case 8:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS3.FIRE.towerColor,
-                  TOWERS3.FIRE.projectileColor,
-                  TOWERS3.FIRE.damage,
-                  TOWERS3.FIRE.speed,
-                  TOWERS3.FIRE.towerCost,
-                  tempDirection,
-                  TOWERS3.FIRE.towerImage,
-                  TOWERS3.FIRE.attackSpeed,
-                  TOWERS3.FIRE.id
-                ))
                 upgradecost=TOWERS3.FIRE.towerCost;
                 break;
               case 9:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS3.PSYCH.towerColor,
-                  TOWERS3.PSYCH.projectileColor,
-                  TOWERS3.PSYCH.damage,
-                  TOWERS3.PSYCH.speed,
-                  TOWERS3.PSYCH.towerCost,
-                  tempDirection,
-                  TOWERS3.PSYCH.towerImage,
-                  TOWERS3.PSYCH.attackSpeed,
-                  TOWERS3.PSYCH.id
-                ))
                 upgradecost=TOWERS3.PSYCH.towerCost;
                 break;
                 case 10:
-                towers.push(new Tower(
-                  gridPositionX,
-                  gridPositionY,
-                  TOWERS3.DRAGON.towerColor,
-                  TOWERS3.DRAGON.projectileColor,
-                  TOWERS3.DRAGON.damage,
-                  TOWERS3.DRAGON.speed,
-                  TOWERS3.DRAGON.towerCost,
-                  tempDirection,
-                  TOWERS3.DRAGON.towerImage,
-                  TOWERS3.DRAGON.attackSpeed,
-                  TOWERS3.DRAGON.id
-                ))
                 upgradecost=TOWERS3.DRAGON.towerCost;
                 break;
+            }
+            if (upgradecost>0 && upgradecost<=gold){
+              this.upgrade(coordArray);
+              var tempID = towers[i].id
+              var tempDirection = towers[i].direction;
+              towers.splice(i,1); // remove tower
+              // place new one
+              switch(tempID) {
+                case 1:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS2.PLANT.towerColor,
+                    TOWERS2.PLANT.projectileColor,
+                    TOWERS2.PLANT.damage,
+                    TOWERS2.PLANT.speed,
+                    TOWERS2.PLANT.towerCost,
+                    tempDirection,
+                    TOWERS2.PLANT.towerImage,
+                    TOWERS2.PLANT.attackSpeed,
+                    TOWERS2.PLANT.id
+                  ))
+                  break;
+                case 2:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS2.WATER.towerColor,
+                    TOWERS2.WATER.projectileColor,
+                    TOWERS2.WATER.damage,
+                    TOWERS2.WATER.speed,
+                    TOWERS2.WATER.towerCost,
+                    tempDirection,
+                    TOWERS2.WATER.towerImage,
+                    TOWERS2.WATER.attackSpeed,
+                    TOWERS2.WATER.id
+                  ))
+                  break;
+                  case 3:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS2.FIRE.towerColor,
+                    TOWERS2.FIRE.projectileColor,
+                    TOWERS2.FIRE.damage,
+                    TOWERS2.FIRE.speed,
+                    TOWERS2.FIRE.towerCost,
+                    tempDirection,
+                    TOWERS2.FIRE.towerImage,
+                    TOWERS2.FIRE.attackSpeed,
+                    TOWERS2.FIRE.id
+                  ))
+                  break;
+                case 4:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS2.PSYCH.towerColor,
+                    TOWERS2.PSYCH.projectileColor,
+                    TOWERS2.PSYCH.damage,
+                    TOWERS2.PSYCH.speed,
+                    TOWERS2.PSYCH.towerCost,
+                    tempDirection,
+                    TOWERS2.PSYCH.towerImage,
+                    TOWERS2.PSYCH.attackSpeed,
+                    TOWERS2.PSYCH.id
+                  ))
+                  break;
+                  case 5:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS2.DRAGON.towerColor,
+                    TOWERS2.DRAGON.projectileColor,
+                    TOWERS2.DRAGON.damage,
+                    TOWERS2.DRAGON.speed,
+                    TOWERS2.DRAGON.towerCost,
+                    tempDirection,
+                    TOWERS2.DRAGON.towerImage,
+                    TOWERS2.DRAGON.attackSpeed,
+                    TOWERS2.DRAGON.id
+                  ))
+                  break;
+                  case 6:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS3.PLANT.towerColor,
+                    TOWERS3.PLANT.projectileColor,
+                    TOWERS3.PLANT.damage,
+                    TOWERS3.PLANT.speed,
+                    TOWERS3.PLANT.towerCost,
+                    tempDirection,
+                    TOWERS3.PLANT.towerImage,
+                    TOWERS3.PLANT.attackSpeed,
+                    TOWERS3.PLANT.id
+                  ))
+                  break;
+                case 7:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS3.WATER.towerColor,
+                    TOWERS3.WATER.projectileColor,
+                    TOWERS3.WATER.damage,
+                    TOWERS3.WATER.speed,
+                    TOWERS3.WATER.towerCost,
+                    tempDirection,
+                    TOWERS3.WATER.towerImage,
+                    TOWERS3.WATER.attackSpeed,
+                    TOWERS3.WATER.id
+                  ))
+                  break;
+                  case 8:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS3.FIRE.towerColor,
+                    TOWERS3.FIRE.projectileColor,
+                    TOWERS3.FIRE.damage,
+                    TOWERS3.FIRE.speed,
+                    TOWERS3.FIRE.towerCost,
+                    tempDirection,
+                    TOWERS3.FIRE.towerImage,
+                    TOWERS3.FIRE.attackSpeed,
+                    TOWERS3.FIRE.id
+                  ))
+                  break;
+                case 9:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS3.PSYCH.towerColor,
+                    TOWERS3.PSYCH.projectileColor,
+                    TOWERS3.PSYCH.damage,
+                    TOWERS3.PSYCH.speed,
+                    TOWERS3.PSYCH.towerCost,
+                    tempDirection,
+                    TOWERS3.PSYCH.towerImage,
+                    TOWERS3.PSYCH.attackSpeed,
+                    TOWERS3.PSYCH.id
+                  ))
+                  break;
+                  case 10:
+                  towers.push(new Tower(
+                    gridPositionX,
+                    gridPositionY,
+                    TOWERS3.DRAGON.towerColor,
+                    TOWERS3.DRAGON.projectileColor,
+                    TOWERS3.DRAGON.damage,
+                    TOWERS3.DRAGON.speed,
+                    TOWERS3.DRAGON.towerCost,
+                    tempDirection,
+                    TOWERS3.DRAGON.towerImage,
+                    TOWERS3.DRAGON.attackSpeed,
+                    TOWERS3.DRAGON.id
+                  ))
+                  break;
+              }
+              gold -=upgradecost;
             }
 
             if(tempID <=5 ) {
@@ -1167,14 +1191,13 @@ class Game extends React.Component {
             else if(tempID >= 6) {
               sounds[7].play();
             } 
-            gold -=upgradecost;
             return;
           }
           if(sellSelector && !upgradeSelctor) {
             this.sell(coordArray);
             //sellSelector = 0; // BUG!!!! DO NOT USE HERE
             sounds[4].play();
-            gold += towers[i].towerCost / 2;
+            gold += sellValue;
             towers.splice(i, 1); // remove
             i--; // adjust for loop index
           }
@@ -1316,7 +1339,6 @@ class Game extends React.Component {
           ctx.fillText("y:" + this.y + " x:" + this.x, this.x + 5, this.y + 25);
           */
         }
-
         ctx.strokeStyle = "dodgerblue";
         ctx.rect(this.x, this.y, this.width, this.height);
       }
@@ -1471,41 +1493,41 @@ class Game extends React.Component {
                 this.speed,
                 0,
                 this.attackSpeed
-                )
               )
-              projectiles.push(  
-                new Projectiles(
-                  this.x + 30,
-                  this.y + 30,
-                  this.damage,
-                  this.projectileColor,
-                  this.speed,
-                  1,
-                  this.attackSpeed
-                  )
-                )
-              projectiles.push(  
-                new Projectiles(
-                  this.x + 30,
-                  this.y + 30,
-                  this.damage,
-                  this.projectileColor,
-                  this.speed,
-                  2,
-                  this.attackSpeed
-                  )
-                )
-                projectiles.push(  
-                  new Projectiles(
-                    this.x + 30,
-                    this.y + 30,
-                    this.damage,
-                    this.projectileColor,
-                    this.speed,
-                    3,
-                    this.attackSpeed
-                  )
-                )      
+            )
+            projectiles.push(  
+              new Projectiles(
+                this.x + 30,
+                this.y + 30,
+                this.damage,
+                this.projectileColor,
+                this.speed,
+                1,
+                this.attackSpeed
+              )
+            )
+            projectiles.push(  
+              new Projectiles(
+                this.x + 30,
+                this.y + 30,
+                this.damage,
+                this.projectileColor,
+                this.speed,
+                2,
+                this.attackSpeed
+              )
+            )
+            projectiles.push(  
+              new Projectiles(
+                this.x + 30,
+                this.y + 30,
+                this.damage,
+                this.projectileColor,
+                this.speed,
+                3,
+                this.attackSpeed
+              )
+            )      
           }
           else {
             projectiles.push(
