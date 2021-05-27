@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import mainmenu from "../../mainmenu.jpg";
 import backgroundmusic from "../../backgroundmusic.mp3"
+import { api, handleError } from "../../helpers/api";
+import { store } from "react-notifications-component";
 
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
@@ -113,14 +115,35 @@ class Login extends React.Component {
     });
   }
  //refreshes the website
-     reload(){
-       window.location.reload(false);
-     }
+  reload(){
+    window.location.reload(false);
+  }
  //logout removes your token
-     logout() {
-         localStorage.clear();
-         this.props.history.push('/login');
-       }
+  async logout() {
+    try {
+      const requestBody = JSON.stringify({
+        token: localStorage.getItem("token"),
+      });
+      await api.patch('/users/', requestBody);
+
+      localStorage.clear();
+      this.props.history.push('/login');
+    } catch (error) {
+      store.addNotification({
+            title: 'Error',
+            width:300,
+            height:100,
+            message: `Something went wrong while trying to log out: \n${handleError(error)}`,
+            type: 'warning',                       
+            container: 'top-left',               
+            animationIn: ["animated", "fadeIn"],     
+            animationOut: ["animated", "fadeOut"],   
+            dismiss: {
+              duration: 3000
+            }
+        })
+    }
+  }
 
 
   handleInputChange(key, value) {
