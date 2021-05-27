@@ -22,7 +22,6 @@ class Game extends React.Component {
   }
 
   async buy(coordinates,towerType) {
-    console.log(coordinates);
     try {
       const requestBody = JSON.stringify({
         playable: towerType,
@@ -57,7 +56,6 @@ class Game extends React.Component {
   }
 
   async upgrade(coordinates) {
-    console.log(coordinates);
     try {
       const requestBody = JSON.stringify({
         coordinates: coordinates,
@@ -91,9 +89,7 @@ class Game extends React.Component {
     }
   }
 
-
   async sell(coordinates) {
-    console.log(coordinates);
     try {
       const requestBody = JSON.stringify({
         coordinates: coordinates,
@@ -472,16 +468,16 @@ class Game extends React.Component {
         towerImage: towerImages[0],
         attackSpeed: 80
       },
-      // double everything? double the fun! actually don't buy this; you know why the 1st tower is better
+      // aoe tower
       WATER: {
         id: 2,
         towerColor: "lightblue",
         projectileColor: "#099FFF",
-        damage: 40,
-        speed: 7,
+        damage: 10,
+        speed: 4,
         towerCost: 200,
         towerImage: towerImages[6],
-        attackSpeed: 100
+        attackSpeed: 15
       },
       //lazor tower
       FIRE: {
@@ -511,10 +507,10 @@ class Game extends React.Component {
         towerColor: "indigo",
         projectileColor: "#FF5F1F",
         damage: 300,
-        speed: 5,
+        speed: 4,
         towerCost: 1000,
         towerImage: towerImages[12],
-        attackSpeed: 70
+        attackSpeed: 60
       },
     };
 
@@ -526,7 +522,7 @@ class Game extends React.Component {
           projectileColor: "#00FF00",
           damage: 35,
           speed: 5,
-          towerCost: 100,
+          towerCost: 200,
           towerImage: towerImages[1],
           attackSpeed: 90
         },
@@ -535,11 +531,11 @@ class Game extends React.Component {
           id: 7,
           towerColor: "lightblue",
           projectileColor: "#099FFF",
-          damage: 40,
-          speed: 7,
-          towerCost: 200,
+          damage: 20,
+          speed: 4,
+          towerCost: 400,
           towerImage: towerImages[7],
-          attackSpeed: 100
+          attackSpeed: 10
         },
         //lazor tower
         FIRE: {
@@ -548,7 +544,7 @@ class Game extends React.Component {
           projectileColor: "#FF3300",
           damage: 2,
           speed: 20,
-          towerCost: 300,
+          towerCost: 600,
           towerImage: towerImages[4],
           attackSpeed: 2
         },
@@ -568,11 +564,11 @@ class Game extends React.Component {
           id: 10,
           towerColor: "indigo",
           projectileColor: "#FF5F1F",
-          damage: 300,
-          speed: 5,
-          towerCost: 1000,
+          damage: 750,
+          speed: 4,
+          towerCost: 2500,
           towerImage: towerImages[13],
-          attackSpeed: 150
+          attackSpeed: 50
         },
       };
 
@@ -593,11 +589,11 @@ class Game extends React.Component {
             id: 12,
             towerColor: "blue",
             projectileColor: "#099FFF",
-            damage: 60,
-            speed: 10,
+            damage: 50,
+            speed: 4,
             towerCost: 1000,
             towerImage: towerImages[8],
-            attackSpeed: 50
+            attackSpeed: 8
           },
           //lazor tower
           FIRE: {
@@ -606,7 +602,7 @@ class Game extends React.Component {
             projectileColor: "#FF3300",
             damage: 2,
             speed: 20,
-            towerCost: 100,
+            towerCost: 1200,
             towerImage: towerImages[5],
             attackSpeed: 1
           },
@@ -617,7 +613,7 @@ class Game extends React.Component {
             projectileColor: "#6E0DD0",
             damage: 100,
             speed: 2,
-            towerCost: 400,
+            towerCost: 5000,
             towerImage: towerImages[11],
             attackSpeed: 30
           },
@@ -627,10 +623,10 @@ class Game extends React.Component {
             towerColor: "indigo",
             projectileColor: "#FF5F1F",
             damage: 1500,
-            speed: 7,
-            towerCost: 1000,
+            speed: 4,
+            towerCost: 10000,
             towerImage: towerImages[14],
-            attackSpeed: 150
+            attackSpeed: 60
           },
         };
 
@@ -661,7 +657,7 @@ class Game extends React.Component {
         minionSize: 32,
         minionDamage: 2,
         minionSpeed: 5,
-        minionHealth: 225,
+        minionHealth: 275,
         minionCost: 225,
         minionImage: minionImages[1],
       },
@@ -669,7 +665,7 @@ class Game extends React.Component {
         id: "Garados",
         minionColor: "pink",
         minionSize: 60,
-        minionDamage: 15,
+        minionDamage: 8,
         minionSpeed: 3,
         minionHealth: 1000,
         minionCost: 1000,
@@ -679,7 +675,7 @@ class Game extends React.Component {
         id: "Zapdos",
         minionColor: "pink",
         minionSize: 60,
-        minionDamage: 8,
+        minionDamage: 10,
         minionSpeed: 6,
         minionHealth: 2500,
         minionCost: 1000,
@@ -689,21 +685,21 @@ class Game extends React.Component {
         id: "Lavados",
         minionColor: "pink",
         minionSize: 60,
-        minionDamage: 8,
-        minionSpeed: 3,
-        minionHealth: 4000,
+        minionDamage: 25,
+        minionSpeed: 5,
+        minionHealth: 10000,
         minionCost: 1000,
-        minionImage: minionImages[4],
+        minionImage: minionImages[5],
       },
       Arktos: {
         id: "Arktos",
         minionColor: "pink",
         minionSize: 60,
-        minionDamage: 8,
+        minionDamage: 15,
         minionSpeed: 2,
         minionHealth: 7000,
         minionCost: 1000,
-        minionImage: minionImages[4],
+        minionImage: minionImages[6],
       },
     };
 
@@ -743,12 +739,6 @@ class Game extends React.Component {
       // clicked on statusbar: do nothing
       //if (gridPositionY < STATUS_BAR_HEIGHT) return;
 
-      /* // DEBUG
-      console.log("CLICK");
-      console.log(coordArray);
-      console.log(mouse.x + " " + mouse.y);
-      */
-
       // clicked on quit
       if (
         18.5*tileSize <= mouse.x &&
@@ -769,7 +759,6 @@ class Game extends React.Component {
       ) {
         sounds[1].play();
         directionSelector = (directionSelector + 1) % 4;
-        console.log("changed directory " + directionSelector);
         return;
       }
 
@@ -783,7 +772,6 @@ class Game extends React.Component {
         sounds[1].play();
         upgradeSelctor = 0;
         sellSelector = (sellSelector + 1) % 2;
-        console.log("selected sell selector " + sellSelector);
         return;
       }
 
@@ -797,20 +785,18 @@ class Game extends React.Component {
         sounds[1].play();
         sellSelector = 0;
         upgradeSelctor = (upgradeSelctor + 1) % 2;
-        console.log("selected upgrade selector " + upgradeSelctor);
         return;
       }
 
       //if clicked on collect interest:
       if (
-              20 * tileSize <= mouse.x &&
-              mouse.x < 21 * tileSize &&
-              6.5 * tileSize <= mouse.y &&
-              mouse.y < 7.5 * tileSize &&
-              prepPhase && collectPhase
-            )
+          20 * tileSize <= mouse.x &&
+          mouse.x < 21 * tileSize &&
+          6.5 * tileSize <= mouse.y &&
+          mouse.y < 7.5 * tileSize &&
+          prepPhase && collectPhase
+        )
         {
-          console.log("spawn wave")
           sounds[6].play();
         for (let i = 0; i < wave.length; i++) {
           switch (wave[i]) {
@@ -917,7 +903,6 @@ class Game extends React.Component {
         prepPhase && !collectPhase
       )
        {
-        console.log("ready");
         sounds[1].play();
         // empty projectiles
         projectiles.splice(0,projectiles.length)
@@ -940,7 +925,6 @@ class Game extends React.Component {
         towerCost = TOWERS.PLANT.towerCost;
         buyCheck = true;
         towerType = "PlantTower1"
-        console.log("selected first tower");
         return;
       }
 
@@ -955,7 +939,6 @@ class Game extends React.Component {
         towerCost = TOWERS.WATER.towerCost;
         buyCheck = true;
         towerType = "WaterTower1"
-        console.log("selected second tower");
         return;
       }
 
@@ -970,7 +953,6 @@ class Game extends React.Component {
         towerCost = TOWERS.FIRE.towerCost;
         buyCheck = true;
         towerType = "FireTower1"
-        console.log("selected third tower");
         return;
       }
       if (
@@ -984,7 +966,6 @@ class Game extends React.Component {
         towerCost = TOWERS.PSYCH.towerCost;
         buyCheck = true;
         towerType = "PsychTower1"
-        console.log("selected fourth tower");
         return;
       }
       if (
@@ -998,7 +979,6 @@ class Game extends React.Component {
         towerCost = TOWERS.DRAGON.towerCost;
         buyCheck = true;
         towerType = "DragonTower1"
-        console.log("selected fifth tower");
         return;
       }
 
@@ -1011,7 +991,6 @@ class Game extends React.Component {
 
       // check if we clicked on path
       for (let i = 0; i < pathTiles.length; i++) {
-        //console.log(pathTiles[i].x + "   " + gridPositionX)
         if (
           pathTiles[i].x + tileGap == gridPositionX &&
           pathTiles[i].y + tileGap == gridPositionY
@@ -1030,7 +1009,6 @@ class Game extends React.Component {
             return;
           } 
           if(upgradeSelctor) {
-            console.log("upgrade");
             this.upgrade(coordArray);
             var tempID = towers[i].id
             var tempDirection = towers[i].direction;
@@ -1212,7 +1190,6 @@ class Game extends React.Component {
 
       // place tower
       if (!sellSelector && prepPhase) {
-
         if (buyCheck&&gold >= towerCost) {
           // to to Check selected tower variable
           //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
@@ -1271,7 +1248,6 @@ class Game extends React.Component {
                   TOWERS.FIRE.towerImage,
                   TOWERS.FIRE.attackSpeed,
                   TOWERS.FIRE.id
-
                 )
               );
               break;
@@ -1315,7 +1291,6 @@ class Game extends React.Component {
               break;
           }
           gold -= towerCost;
-
         }
         else {
           this.buy(coordArray,towerType)
@@ -1458,7 +1433,6 @@ class Game extends React.Component {
         towerImage,
         attackSpeed,
         towerId,
-
       ) {
         // 2dim. array attribute
         this.x = x;
@@ -1518,27 +1492,27 @@ class Game extends React.Component {
                   )
                 )
               projectiles.push(  
+                new Projectiles(
+                  this.x + 30,
+                  this.y + 30,
+                  this.damage,
+                  this.projectileColor,
+                  this.speed,
+                  2,
+                  this.attackSpeed
+                  )
+                )
+                projectiles.push(  
                   new Projectiles(
                     this.x + 30,
                     this.y + 30,
                     this.damage,
                     this.projectileColor,
                     this.speed,
-                    2,
+                    3,
                     this.attackSpeed
-                    )
                   )
-                  projectiles.push(  
-                    new Projectiles(
-                      this.x + 30,
-                      this.y + 30,
-                      this.damage,
-                      this.projectileColor,
-                      this.speed,
-                      3,
-                      this.attackSpeed
-                      )
-                    )      
+                )      
           }
           else {
             projectiles.push(
@@ -1693,8 +1667,8 @@ class Game extends React.Component {
         ctx.fill();
       }
     }
-    // handlers
 
+    // handlers
     function handleGameStatus() {
       ctx.fillStyle = "green";
       ctx.font = "28px Orbitron";
@@ -1753,7 +1727,6 @@ class Game extends React.Component {
       //ctx.fillRect(3*tileSize, 1.5*tileSize, 3*tileSize*(HP/50), 16);
       ctx.closePath();
 
-
       // leave game
       ctx.beginPath();
       ctx.rect(18.5 * tileSize, 50, 2.5*tileSize, tileSize);
@@ -1764,7 +1737,6 @@ class Game extends React.Component {
       ctx.fillStyle = "green";
       ctx.fillText("Quit", 19.25 * tileSize, 1.5 * tileSize);
       ctx.stroke();
-
       
       // highlight sell selector
       if (sellSelector) {
@@ -1928,9 +1900,7 @@ class Game extends React.Component {
           ctx.lineTo(20.25*tileSize, 3*tileSize);
           ctx.stroke();
           break;
-
       }
-
 
       if (gameOver) {
         // defeat screen
@@ -1938,8 +1908,8 @@ class Game extends React.Component {
         ctx.beginPath();
         ctx.rect(0, 64, 960, 640);
         ctx.lineWidth = "3";
-        ctx.strokeStyle = "red";
-        ctx.fillStyle = "green";
+        ctx.strokeStyle = "green";
+        ctx.fillStyle = "black";
         ctx.fill();
         ctx.stroke();
 
@@ -2017,7 +1987,6 @@ class Game extends React.Component {
         }
         round += 1;
       }
-
     };
 
     function handleProjectiles() {
@@ -2318,7 +2287,6 @@ class Game extends React.Component {
     function getCoordiantes(gridPositionX, gridPositionY) {
       let x = (gridPositionX - tileGap) / tileSize;
       let y = (gridPositionY - tileGap - 2 * tileSize) / tileSize;
-      console.log("X: " + x + " Y: " + y);
       const coordArrayforClient = [x, y];
       const coordArrayforServer = [y, x];
       return coordArrayforServer;
