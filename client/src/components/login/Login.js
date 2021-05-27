@@ -123,7 +123,7 @@ class Login extends React.Component {
           width:300,
           height:100,
           message: `Something went wrong during the login: \n${handleError(error)}`,
-          type: 'warning',                         // 'default', 'success', 'info', 'warning'
+          type: 'info',                         // 'default', 'success', 'info', 'warning'
           container: 'top-left',                // where to position the notifications
           animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
           animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied

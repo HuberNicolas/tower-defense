@@ -56,3 +56,44 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 
 >Thanks to Lucas Pelloni for the template
+
+
+
+## Introduction
+The aim of our project was to build a 2D-Towerdefense game. In case you don't know the genre yet, [here is a nice video](https://datasaurus-rex.com/inspiration/storytelling/tower-defense-games-explained), that explains the most important aspects.
+
+## Technologies (short)
+For the front end, we used the React Framework. With React, there was also CSS, HTML and Java Script a big part of the project. The core of the game was written in Java Script. The backbone of the game application is based on the Canvas API. Using Canvas allowed us to handle all different objects individually (for instance projectilies.) and this was crucial for the collision detection between the game objects. If you are interested, Mozilla Web Docs (MDN) has a very good [documentation](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
+
+## High-level components
+
+## Launch & deployment
+
+Make sure you run 
+
+### `npm install --save react-notifications-component animate.css`
+### `npm install react-typewriter`
+
+before you build and run the application. You might also need to run
+
+### `npm audit fix`
+
+### Illustrations
+
+### Roadmap
+Here is a list with ideas to improve/extend the project further:
+- Adding a Multiplayer (and/or design an AI such that you can play vs. the computer)
+- Adding more maps (and/or write a mapgenerator)
+- Adding more towers/minions (this would also need a lot of balancing)
+
+
+### Authors and acknowledment
+This project was created during the "Softwarepraktikum" Sopra at the University of Zürich (UZH) in the Spring Semester 21. The core of the team was:
+- Nicolas Blumer, Nicolas Huber and Michael Vuong
+
+We would also like to mention that the project started initially among Louis Huber and Omar Abo Hamida. Due to their high workload, they decided to leave the group after the inital assessment. Nevertheless, thank you Louis and Omar for your initial support!
+
+After this assessment, Matej Gurica and Mauro Dörig joined our team. Unfortunately, Matej and Mauro also decided to leave the project after a couple of weeks (between M3 and M4). Anyway, thank you 2 for your effort.
+
+
+### License
