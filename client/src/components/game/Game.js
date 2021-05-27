@@ -2,11 +2,9 @@
 import React from "react";
 import { api, handleError } from "../../helpers/api";
 import { withRouter } from "react-router-dom";
-
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
-import { Button2 } from "../../views/design/Button2";
 
 class Game extends React.Component {
   constructor() {
@@ -221,7 +219,6 @@ class Game extends React.Component {
   canvasRef = React.createRef();
   componentDidMount() {
     
-
     const mouse = {
       x: 10,
       y: 10,
@@ -456,7 +453,7 @@ class Game extends React.Component {
         id: 2,
         towerColor: "lightblue",
         projectileColor: "#099FFF",
-        damage: 10,
+        damage: 5,
         speed: 4,
         towerCost: 200,
         towerImage: towerImages[6],
@@ -503,9 +500,9 @@ class Game extends React.Component {
           id: 6,
           towerColor: "green",
           projectileColor: "#00FF00",
-          damage: 35,
+          damage: 50,
           speed: 5,
-          towerCost: 200,
+          towerCost: 300,
           towerImage: towerImages[1],
           attackSpeed: 90
         },
@@ -514,7 +511,7 @@ class Game extends React.Component {
           id: 7,
           towerColor: "lightblue",
           projectileColor: "#099FFF",
-          damage: 20,
+          damage: 10,
           speed: 4,
           towerCost: 400,
           towerImage: towerImages[7],
@@ -561,9 +558,9 @@ class Game extends React.Component {
             id: 11,
             towerColor: "green",
             projectileColor: "#00FF00",
-            damage: 75,
+            damage: 100,
             speed: 5,
-            towerCost: 300,
+            towerCost: 500,
             towerImage: towerImages[2],
             attackSpeed: 100
           },
@@ -572,7 +569,7 @@ class Game extends React.Component {
             id: 12,
             towerColor: "blue",
             projectileColor: "#099FFF",
-            damage: 50,
+            damage: 30,
             speed: 4,
             towerCost: 1000,
             towerImage: towerImages[8],
@@ -583,9 +580,9 @@ class Game extends React.Component {
             id: 13,
             towerColor: "red",
             projectileColor: "#FF3300",
-            damage: 2,
+            damage: 4,
             speed: 20,
-            towerCost: 1200,
+            towerCost: 1500,
             towerImage: towerImages[5],
             attackSpeed: 1
           },
@@ -594,7 +591,7 @@ class Game extends React.Component {
             id: 14,
             towerColor: "midnightblue",
             projectileColor: "#6E0DD0",
-            damage: 100,
+            damage: 175,
             speed: 2,
             towerCost: 5000,
             towerImage: towerImages[11],
@@ -609,7 +606,7 @@ class Game extends React.Component {
             speed: 4,
             towerCost: 10000,
             towerImage: towerImages[14],
-            attackSpeed: 60
+            attackSpeed: 30
           },
         };
 
@@ -1025,7 +1022,6 @@ class Game extends React.Component {
                 break;
             }
             if (upgradecost>0 && upgradecost<=gold){
-              this.upgrade(coordArray);
               var tempID = towers[i].id
               var tempDirection = towers[i].direction;
               towers.splice(i,1); // remove tower
@@ -1184,7 +1180,7 @@ class Game extends React.Component {
               }
               gold -=upgradecost;
             }
-
+            this.upgrade(coordArray);
             if(tempID <=5 ) {
               sounds[2].play();
             }
@@ -1307,10 +1303,12 @@ class Game extends React.Component {
               break;
           }
           gold -= towerCost;
+          towerType=null;
         }
         else {
           this.buy(coordArray,towerType)
           buyCheck = false;
+          towerType=null;
         }
       }
     }
@@ -1997,7 +1995,7 @@ class Game extends React.Component {
       if (phase && minions.length < 1 && minionsToSpawn.length < 1 && !prepPhase) {
         prepPhase = true;
         this.updateGameState(gold,HP);
-        if (minionsInterval > 40) {
+        if (minionsInterval > 30) {
           minionsInterval -= 5;
         }
         round += 1;
