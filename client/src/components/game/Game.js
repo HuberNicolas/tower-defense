@@ -522,7 +522,7 @@ class Game extends React.Component {
           id: 8,
           towerColor: "yellow",
           projectileColor: "#FF3300",
-          damage: 2,
+          damage: 3,
           speed: 20,
           towerCost: 600,
           towerImage: towerImages[4],
@@ -988,7 +988,7 @@ class Game extends React.Component {
           if (!sellSelector && !upgradeSelctor) {
             return;
           } 
-          if(upgradeSelctor) {
+          if(upgradeSelctor && prepPhase) {
             let towerType = towers[i].id
             let upgradecost = 0;
             // place new one
@@ -999,34 +999,35 @@ class Game extends React.Component {
               case 2:
                 upgradecost=TOWERS2.WATER.towerCost;
                 break;
-                case 3:
+              case 3:
+                upgradecost=TOWERS2.FIRE.towerCost;
+              case 4:
                 upgradecost=TOWERS2.PSYCH.towerCost;
                 break;
-                case 5:
+              case 5:
                 upgradecost=TOWERS2.DRAGON.towerCost;
                 break;
-                case 6:
+              case 6:
                 upgradecost=TOWERS3.PLANT.towerCost;
                 break;
               case 7:
                 upgradecost=TOWERS3.WATER.towerCost;
                 break;
-                case 8:
+              case 8:
                 upgradecost=TOWERS3.FIRE.towerCost;
                 break;
               case 9:
                 upgradecost=TOWERS3.PSYCH.towerCost;
                 break;
-                case 10:
+              case 10:
                 upgradecost=TOWERS3.DRAGON.towerCost;
                 break;
             }
             if (upgradecost>0 && upgradecost<=gold){
-              var tempID = towers[i].id
               var tempDirection = towers[i].direction;
               towers.splice(i,1); // remove tower
               // place new one
-              switch(tempID) {
+              switch(towerType) {
                 case 1:
                   towers.push(new Tower(
                     gridPositionX,
@@ -1181,15 +1182,15 @@ class Game extends React.Component {
               gold -=upgradecost;
             }
             this.upgrade(coordArray);
-            if(tempID <=5 ) {
+            if(towerType <=5 ) {
               sounds[2].play();
             }
-            else if(tempID >= 6) {
+            else if(towerType >= 6) {
               sounds[7].play();
             } 
             return;
           }
-          if(sellSelector && !upgradeSelctor) {
+          if(sellSelector && !upgradeSelctor && prepPhase) {
             this.sell(coordArray);
             //sellSelector = 0; // BUG!!!! DO NOT USE HERE
             sounds[4].play();
@@ -1207,8 +1208,6 @@ class Game extends React.Component {
           //towers.push(new Tower(gridPositionX, gridPositionY, 'blue', 'yellow', 500, 200, 100));
           switch (towerSelector) {
             case 1:
-            buyCheck = false;
-            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -1226,8 +1225,6 @@ class Game extends React.Component {
               );
               break;
             case 2:
-            buyCheck = false;
-            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -1245,8 +1242,6 @@ class Game extends React.Component {
               );
               break;
             case 3:
-            buyCheck = false;
-            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -1264,8 +1259,6 @@ class Game extends React.Component {
               );
               break;
             case 4:
-            buyCheck = false;
-            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -1283,8 +1276,6 @@ class Game extends React.Component {
               );
               break;
             case 5:
-            buyCheck = false;
-            this.buy(coordArray,towerType)
               towers.push(
                 new Tower(
                   gridPositionX,
@@ -1302,13 +1293,27 @@ class Game extends React.Component {
               );
               break;
           }
+          this.buy(coordArray, towerType)
+          buyCheck = false;
           gold -= towerCost;
+          towerCost=0;
           towerType=null;
         }
+        
         else {
-          this.buy(coordArray,towerType)
-          buyCheck = false;
-          towerType=null;
+          store.addNotification({
+            title: "Error",
+            width: 300,
+            height: 100,
+            message: `Not enough money or nothing selected`,
+            type: "warning", 
+            container: "top-left", 
+            animationIn: ["animated", "fadeIn"], 
+            animationOut: ["animated", "fadeOut"], 
+            dismiss: {
+              duration: 3000,
+            },
+          });
         }
       }
     }
@@ -1480,7 +1485,7 @@ class Game extends React.Component {
       update() {
         this.timer++;
         if (this.timer % this.attackSpeed === 0) {
-          if(this.id == 2 || this.id == 7 || this.id == 12) {
+          if(this.id === 2 || this.id === 7 || this.id === 12) {
             // water tower multiple projectiles  
             projectiles.push(  
               new Projectiles(
@@ -1711,7 +1716,6 @@ class Game extends React.Component {
         case "Tornado":
           ctx.drawImage(windy,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
           break;
-        
       }
       
       ctx.fillText(
@@ -1766,7 +1770,6 @@ class Game extends React.Component {
       // highlight selected tower
       if (!sellSelector) {
         switch (towerSelector ) {
-        
           case(1):
             ctx.beginPath();
             ctx.rect(16 * tileSize, 2.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
@@ -1775,7 +1778,6 @@ class Game extends React.Component {
             ctx.stroke();
             ctx.closePath();
             break;
-  
           case(2):
             ctx.beginPath();
             ctx.rect(16 * tileSize, 4.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
@@ -1784,8 +1786,7 @@ class Game extends React.Component {
             ctx.stroke();
             ctx.closePath();
             break;
-  
-            case(3):
+          case(3):
             ctx.beginPath();
             ctx.rect(16 * tileSize, 6.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
             ctx.lineWidth = 5;
@@ -1793,8 +1794,7 @@ class Game extends React.Component {
             ctx.stroke();
             ctx.closePath();
             break;
-  
-            case(4):
+          case(4):
             ctx.beginPath();
             ctx.rect(16 * tileSize, 8.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
             ctx.lineWidth = 5;
@@ -1802,8 +1802,7 @@ class Game extends React.Component {
             ctx.stroke();
             ctx.closePath();
             break;
-  
-            case(5):
+          case(5):
             ctx.beginPath();
             ctx.rect(16 * tileSize, 10.5 * tileSize, tileSize-tileGap, tileSize-tileGap);
             ctx.lineWidth = 5;
@@ -2020,12 +2019,11 @@ class Game extends React.Component {
             i--; // adjust for loop index
           }
         }
-
         if (   
-              (projectiles[i] && projectiles[i].y < 2*tileSize + 3*tileGap) || // upper bound
-              (projectiles[i] && projectiles[i].x > BOARD_WIDTH - 3*tileGap) || // right bound
-              (projectiles[i] && projectiles[i].y > 2*tileSize+BOARD_HEIGHT - 3*tileGap) ||  // bottom bound
-              (projectiles[i] && projectiles[i].x < 0 + 3*tileGap) // left bound
+            (projectiles[i] && projectiles[i].y < 2*tileSize + 3*tileGap) || // upper bound
+            (projectiles[i] && projectiles[i].x > BOARD_WIDTH - 3*tileGap) || // right bound
+            (projectiles[i] && projectiles[i].y > 2*tileSize+BOARD_HEIGHT - 3*tileGap) ||  // bottom bound
+            (projectiles[i] && projectiles[i].x < 0 + 3*tileGap) // left bound
           ) {
           projectiles.splice(i, 1); // remove
           i--; // adjust for loop index
