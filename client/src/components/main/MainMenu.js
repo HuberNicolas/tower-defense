@@ -1,16 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
-import { BaseContainer } from '../../helpers/layout';
-import { withRouter } from 'react-router-dom';
-import { Button } from '../../views/design/Button';
+import React from "react";
+import styled from "styled-components";
+import { BaseContainer } from "../../helpers/layout";
+import { withRouter } from "react-router-dom";
+import { Button } from "../../views/design/Button";
+import { Button2 } from "../../views/design/Button2";
 import mainmenu from "../../mainmenu.jpg";
-import backgroundmusic from "../../backgroundmusic.mp3"
+import backgroundmusic from "../../backgroundmusic.mp3";
 import { api, handleError } from "../../helpers/api";
 import { store } from "react-notifications-component";
+import tree from "../../assets/img/Tree2.png";
 
-import 'react-notifications-component/dist/theme.css';
-import 'animate.css';
-
+import "react-notifications-component/dist/theme.css";
+import "animate.css";
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -38,7 +39,7 @@ const Form = styled.div`
 
 const InputField = styled.input`
   &::placeholder {
-    color: rgba(255, 255, 255, 1.0);
+    color: rgba(255, 255, 255, 1);
   }
   height: 35px;
   padding-left: 15px;
@@ -64,9 +65,9 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 400px;
-
 `;
 const Title = styled.h1`
+  font-family: "Press Start 2P";
   font-weight: bold;
   color: yellow;
   text-align: center;
@@ -74,77 +75,85 @@ const Title = styled.h1`
 var sectionStyle = {
   width: "100%",
   height: "768px",
-  backgroundImage: "url(" +  mainmenu  + ")",
+  //backgroundImage: "url(" +  mainmenu  + ")",
+};
 
+var rowStyle = {};
+
+var colStyle = {
+  float: "right",
+  margin: "60px",
+  width: "40%",
 };
 const background = styled.img`
   display: flex;
   justify-content: center;
-  backgroundImage: mainmenu;
+  backgroundimage: mainmenu;
 `;
 
 const Logo = styled.img`
-    width: 669px;
-    height: 557px;
-    margin: 20px;
+  width: 669px;
+  height: 557px;
+  margin: 20px;
 `;
 
 class Login extends React.Component {
-
   constructor() {
     super();
     this.state = {
       play: false,
-
     };
   }
 
- // music to be played
-    audio = new Audio(backgroundmusic);
-    componentDidMount() {
-    this.audio.addEventListener('ended', () => this.setState({ play: false }));
+  // music to be played
+  audio = new Audio(backgroundmusic);
+  componentDidMount() {
+    this.audio.addEventListener("ended", () => this.setState({ play: false }));
   }
 
   componentWillUnmount() {
-    this.audio.removeEventListener('ended', () => this.setState({ play: false }));
+    this.audio.removeEventListener("ended", () =>
+      this.setState({ play: false })
+    );
   }
 
   togglePlay = () => {
     this.setState({ play: !this.state.play }, () => {
       this.state.play ? this.audio.play() : this.audio.pause();
     });
-  }
- //refreshes the website
-  reload(){
+  };
+  //refreshes the website
+  reload() {
     window.location.reload(false);
   }
- //logout removes your token
+  //logout removes your token
   async logout() {
     try {
       const requestBody = JSON.stringify({
         token: localStorage.getItem("token"),
       });
-      await api.patch('/users/', requestBody);
+      await api.patch("/users/", requestBody);
 
       localStorage.clear();
-      this.props.history.push('/login');
+      this.props.history.push("/login");
     } catch (error) {
       store.addNotification({
-            title: 'Error',
-            width:300,
-            height:100,
-            message: `Something went wrong while trying to log out: \n${handleError(error)}`,
-            type: 'warning',                       
-            container: 'top-left',               
-            animationIn: ["animated", "fadeIn"],     
-            animationOut: ["animated", "fadeOut"],   
-            dismiss: {
-              duration: 3000
-            }
-        })
+        title: "Error",
+        width: 300,
+        height: 100,
+        message: `Something went wrong while trying to log out: \n${handleError(
+          error
+        )}`,
+        type: "warning",
+        container: "top-left",
+        animationIn: ["animated", "fadeIn"],
+        animationOut: ["animated", "fadeOut"],
+        dismiss: {
+          duration: 3000,
+        },
+      });
     }
   }
-
 
   handleInputChange(key, value) {
     // Example: if the key is username, this statement is the equivalent to the following one:
@@ -154,52 +163,68 @@ class Login extends React.Component {
 
   render() {
     return (
-    <div style={sectionStyle}>
-      <BaseContainer>
-      <Title>Main Menu</Title>
-            <ButtonContainer>
-              <Button
-                width="50%"
-                onClick={() => {
-                  this.props.history.push(`/singleplayer`);
-                }}
-              >
-                Singleplayer
-              </Button>
-              <h1> </h1>
-              <Button
+      <div style={sectionStyle}>
+        <div>
+          <link rel="preconnect" href="https://fonts.gstatic.com" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+          />
+        </div>
+        <div style={rowStyle}>
+          <div style={colStyle}>
+            <img src={tree} height="600px"></img>
+          </div>
+          <div style={colStyle}>
+          <BaseContainer>
+              <Title>Main Menu</Title>
+              <ButtonContainer>
+                <Button2
+                  width="50%"
+                  onClick={() => {
+                    this.props.history.push(`/singleplayer`);
+                  }}
+                >
+                  Singleplayer
+                </Button2>
+                <h1> </h1>
+                {/* 
+                <Button2
                   width="50%"
                   onClick={() => {
                     this.props.history.push(`/multiplayer`);
                   }}
-              >
-                Multiplayer
-              </Button>
-              <h1> </h1>
-              <Button
+                >
+                  Multiplayer
+                </Button2>
+                <h1> 
+                </h1>
+                */}
+                <Button2
                   width="50%"
                   onClick={() => {
                     this.props.history.push(`/settings`);
                   }}
-              >
-                Edit User Settings
-              </Button>
-              <h1> </h1>
-              <Button
-                width="50%"
-                onClick={() => {
-                  this.logout();
-                }}
-              >
-                logout
-              </Button>
-              <h1> </h1>
-                <Button
+                >
+                  Edit User Settings
+                </Button2>
+                <h1> </h1>
+                <Button2
                   width="50%"
-                  onClick={this.togglePlay}>{this.state.play ? 'Pause' : 'Play'}
-                </Button>
-            </ButtonContainer>
-      </BaseContainer>
+                  onClick={() => {
+                    this.logout();
+                  }}
+                >
+                  logout
+                </Button2>
+                <h1> </h1>
+                <Button2 width="50%" onClick={this.togglePlay}>
+                  {this.state.play ? "Pause" : "Play"}
+                </Button2>
+              </ButtonContainer>
+            </BaseContainer>
+          </div>
+        </div>
       </div>
     );
   }
