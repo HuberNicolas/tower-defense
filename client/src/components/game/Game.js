@@ -2004,7 +2004,7 @@ class Game extends React.Component {
       }
 
       // show victory screen
-      if (round>2) {
+      if (round>30) {
         won = true;
         survived = round -1;
         ctx.beginPath();
