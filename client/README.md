@@ -1,16 +1,28 @@
-# SoPra FS21 - Client Template
+# SoPra FS21 - Client
 
-## Prerequisites and Installation
+## Introduction
+The aim of our project was to build a 2D-Towerdefense game. In case you don't know the genre yet, [here is a nice video](https://datasaurus-rex.com/inspiration/storytelling/tower-defense-games-explained), that explains the most important aspects. Furthermore, the application has to consist of a front-end and back-end, which are usign the REST-protocol. In addtion to this, an external API has to be used, too.
+
+## Technologies (short)
+For the front end, we used the React Framework. With React, there was also CSS, HTML and Java Script a big part of the project. The core of the game was written in Java Script. The backbone of the game application is based on the Canvas API. Using Canvas allowed us to handle all different objects individually (for instance projectilies.) and this was crucial for the collision detection between the game objects. If you are interested, Mozilla Web Docs (MDN) has a very good [documentation](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
+
+## High-level components
+
+In the front-end, backbone of the application is the [Game.js](/public/components/game/Game.js) file.
+
+
+## Launch & deployment
+### Prerequisites and Installation
 
 For your local development environment you'll need Node.js >= 8.10. You can download it [here](https://nodejs.org). All other dependencies including React get installed with:
 
-### `npm install`
-### `npm install typewriter-effect`
-### `npm install --save react-notifications-component animate.css`
+#### `npm install`
+#### `npm install typewriter-effect`
+#### `npm install --save react-notifications-component animate.css`
 
 This has to be done before starting the application for the first time (only once).
 
-### `npm run dev`
+#### `npm run dev`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -18,14 +30,14 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console (use Google Chrome!).
 
-### `npm run test`
+#### `npm run test`
 
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 > For macOS user running into an 'fsevents' error: https://github.com/jest-community/vscode-jest/issues/423
 
-### `npm run build`
+#### `npm run build`
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -42,29 +54,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 >Thanks to Lucas Pelloni for the template
 
-
-## Introduction
-The aim of our project was to build a 2D-Towerdefense game. In case you don't know the genre yet, [here is a nice video](https://datasaurus-rex.com/inspiration/storytelling/tower-defense-games-explained), that explains the most important aspects. Furthermore, the application has to consist of a front-end and back-end, which are usign the REST-protocol. In addtion to this, an external API has to be used, too.
-
-## Technologies (short)
-For the front end, we used the React Framework. With React, there was also CSS, HTML and Java Script a big part of the project. The core of the game was written in Java Script. The backbone of the game application is based on the Canvas API. Using Canvas allowed us to handle all different objects individually (for instance projectilies.) and this was crucial for the collision detection between the game objects. If you are interested, Mozilla Web Docs (MDN) has a very good [documentation](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
-
-## High-level components
-
-In the front-end, backbone of the application is the [Game.js](/public/components/game/Game.js) file.
-
-
-## Launch & deployment
-
-
-Make sure you run 
-
-### `npm install --save react-notifications-component animate.css`
-### `npm install react-typewriter`
-
-before you build and run the application. You might also need to run
-
-### `npm audit fix`
 
 ### Illustrations
 
