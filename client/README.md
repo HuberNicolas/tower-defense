@@ -88,3 +88,9 @@ Special thanks go to [Marion Dübendorfer](https://github.com/demaerl) and [Roy 
 ## License
 
 GNU General Public License v3.0
+
+
+Links:
+https://feathericons.com/
+https://pokeapi.co/
+https://opengameart.org/content/512-sound-effects-8-bit-style

@@ -19,6 +19,13 @@ class Game extends React.Component {
     };
   }
 
+
+  // ########## ASYNC-METHODS ##########
+  /*
+  * This methods are the REST-bridge to the server
+  */
+
+   // buy and sucessively place a tower
   async buy(coordinates,towerType) {
     try {
       const requestBody = JSON.stringify({
@@ -43,10 +50,10 @@ class Game extends React.Component {
           duration: 3000,
         },
       });
-
     }
   }
 
+   // selling a tower
   async upgrade(coordinates) {
     try {
       const requestBody = JSON.stringify({
@@ -70,22 +77,21 @@ class Game extends React.Component {
           duration: 3000,
         },
       });
-
     }
   }
 
+  // selling a tower
   async sell(coordinates) {
     try {
       const requestBody = JSON.stringify({
         coordinates: coordinates,
       });
-
       const response = await api.patch(
         "games/towers/sales/" + localStorage.getItem("token"),
         requestBody
+
       );
       this.setState({ gold: response.data.gold });
-
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -106,13 +112,14 @@ class Game extends React.Component {
     }
   }
 
-  // minion reaches the end
+  // reduce player HP when minion reaches end of path
   async hit(dmg) {
     let newHealth = localStorage.getItem("health") - dmg;
     localStorage.setItem("health", newHealth);
     this.handleInputChange("health", newHealth);
   }
 
+  // start a new minion wave
   async ImReady() {
     try {
       const response = await api.get(`/games/battles/${localStorage.getItem("token")}`);
@@ -143,9 +150,9 @@ class Game extends React.Component {
     }
   }
 
+  // quit leave the game
   async rageQuit() {
     try {
-
       localStorage.removeItem("gold")
       localStorage.removeItem("gameId")
       localStorage.removeItem("health")
@@ -176,21 +183,19 @@ class Game extends React.Component {
     }
   }
 
-
+  // get acutal gold and health from the server
   async updateGameState(gold, health) {
     try {
       const requestBody = JSON.stringify({
         gold: gold,
         health: health,
       });
+      
       const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
-
       const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
       localStorage.setItem("gold", response2.data.player1.gold);
       this.setState({gold: localStorage.getItem("gold")});
-
       localStorage.setItem("continuing", response.data.continuing);
-
     } catch (error) {
       store.addNotification({
         title: "Error",
@@ -210,15 +215,21 @@ class Game extends React.Component {
     }
   }
 
+  // update state
   async handleInputChange(key, value) {
-    // Example: if the key is username, this statement is the equivalent to the following one:
     // this.setState({'username': value});
     this.setState({ [key]: value });
   }
 
-  canvasRef = React.createRef();
+
+  // ########## componentDidMount ##########
+  /*
+  * 
+  */
+  canvasRef = React.createRef(); // "binds" canvas object to the DOM
   componentDidMount() {
     
+    // mouseposition
     const mouse = {
       x: 10,
       y: 10,
@@ -226,12 +237,20 @@ class Game extends React.Component {
       height: 0.1,
     };
 
+    // statusbar
+    const statusBar = {
+      width: STATUS_BAR_WIDTH,
+      height: STATUS_BAR_HEIGHT,
+    };
+
     // canvas initialisation
     const canvas = this.canvasRef.current;
     const ctx = canvas.getContext("2d");
     let canvasPosition = canvas.getBoundingClientRect();
 
-    // global variable
+    // ########## GLOBAL VARIABLES ##########
+
+    // sizes
     const tileSize = 64;
     const tileGap = 3;
     const BOARD_WIDTH = 960; // 15 * 64
@@ -239,16 +258,13 @@ class Game extends React.Component {
     const SHOP_WIDTH = 2 * tileGap + 400;
     const STATUS_BAR_HEIGHT = 2 * tileSize;
     const STATUS_BAR_WIDTH = BOARD_WIDTH + SHOP_WIDTH;
+    const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
+    
+    // frame-relevant
     let minionsInterval = 90; // spawn interval
     let frame = 0; // frame counter
-    const spawnPoint = 2 * tileSize + tileGap; // y-coordinates 64, references to tile (64,64); first path tile
 
-    const statusBar = {
-      width: STATUS_BAR_WIDTH,
-      height: STATUS_BAR_HEIGHT,
-    };
-
-    // Array for Game Objects
+    // array for game objects
     const gameGrid = []; // all cells
     const pathTiles = []; // all paths
     const minions = []; // all minions
@@ -256,186 +272,186 @@ class Game extends React.Component {
     const towerList = []; // all towers in the shop
     const projectiles = []; // all shots
 
-
-    var minionsToSpawn = [];
-    var wave = [];
-    let phase = false;
+    // game logic
+    var minionsToSpawn = []; // all minions that are going to be spawned
+    var wave = []; // all minions of the wave
+    let phase = false; // battle or prep
     let collectPhase = false;
     let towerCost = 0;
     let buyCheck = false;
     let towerType = null;
     const weather = localStorage.getItem("weather");
     let round = 1;
+    var survived = 0;
 
     // status bar
     let score = 0;
     let HP = localStorage.getItem("health");
     let gold = localStorage.getItem("gold");
     let gameOver = false;
+    let won = false;
     let prepPhase = true;
     
-    // SELECTORS
-    var upgradeSelctor = 0;
-    var towerSelector = 0;
-    var directionSelector = 1;
-    var sellSelector = 1;
+    // selectors
+    var upgradeSelctor = 0; // upgrade or not
+    var towerSelector = 0; // which tower is selected
+    var directionSelector = 1; // current direction
+    var sellSelector = 1; // sell or not
 
 
-    // MEDIA - ASSETS
+    // ########## MEDIA-ASSETS ##########
+    /*
+    * Images and sounds 
+    */
     var towerImages = [];
     var minionImages = [];
     var sounds = [];
 
     // TOWERS
     const t1l1 = new Image();
-    t1l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"; // Bisasam 0
+    t1l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"; // Bisasam 0
     towerImages.push(t1l1);
+
     const t1l2 = new Image();
-    t1l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"; // Bisaknosp 1
+    t1l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"; // Bisaknosp 1
     towerImages.push(t1l2);
+
     const t1l3 = new Image();
-    t1l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"; // Bisaflor 2
+    t1l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"; // Bisaflor 2
     towerImages.push(t1l3);
 
     const t2l1 = new Image();
-    t2l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"; // GLumanda 3
+    t2l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"; // Glumanda 3
     towerImages.push(t2l1);
+    
     const t2l2 = new Image();
-    t2l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"; // Glutexo 4
+    t2l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"; // Glutexo 4
     towerImages.push(t2l2);
+    
     const t2l3 = new Image();
-    t2l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"; // Glurak 5
+    t2l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"; // Glurak 5
     towerImages.push(t2l3);
 
     const t3l1 = new Image();
-    t3l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"; // Schiggy 6
+    t3l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png"; // Schiggy 6
     towerImages.push(t3l1);
+    
     const t3l2 = new Image();
-    t3l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"; // Schillok 7
+    t3l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png"; // Schillok 7
     towerImages.push(t3l2);
+    
     const t3l3 = new Image();
-    t3l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"; // Turtok 8
+    t3l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png"; // Turtok 8
     towerImages.push(t3l3);
 
     const t4l1 = new Image();
-    t4l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png"; // Abra 9
+    t4l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/63.png"; // Abra 9
     towerImages.push(t4l1);
+    
     const t4l2 = new Image();
-    t4l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png"; // Kadabra 10
+    t4l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/64.png"; // Kadabra 10
     towerImages.push(t4l2);
+
     const t4l3 = new Image();
-    t4l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png"; // Simsala 11
+    t4l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png"; // Simsala 11
     towerImages.push(t4l3);
 
     const t5l1 = new Image();
-    t5l1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png"; // Dratini 12
+    t5l1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/147.png"; // Dratini 12
     towerImages.push(t5l1);
+
     const t5l2 = new Image();
-    t5l2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png"; // Dragonir 13
+    t5l2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/148.png"; // Dragonir 13
     towerImages.push(t5l2);
+
     const t5l3 = new Image();
-    t5l3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png"; // Dragoran 14
+    t5l3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png"; // Dragoran 14
     towerImages.push(t5l3);
 
 
     // MINIONS
     const m1 = new Image();
-    m1.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png"; // Karpador
+    m1.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/129.png"; // Karpador 1
     minionImages.push(m1);
+
     const m2 = new Image();
-    m2.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"; // Gengar
+    m2.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/94.png"; // Gengar 2
     minionImages.push(m2);
+
     const m3 = new Image();
-    m3.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png"; // Garados
+    m3.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/130.png"; // Garados 3
     minionImages.push(m3);
+
     const m4 = new Image();
-    m4.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/92.png"; // Nebulak
+    m4.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/92.png"; // Nebulak 4
     minionImages.push(m4);
+
     const m5 = new Image();
-    m5.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png"; // Zapdos
+    m5.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/145.png"; // Zapdos 5
     minionImages.push(m5);
+
     const m6 = new Image();
-    m6.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png"; // Lavados
+    m6.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/146.png"; // Lavados 6
     minionImages.push(m6);
+
     const m7 = new Image();
-    m7.src =
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png"; // Arktos
+    m7.src = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png"; // Arktos 7
     minionImages.push(m7);
 
 
     // SOUNDS
-    var damage1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_damage_hit1.mp3?raw=true'); // don't forget raw=true!
+    // don't forget raw=true
+    var damage1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_damage_hit1.mp3?raw=true'); 
     sounds.push(damage1);
-    var click1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_menu_move3.mp3?raw=true'); // don't forget raw=true!
+
+    var click1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_menu_move3.mp3?raw=true'); 
     sounds.push(click1);
-    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_powerup5.mp3?raw=true'); // don't forget raw=true!
+
+    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_powerup5.mp3?raw=true'); 
     sounds.push(upgradeTower1);
-    var lost = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sound_shutdown2.mp3?raw=true'); // don't forget raw=true!
+
+    var lost = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sound_shutdown2.mp3?raw=true'); 
     sounds.push(lost);
-    var sellTower = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_double3.mp3?raw=true'); // don't forget raw=true!
+
+    var sellTower = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_double3.mp3?raw=true'); 
     sounds.push(sellTower);
-    var earnMinionGold = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_cluster3.mp3?raw=true'); // don't forget raw=true!
+
+    var earnMinionGold = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_cluster3.mp3?raw=true'); 
     sounds.push(earnMinionGold);
+
     var waveStarts = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_alarm_loop3.mp3?raw=true');
     sounds.push(waveStarts);
-    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); // don't forget raw=true!
+
+    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); 
     sounds.push(upgradeTower1);
 
-// weather
+
+    // WEATHER
     const thunderstorm = new Image();
-    thunderstorm.src =
-    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/thunderstorm.png";
+    thunderstorm.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud-lightning.png";
     
     const cloudy = new Image();
-    cloudy.src =
-    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudy.png";
-    
-    const cloudyAndSun = new Image();
-    cloudyAndSun.src =
-    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloudyAndSun.png";
-    
+    cloudy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud.png";
+      
     const rainy = new Image();
-    rainy.src =
-    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/rainy.png";
+    rainy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud-rain.png";
     
     const snowy = new Image();
-    snowy.src =
-    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/snowy.png";
+    snowy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud-snow.png";
     
     const sunny = new Image();
-    sunny.src =
-    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/sunny.png";
+    sunny.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/sun.png";
     
     const windy = new Image();
-    windy.src =
-    "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/windy.png";
+    windy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/wind.png";
     
     
     
-    
-
-    // ATTRIBUTES
+    // ########## ENTITY-ATTRIBUTES ##########
+    /*
+    * Attributes of towers and minions
+    */
+    // TOWERS
     var TOWERS = {
     //classic tower: normal damage cheap
       PLANT: {
@@ -610,6 +626,8 @@ class Game extends React.Component {
           },
         };
 
+
+    // MINIONS    
     var MINIONS = {
       Karpador: {
         id: "Karpador",
@@ -683,6 +701,7 @@ class Game extends React.Component {
       },
     };
 
+    // DIRECTIONS
     var PROJECTILE_DIRECTIONS = {
       UP: { id: 0 },
       RIGHT: { id: 1 },
@@ -690,28 +709,15 @@ class Game extends React.Component {
       LEFT: { id: 3 },
     };
 
-    // EventListeners
+    // ########## EVENT-LISTENERS ##########
+    /*
+    * Eventlisteners for windows and canvas
+    */
+
     // fixed bug when resizing
     window.addEventListener("resize", function () {
       canvasPosition = canvas.getBoundingClientRect();
     });
-
-    // ragequit is to slow
-    /*
-    window.addEventListener("keydown", (e) => {
-      var keyCode = e.key;
-      if(keyCode == "Escape") {
-        if (window.confirm('Do you really want to quit?')) {
-            console.log("Quit");
-            this.rageQuit();
-        } else {
-          console.log("Not Quit")
-          return;
-        }
-      }
-    });
-    */
-
 
     // get mouse position
     canvas.addEventListener("mousemove", function (e) {
@@ -725,6 +731,7 @@ class Game extends React.Component {
       mouse.y = undefined;
     });
 
+    // reaction a users click
     canvas.addEventListener("click", () => {
       // get mouse position
       const gridPositionX = mouse.x - (mouse.x % tileSize) + tileGap;
@@ -754,7 +761,7 @@ class Game extends React.Component {
         mouse.x < 21*tileSize &&
         10.5*tileSize <= mouse.y &&
         mouse.y < 11.5*tileSize &&
-        gameOver
+        (gameOver || won)
       ) {
         this.rageQuit();
         return;
@@ -798,7 +805,7 @@ class Game extends React.Component {
         return;
       }
 
-      //if clicked on collect interest:
+      //if clicked on spawn wave
       if (
           20 * tileSize <= mouse.x &&
           mouse.x < 21 * tileSize &&
@@ -917,6 +924,7 @@ class Game extends React.Component {
         // empty projectiles
         projectiles.splice(0,projectiles.length)
 
+        // get wave
         this.ImReady()
         .then(result => wave = JSON.parse(localStorage.getItem("wave")))
         
@@ -1347,9 +1355,29 @@ class Game extends React.Component {
         }
       }
     }
+
+    // ragequit is to slow
+    /*
+    window.addEventListener("keydown", (e) => {
+      var keyCode = e.key;
+      if(keyCode == "Escape") {
+        if (window.confirm('Do you really want to quit?')) {
+            console.log("Quit");
+            this.rageQuit();
+        } else {
+          console.log("Not Quit")
+          return;
+        }
+      }
+    });
+    */
     );
 
-    // ENTITIES
+    // ########## CLASSES ##########
+    /*
+    * Classes for all the entities (Tile, Path, Tower, Minion, Projectile)
+    */
+
     class Tile {
       constructor(x, y) {
         this.x = x;
@@ -1358,15 +1386,13 @@ class Game extends React.Component {
         this.height = tileSize;
       }
       draw() {
-        // todo: color empty tiles
-
         if (collision(this, mouse)) {
           // highlights current tile
           ctx.strokeStyle = "dodgerblue";
           ctx.strokeRect(this.x, this.y, this.width, this.height);
-
+          /*     
+          // DEBUG ONLY 
           // writes coordinates of tile (upper left corner)
-          /*
           ctx.fillStyle = "white";
           ctx.font = "10px Arial";
           ctx.fillText("y:" + this.y + " x:" + this.x, this.x + 5, this.y + 25);
@@ -1396,6 +1422,7 @@ class Game extends React.Component {
       }
     }
 
+
     class Path {
       constructor(x, y) {
         this.x = x;
@@ -1405,15 +1432,12 @@ class Game extends React.Component {
       }
 
       draw() {
-        // todo: style path
-
         // highlights current tile
-
         ctx.fillStyle = "silver";
         ctx.fillRect(this.x, this.y, this.width, this.height);
-
-        // writes coordinates of tile (upper left corner) DEBUGGING
         /*
+        // DEBUG ONLY 
+        // writes coordinates of tile (upper left corner)
         ctx.fillStyle = "blue";
         ctx.font = "10px Arial";
         ctx.fillText("y:" + this.y + " x:" + this.x, this.x + 5, this.y + 25);
@@ -1423,7 +1447,6 @@ class Game extends React.Component {
 
     function createPath() {
       // fills pathTiles array with tile objects
-
       // 3 down
       for (let k = 2; k <= 4; k++) {
         pathTiles.push(new Path(1 * tileSize, k * tileSize));
@@ -1467,6 +1490,7 @@ class Game extends React.Component {
       // 1 down
       pathTiles.push(new Path(10 * tileSize, 11 * tileSize));
     }
+
 
     class Tower {
       constructor(
@@ -1576,6 +1600,7 @@ class Game extends React.Component {
                 )
               ) 
             }
+            // to loud ^^
           //var audio = new Audio('https://opengameart.org/sites/default/files/Laser%20Shot.mp3');
           //audio.play();
         }
@@ -1608,7 +1633,7 @@ class Game extends React.Component {
         this.minionImage = minionImage;
       }
       update() {
-        // to - do code relatively
+        // DO NOT CHANGE THIS PLEASE! (depends on every pixel)
         if (this.y < 257) {
           this.y += this.movement;
         }
@@ -1656,9 +1681,7 @@ class Game extends React.Component {
           true
         );
         ctx.closePath();
-        //ctx.fill();
         ctx.clip();
-
         ctx.drawImage(
           this.minionImage,
           this.x,
@@ -1666,11 +1689,6 @@ class Game extends React.Component {
           2 * this.minionSize,
           2 * this.minionSize
         );
-        /* // old HP
-        ctx.fillStyle = "black";
-        ctx.font = "30px Arial";
-        ctx.fillText(Math.floor(this.health), this.x + 15, this.y + 25);
-        */
         ctx.beginPath();
         ctx.fillStyle = "red";
         ctx.fillRect(this.x, this.y, this.width*(this.health/this.maxHealth), this.height/4);
@@ -1678,6 +1696,7 @@ class Game extends React.Component {
         ctx.restore();
       }
     }
+
 
     class Projectiles {
       constructor(x, y, damage, projectileColor, speed, direction) {
@@ -1716,20 +1735,25 @@ class Game extends React.Component {
       }
     }
 
-    // handlers
+    // ########## HANDLERS ##########
+    /*
+    * game handler functions
+    */
+    // draw game relevant infos
     function handleGameStatus() {
+      // display labels
       ctx.fillStyle = "green";
       ctx.font = "28px Orbitron";
       ctx.fillText("Gold: " + gold, 2.5*tileSize, 1.25*tileSize);
       ctx.fillText("Score: " + score, 6.5*tileSize, 1.25*tileSize);
       ctx.fillText("HP: " + HP, 0*tileSize, 1.25*tileSize);
       ctx.font = "20px Orbitron";
+      
+      // display weather
       ctx.fillText("Weather: ", 15.5*tileSize, 55);
-
-      //ctx.fillText(weather, 16*tileSize, 1.5*tileSize);
       switch(weather) {
         case "Clouds":
-          ctx.drawImage(cloudy,16*tileSize, 1*tileSize,1*tileSize,1*tileSize);
+          ctx.drawImage(cloudy,16*tileSize, 0.9*tileSize,1*tileSize,1*tileSize);
           break;
         case "Rain":
           ctx.drawImage(rainy,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
@@ -1741,13 +1765,14 @@ class Game extends React.Component {
           ctx.drawImage(snowy,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
           break;
         case "Thunderstorm":
-          ctx.drawImage(thunderstorm,16*tileSize, 1*tileSize,1*tileSize,1*tileSize);
+          ctx.drawImage(thunderstorm,16*tileSize,0.95*tileSize,0.9*tileSize,0.9*tileSize);
           break;
         case "Tornado":
           ctx.drawImage(windy,16*tileSize, 1*tileSize,0.75*tileSize,0.75*tileSize);
           break;
       }
       
+      // display phase
       ctx.fillText(
         "Current phase: " + (prepPhase ? "Preparation" : "Battle"),
         10.25*tileSize,
@@ -1755,7 +1780,7 @@ class Game extends React.Component {
       );
       ctx.fillText("Current round:  " + round, 10.25*tileSize, 55);
 
-      // player health bar
+      // display player health bar
       ctx.beginPath();
       if(37.5 < HP && HP <= 50) {
         ctx.fillStyle = "green";  
@@ -1774,7 +1799,7 @@ class Game extends React.Component {
       //ctx.fillRect(3*tileSize, 1.5*tileSize, 3*tileSize*(HP/50), 16);
       ctx.closePath();
 
-     // leave game
+     // display quit button for leaving game
      if(!gameOver) {
       ctx.beginPath();
       ctx.rect(18.5 * tileSize, 50, 2.5*tileSize, tileSize);
@@ -1789,14 +1814,12 @@ class Game extends React.Component {
       
       // highlight sell selector
       if (sellSelector) {
-        // highlight
         ctx.beginPath();
-
         ctx.rect(18.5 * tileSize, 4.5 * tileSize, tileSize, tileSize);
         ctx.lineWidth = 5;
         ctx.strokeStyle = "dodgerblue";
         ctx.stroke();
-        ctx.closePath(); // https://stackoverflow.com/questions/9475432/html5-canvas-different-strokes/9475478
+        ctx.closePath();
       }
 
       // highlight selected tower
@@ -1845,8 +1868,8 @@ class Game extends React.Component {
         }
       }
 
+      // highlight upgrade selector
       if (upgradeSelctor) {
-        // highlight
         ctx.beginPath();
         ctx.rect(20 * tileSize, 4.5 * tileSize, tileSize, tileSize);
         ctx.lineWidth = 5;
@@ -1855,7 +1878,7 @@ class Game extends React.Component {
         ctx.closePath();
       }
 
-      
+      // highlight spawn wave: green
       if (collectPhase) {
         // highlight
         ctx.beginPath();
@@ -1866,6 +1889,7 @@ class Game extends React.Component {
         ctx.closePath();
       }
 
+      // highlight spawn wave: red
       if (!collectPhase) {
         // highlight
         ctx.beginPath();
@@ -1876,6 +1900,7 @@ class Game extends React.Component {
         ctx.closePath();
       }
 
+       // highlight spawn wave: orange
       if (prepPhase &&! collectPhase) {
         // highlight
         ctx.beginPath();
@@ -1886,9 +1911,9 @@ class Game extends React.Component {
         ctx.closePath();
       }
 
-
+      // show durrent direction
       switch(directionSelector) {
-        case 0:
+        case 0: // LEFT
           ctx.beginPath();
           ctx.lineWidth = 3;
           ctx.strokeStyle = "green";
@@ -1902,7 +1927,7 @@ class Game extends React.Component {
           ctx.lineTo(20.5*tileSize, 3.25*tileSize);
           ctx.stroke();
           break;
-        case 1:
+        case 1: // UP
           ctx.beginPath();
           ctx.lineWidth = 3;
           ctx.strokeStyle = "green";
@@ -1916,7 +1941,7 @@ class Game extends React.Component {
           ctx.lineTo(20.75*tileSize, 3*tileSize);
           ctx.stroke();
           break;
-        case 2:
+        case 2: // RIGHT
           ctx.beginPath();
           ctx.lineWidth = 3;
           ctx.strokeStyle = "green";
@@ -1930,7 +1955,7 @@ class Game extends React.Component {
           ctx.lineTo(20.5*tileSize, 2.75*tileSize);
           ctx.stroke();
           break;
-        case 3:
+        case 3: // DOWN
           ctx.beginPath();
           ctx.lineWidth = 3;
           ctx.strokeStyle = "green";
@@ -1946,9 +1971,10 @@ class Game extends React.Component {
           break;
       }
 
+      // show defeat screen
       if (gameOver) {
-        // defeat screen
         sounds[3].play();
+        survived = round -1;
         ctx.beginPath();
         ctx.rect(0, 2*tileSize,21.25*tileSize+2*tileGap  , 10*tileSize);
         ctx.lineWidth = "3";
@@ -1962,9 +1988,8 @@ class Game extends React.Component {
         ctx.font = "150px Orbitron";
         ctx.fillText("Gameover", 3.75*tileSize, 5*tileSize);
         ctx.font = "80px Orbitron";
-        ctx.fillText("Survived Waves: " + round, 3.75*tileSize, 7*tileSize);
+        ctx.fillText("Survived Waves: " + survived, 3.75*tileSize, 7*tileSize);
         ctx.fillText("Score: " + score, 3.75*tileSize, 9*tileSize);
-
 
         // draw back to main menu button
         ctx.beginPath();
@@ -1977,20 +2002,56 @@ class Game extends React.Component {
         ctx.fillText("Mainmenu", 18.75 * tileSize, 11.20 * tileSize);
         ctx.stroke();
       }
+
+      // show victory screen
+      if (round>2) {
+        won = true;
+        survived = round -1;
+        ctx.beginPath();
+        ctx.rect(0, 2*tileSize,21.25*tileSize+2*tileGap  , 10*tileSize);
+        ctx.lineWidth = "3";
+        ctx.strokeStyle = "green";
+        ctx.fillStyle = "black";
+        ctx.fill();
+        ctx.stroke();
+
+        // display score
+        ctx.fillStyle = "green";
+        ctx.font = "150px Orbitron";
+        ctx.fillText("YOU WON!", 3.75*tileSize, 5*tileSize);
+        ctx.font = "80px Orbitron";
+        ctx.fillText("Survived Waves: " + survived, 3.75*tileSize, 7*tileSize);
+        ctx.fillText("Score: " + score, 3.75*tileSize, 9*tileSize);
+
+        // draw back to main menu button
+        ctx.beginPath();
+        ctx.rect(18.5 * tileSize, 10.5*tileSize, 2.5*tileSize, 1*tileSize);
+        ctx.strokeStyle = "green";
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.font = "24px Orbitron";
+        ctx.fillStyle = "green";
+        ctx.fillText("Mainmenu", 18.75 * tileSize, 11.20 * tileSize);
+        ctx.stroke();
+      }
+
     }
 
+    // draw grid
     function handleGameGrid() {
       for (let i = 0; i < gameGrid.length; i++) {
         gameGrid[i].draw();
       }
     }
 
+    // draw path
     function handlePath() {
       for (let i = 0; i < pathTiles.length; i++) {
         pathTiles[i].draw();
       }
     }
 
+    // draw towers
     function handleTowers() {
       for (let i = 0; i < towers.length; i++) {
         towers[i].draw();
@@ -1998,12 +2059,17 @@ class Game extends React.Component {
       }
     }
 
+    // draw minions (we need arrow function here)
     var handleMinions = () => {
       const toBeDeleted = [];
+      // draw minions
       for (let i = 0; i < minions.length; i++) {
         minions[i].update();
         minions[i].draw();
 
+        // delete minions
+
+        // minion died
         if (minions[i].health <= 0) {
           sounds[5].play();
           let reward = minions[i].maxHealth / 10;
@@ -2012,6 +2078,8 @@ class Game extends React.Component {
           // remove last minion
           toBeDeleted.push(i); // remove
           //i--; // adjust loop index
+
+          // minion reached end of path
         } else if (minions[i].y > 704 && minions[i].y < 708.4) {
           HP -= minions[i].minionDamage;
           this.hit(minions[i].minionDamage);
@@ -2019,6 +2087,8 @@ class Game extends React.Component {
           toBeDeleted.push(i); //remove
         }
       }
+
+      // finally delete minions
       for (let i = toBeDeleted.length - 1; i >= 0; i--) {
         minions.splice(toBeDeleted[i], 1);
         if(minions.length === 0){
@@ -2032,6 +2102,7 @@ class Game extends React.Component {
       }
     };
 
+    // handle/draw game logic and flow
     var handleGame = () => {
     if (HP < 1 ) {
             gameOver = true;
@@ -2046,6 +2117,7 @@ class Game extends React.Component {
       }
     };
 
+    // draw projectiles
     function handleProjectiles() {
     if(!prepPhase){
       for (let i = 0; i < projectiles.length; i++) {
@@ -2076,6 +2148,7 @@ class Game extends React.Component {
       }
     }}
 
+    // draw shop
     function handleShop() {
       // separate shop from gamebaord
 
@@ -2170,51 +2243,58 @@ class Game extends React.Component {
         }
 
       }
-      //towerList[towerSelector-1].id
 
-      // draw towers
+      // draw towers in game board
       for (let i = 0; i < towerList.length; i++) {
         towerList[i].draw();
       }
 
+      // draw buttons
+
+      // draw rotate button
       ctx.beginPath();
-      ctx.rect(18.5 * tileSize, 2.5 * tileSize, 64, 64);
+      ctx.rect(18.5 * tileSize, 2.5 * tileSize, tileSize, tileSize);
       ctx.font = "14px Orbitron";
       ctx.fillStyle = "green";
       ctx.fillText("Rotate", 18.5 * tileSize + 7.5, 2.5 * tileSize + 38);
       ctx.stroke();
 
+      // draw  box for arrow of the direction indicator
       ctx.beginPath();
-      ctx.rect(20 * tileSize, 2.5 * tileSize, 64, 64);  
+      ctx.rect(20 * tileSize, 2.5 * tileSize, tileSize, tileSize);  
       ctx.stroke();
 
+      // draw sell button
       ctx.beginPath();
-      ctx.rect(18.5 * tileSize, 4.5 * tileSize, 64, 64);
+      ctx.rect(18.5 * tileSize, 4.5 * tileSize, tileSize, tileSize);
       ctx.font = "20px Orbitron";
       ctx.fillStyle = "green";
       ctx.fillText("Sell", 18.5 * tileSize + 10, 4.5 * tileSize + 38);
       ctx.stroke();
 
+      // draw upgrade button
       ctx.beginPath();
-      ctx.rect(20 * tileSize, 4.5 * tileSize, 64, 64);
+      ctx.rect(20 * tileSize, 4.5 * tileSize, tileSize, tileSize);
       ctx.font = "12px Orbitron";
       ctx.fillStyle = "green";
       ctx.fillText("Upgrade", 20 * tileSize + 5, 4.5 * tileSize + 38);
       ctx.stroke();
 
+      // draw ready button
       ctx.beginPath();
-      ctx.rect(18.5 * tileSize, 6.5 * tileSize, 64, 64);
+      ctx.rect(18.5 * tileSize, 6.5 * tileSize, tileSize, tileSize);
       ctx.font = "14px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("Ready", 18.5 * tileSize + 5, 6.5 * tileSize + 38);
+      ctx.fillText("Ready", 18.5 * tileSize + 7, 6.5 * tileSize + 38);
       ctx.stroke();
 
+      // draw spawn wave button
       ctx.beginPath();
-      ctx.rect(20 * tileSize, 6.5 * tileSize, 64, 64);
+      ctx.rect(20 * tileSize, 6.5 * tileSize, tileSize, tileSize);
       ctx.font = "12px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("Spawn", 20 * tileSize + 10, 6.5 * tileSize + 38);
-      ctx.fillText("Wave", 20 * tileSize + 10, 6.8 * tileSize + 38);
+      ctx.fillText("Spawn", 20 * tileSize + 10, 6.35 * tileSize + 38);
+      ctx.fillText("Wave", 20 * tileSize + 10, 6.7 * tileSize + 38);
       ctx.stroke();
     }
 
@@ -2224,7 +2304,6 @@ class Game extends React.Component {
           16 * tileSize,
           2.5 * tileSize,
           TOWERS.PLANT.towerColor,
-
           TOWERS.PLANT.projectileColor,
           TOWERS.PLANT.damage,
           TOWERS.PLANT.speed,
@@ -2296,8 +2375,12 @@ class Game extends React.Component {
         )
       );
     }
-    // animmation function
 
+
+    // ########## ANIMATE-FUNCTION ##########
+    /*
+    *  game loop calls all the different handlers
+    */
     function animate() {
       // create status bar
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -2310,6 +2393,7 @@ class Game extends React.Component {
         requestAnimationFrame(animate);
       }
 
+      // HANDLERS (order does matter)
       handlePath();
       handleGameGrid();
       handleTowers();
@@ -2326,7 +2410,12 @@ class Game extends React.Component {
     createShop();
     animate();
 
-    // Helper functions
+
+    // ########## HELPERS ##########
+    /*
+    *  helper functions
+    */
+   // checks if 2 objects are collided
     function collision(first, second) {
       if (
         !(
@@ -2340,6 +2429,7 @@ class Game extends React.Component {
       }
     }
 
+    // returs the game coordinates of an array ef. [1,4]
     function getCoordiantes(gridPositionX, gridPositionY) {
       let x = (gridPositionX - tileGap) / tileSize;
       let y = (gridPositionY - tileGap - 2 * tileSize) / tileSize;
@@ -2349,8 +2439,10 @@ class Game extends React.Component {
     }
   }
 
-  
-
+  // ########## RENDER-METHOD ##########
+  /*
+  *  give the render method a ref to the created canvas
+  */
   render() {
     return (
       <div>
