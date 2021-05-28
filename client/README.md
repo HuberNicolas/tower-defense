@@ -1,27 +1,12 @@
 # SoPra FS21 - Client Template
 
-## Getting started with React
-
-Read and go through those Tutorials, It will make your life easier!
-
-- Read the React [Docs](https://reactjs.org/docs/getting-started.html)
-- Do this React [Getting Started](https://reactjs.org/tutorial/tutorial.html) Tutorial (it doesn’t assume any existing React knowledge)
-- Get an Understanding of [CSS](http://localhost:3000) and [HTML](https://www.w3schools.com/html/html_intro.asp)!
-
-Once you have done all of this, in the template there are two main external dependencies that you should look at:
-
-- [styled-components](https://www.styled-components.com/docs)
-  It removes the mapping between components and styles (i.e. external css files). This means that when you're defining your styles, you're actually creating a normal React component, that has your styles attached to it
-* [react-router-dom](https://reacttraining.com/react-router/web/guides/quick-start) Declarative routing for React being a collection of navigational components that compose declaratively with your application. 
-* [react-hooks](https://reactrouter.com/web/api/Hooks) Let's you access the state of the router and perform navigation from inside your components.
-
-
-
 ## Prerequisites and Installation
 
 For your local development environment you'll need Node.js >= 8.10. You can download it [here](https://nodejs.org). All other dependencies including React get installed with:
 
 ### `npm install`
+### `npm install typewriter-effect`
+### `npm install --save react-notifications-component animate.css`
 
 This has to be done before starting the application for the first time (only once).
 
@@ -58,7 +43,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 >Thanks to Lucas Pelloni for the template
 
 
-
 ## Introduction
 The aim of our project was to build a 2D-Towerdefense game. In case you don't know the genre yet, [here is a nice video](https://datasaurus-rex.com/inspiration/storytelling/tower-defense-games-explained), that explains the most important aspects. Furthermore, the application has to consist of a front-end and back-end, which are usign the REST-protocol. In addtion to this, an external API has to be used, too.
 
@@ -91,7 +75,6 @@ Here is a list with ideas to improve/extend the project further:
 - Adding more maps (and/or write a mapgenerator)
 - Adding more towers/minions (this would also need a lot of balancing)
 - Implementing a range-indicator and minion-detector for the towers. This would increse the diffuculty of the game.
-
 
 ### Authors and acknowledment
 This project was created during the "Softwarepraktikum" Sopra at the University of Zürich (UZH) in the Spring Semester 21. The core of the team was:
