@@ -60,14 +60,18 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 
 ## Introduction
-The aim of our project was to build a 2D-Towerdefense game. In case you don't know the genre yet, [here is a nice video](https://datasaurus-rex.com/inspiration/storytelling/tower-defense-games-explained), that explains the most important aspects.
+The aim of our project was to build a 2D-Towerdefense game. In case you don't know the genre yet, [here is a nice video](https://datasaurus-rex.com/inspiration/storytelling/tower-defense-games-explained), that explains the most important aspects. Furthermore, the application has to consist of a front-end and back-end, which are usign the REST-protocol. In addtion to this, an external API has to be used, too.
 
 ## Technologies (short)
 For the front end, we used the React Framework. With React, there was also CSS, HTML and Java Script a big part of the project. The core of the game was written in Java Script. The backbone of the game application is based on the Canvas API. Using Canvas allowed us to handle all different objects individually (for instance projectilies.) and this was crucial for the collision detection between the game objects. If you are interested, Mozilla Web Docs (MDN) has a very good [documentation](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API).
 
 ## High-level components
 
+In the front-end, backbone of the application is the [Game.js](/public/components/game/Game.js) file.
+
+
 ## Launch & deployment
+
 
 Make sure you run 
 
@@ -83,8 +87,10 @@ before you build and run the application. You might also need to run
 ### Roadmap
 Here is a list with ideas to improve/extend the project further:
 - Adding a Multiplayer (and/or design an AI such that you can play vs. the computer)
+- Implement the originally idea, where 2 (or even more?) players are in a game. Besides that you can buy and place towers, each player also can spend money for buying minions. These minions will be sent to the opponents board. This would add a new layer of tactical decisions.
 - Adding more maps (and/or write a mapgenerator)
 - Adding more towers/minions (this would also need a lot of balancing)
+- Implementing a range-indicator and minion-detector for the towers. This would increse the diffuculty of the game.
 
 
 ### Authors and acknowledment
@@ -97,3 +103,5 @@ After this assessment, Matej Gurica and Mauro Dörig joined our team. Unfortunat
 
 
 ### License
+
+GNU General Public License v3.0
