@@ -676,7 +676,7 @@ class Game extends React.Component {
         minionColor: "pink",
         minionSize: 40,
         minionDamage: 15,
-        minionSpeed: 2,
+        minionSpeed: 3 ,
         minionHealth: 7000,
         minionCost: 1000,
         minionImage: minionImages[6],
@@ -759,9 +759,6 @@ class Game extends React.Component {
         this.rageQuit();
         return;
       }
-
-
-
 
       // clicked on change directory: change directory
       if (
@@ -1091,7 +1088,7 @@ class Game extends React.Component {
                     TOWERS2.WATER.id
                   ))
                   break;
-                  case 3:
+                case 3:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1121,7 +1118,7 @@ class Game extends React.Component {
                     TOWERS2.PSYCH.id
                   ))
                   break;
-                  case 5:
+                case 5:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1136,7 +1133,7 @@ class Game extends React.Component {
                     TOWERS2.DRAGON.id
                   ))
                   break;
-                  case 6:
+                case 6:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1166,7 +1163,7 @@ class Game extends React.Component {
                     TOWERS3.WATER.id
                   ))
                   break;
-                  case 8:
+                case 8:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1196,7 +1193,7 @@ class Game extends React.Component {
                     TOWERS3.PSYCH.id
                   ))
                   break;
-                  case 10:
+                case 10:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
