@@ -47,33 +47,31 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-
 >Thanks to Lucas Pelloni for the template
 
 
-### Illustrations
+## Illustrations
 
-### Roadmap
+## Roadmap
 Here is a list with ideas to improve/extend the project further:
 - Adding a Multiplayer (and/or design an AI such that you can play vs. the computer)
 - Implement the originally idea, where 2 (or even more?) players are in a game. Besides that you can buy and place towers, each player also can spend money for buying minions. These minions will be sent to the opponents board. This would add a new layer of tactical decisions.
+- making the weather have a bigger impact on the game, as planned
 - Adding more maps (and/or write a mapgenerator)
 - Adding more towers/minions (this would also need a lot of balancing)
 - Implementing a range-indicator and minion-detector for the towers. This would increse the diffuculty of the game.
 
-### Authors and acknowledment
+## Authors and acknowledment
 This project was created during the "Softwarepraktikum" Sopra at the University of Zürich (UZH) in the Spring Semester 21. The core of the team was:
-- Nicolas Blumer, Nicolas Huber and Michael Vuong
+- [Nicolas Blumer](https://github.com/Thahit), [Nicolas Huber](https://github.com/HuberNicolas) and [Michael Vuong](https://github.com/Seouless29)
 
 We would also like to mention that the project started initially among Louis Huber and Omar Abo Hamida. Due to their high workload, they decided to leave the group after the inital assessment. Nevertheless, thank you Louis and Omar for your initial support!
 
 After this assessment, Matej Gurica and Mauro Dörig joined our team. Unfortunately, Matej and Mauro also decided to leave the project after a couple of weeks (between M3 and M4). Anyway, thank you 2 for your effort.
 
+Special thanks go to [Marion Dübendorfer](https://github.com/demaerl) and [Roy Rutishauser](https://github.com/royru) who were responsible for our group and of course also Professor Thomas Fritz. Also a shoutout to everyone who contributed to the template.
 
-### License
+
+## License
 
 GNU General Public License v3.0
