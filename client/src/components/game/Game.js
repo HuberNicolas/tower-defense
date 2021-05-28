@@ -442,7 +442,7 @@ class Game extends React.Component {
         id: 1,
         towerColor: "lightgreen",
         projectileColor: "#00FF00",
-        damage: 20,
+        damage: 25,
         speed: 5,
         towerCost: 100,
         towerImage: towerImages[0],
@@ -515,7 +515,7 @@ class Game extends React.Component {
           speed: 4,
           towerCost: 400,
           towerImage: towerImages[7],
-          attackSpeed: 10
+          attackSpeed: 13
         },
         //lazor tower
         FIRE: {
@@ -533,7 +533,7 @@ class Game extends React.Component {
           id: 9,
           towerColor: "midnightblue",
           projectileColor: "#6E0DD0",
-          damage: 70,
+          damage: 90,
           speed: 2,
           towerCost: 1000,
           towerImage: towerImages[10],
@@ -569,11 +569,11 @@ class Game extends React.Component {
             id: 12,
             towerColor: "blue",
             projectileColor: "#099FFF",
-            damage: 30,
+            damage: 20,
             speed: 4,
             towerCost: 1000,
             towerImage: towerImages[8],
-            attackSpeed: 8
+            attackSpeed: 11
           },
           //lazor tower
           FIRE: {
@@ -637,7 +637,7 @@ class Game extends React.Component {
         minionSize: 32,
         minionDamage: 2,
         minionSpeed: 5,
-        minionHealth: 275,
+        minionHealth: 300,
         minionCost: 225,
         minionImage: minionImages[1],
       },
@@ -654,7 +654,7 @@ class Game extends React.Component {
       Zapdos: {
         id: "Zapdos",
         minionColor: "pink",
-        minionSize: 60,
+        minionSize: 48,
         minionDamage: 10,
         minionSpeed: 6,
         minionHealth: 2500,
@@ -664,7 +664,7 @@ class Game extends React.Component {
       Lavados: {
         id: "Lavados",
         minionColor: "pink",
-        minionSize: 60,
+        minionSize: 48,
         minionDamage: 25,
         minionSpeed: 5,
         minionHealth: 10000,
@@ -674,9 +674,9 @@ class Game extends React.Component {
       Arktos: {
         id: "Arktos",
         minionColor: "pink",
-        minionSize: 60,
+        minionSize: 40,
         minionDamage: 15,
-        minionSpeed: 2,
+        minionSpeed: 3 ,
         minionHealth: 7000,
         minionCost: 1000,
         minionImage: minionImages[6],
@@ -759,9 +759,6 @@ class Game extends React.Component {
         this.rageQuit();
         return;
       }
-
-
-
 
       // clicked on change directory: change directory
       if (
@@ -1091,7 +1088,7 @@ class Game extends React.Component {
                     TOWERS2.WATER.id
                   ))
                   break;
-                  case 3:
+                case 3:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1121,7 +1118,7 @@ class Game extends React.Component {
                     TOWERS2.PSYCH.id
                   ))
                   break;
-                  case 5:
+                case 5:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1136,7 +1133,7 @@ class Game extends React.Component {
                     TOWERS2.DRAGON.id
                   ))
                   break;
-                  case 6:
+                case 6:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1166,7 +1163,7 @@ class Game extends React.Component {
                     TOWERS3.WATER.id
                   ))
                   break;
-                  case 8:
+                case 8:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
@@ -1196,7 +1193,7 @@ class Game extends React.Component {
                     TOWERS3.PSYCH.id
                   ))
                   break;
-                  case 10:
+                case 10:
                   towers.push(new Tower(
                     gridPositionX,
                     gridPositionY,
