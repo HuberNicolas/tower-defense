@@ -5,6 +5,7 @@ import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
+import { Button3 } from "../../views/design/Button3";
 import singleplayer from "../../singleplayer.jpg";
 
 import { store } from 'react-notifications-component';
@@ -14,60 +15,22 @@ import 'animate.css';
 var sectionStyle = {
   width: "100%",
   height: "768px",
-  backgroundImage: "url(" +  singleplayer  + ")"
 };
 const FormContainer = styled.div`
   margin-top: 2em;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 300px;
+  min-height: 450px;
   justify-content: center;
+  border-style: solid;
+  border-color: rgba(16, 89, 0, 1);
 `;
 
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 60%;
-  height: 375px;
-  font-size: 16px;
-  font-weight: 300;
-  padding-left: 37px;
-  padding-right: 37px;
-  border-radius: 5px;
-  background: linear-gradient(rgb(27, 124, 186), rgb(2, 46, 101));
-  transition: opacity 0.5s ease, transform 0.5s ease;
-`;
-
-const InputField = styled.input`
-  &::placeholder {
-    color: rgba(255, 255, 255, 1.0);
-  }
-  height: 35px;
-  padding-left: 15px;
-  margin-left: -4px;
-  border: none;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-`;
-
-const Label = styled.label`
-  color: white;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-`;
 const Title = styled.h1`
+  font-family: "Press Start 2P";
   font-weight: bold;
-  color: white;
+  color: yellow;
   text-align: center;
 `;
 /**
@@ -154,10 +117,23 @@ class Login extends React.Component {
   render() {
     return (
     <div style={sectionStyle}>
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
+      <link
+            href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
+            rel="stylesheet"/>
       <BaseContainer>
       <Title>Singleplayer</Title>
         <FormContainer>
-          <Button
+        <Button3
+              width="50%"
+              onClick={() => {
+                this.start();
+              }}
+          >
+            Start Game
+          </Button3>
+          <h1></h1>
+          <Button3
               width="50%"
               onClick={() => {
 
@@ -165,15 +141,7 @@ class Login extends React.Component {
               }}
           >
             Back to Main Menu
-          </Button>
-          <Button
-              width="50%"
-              onClick={() => {
-                this.start();
-              }}
-          >
-            Start Game
-          </Button>
+          </Button3>
         </FormContainer>
       </BaseContainer>
       </div>

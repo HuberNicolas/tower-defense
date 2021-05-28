@@ -6,6 +6,7 @@ import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import { Button } from '../../views/design/Button';
 import { Button2 } from '../../views/design/Button2';
+import { Button3 } from '../../views/design/Button3';
 import login from "../../login.jpg";
 import { store } from 'react-notifications-component';
 
@@ -36,7 +37,7 @@ const Form = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 40%;
+  width: 60%;
   height: 500px;
   font-size: 16px;
   font-weight: 300;
@@ -48,6 +49,22 @@ const Form = styled.div`
 `;
 
 const InputField = styled.input`
+  &::placeholder {
+    color: rgba(255, 255, 255, 1.0);
+  }
+  height: 35px;
+  padding-left: 15px;
+  margin-left: -4px;
+  border: none;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+`;
+
+const PasswordInputField = styled.input.attrs({
+  type: "password"
+})`
   &::placeholder {
     color: rgba(255, 255, 255, 1.0);
   }
@@ -76,14 +93,14 @@ const ButtonContainer = styled.div`
 const Title = styled.h1`
   font-weight: bold;
   font-family: 'Press Start 2P';
-  color: white;
+  color: yellow;
   text-align: center;
 `;
 
 const TerminalContainer = styled.div`
   border-style: solid;
   border-width: 2px;
-  border-color: green;
+  border-color: rgba(16, 89, 0, 1);
   font-family: 'Press Start 2P';
   font-size: 12px;
   color: white;
@@ -166,21 +183,21 @@ class Login extends React.Component {
         <Title>Login</Title>
           <Form>
             <Label>Username</Label>
-            <InputField
+            <PasswordInputField
               placeholder="Enter username..."
               onChange={e => {
                 this.handleInputChange('username', e.target.value);
               }}
             />
             <Label>password</Label>
-            <InputField
+            <PasswordInputField
               placeholder="Enter password..."
               onChange={e => {
                 this.handleInputChange('password', e.target.value);
               }}
             />
             <ButtonContainer>
-              <Button2
+              <Button3
                 disabled={!this.state.username || !this.state.password}
                 width="50%"
                 onClick={() => {
@@ -188,15 +205,15 @@ class Login extends React.Component {
                 }}
               >
                 Login
-              </Button2>
-              <Button2
+              </Button3>
+              <Button3
                   width="50%"
                   onClick={() => {
                     this.props.history.push(`/registration`);
                   }}
               >
                 Create new account!
-              </Button2>
+              </Button3>
             </ButtonContainer>
           </Form>
         </FormContainer>
