@@ -91,6 +91,6 @@ GNU General Public License v3.0
 
 
 Links:
-https://feathericons.com/
-https://pokeapi.co/
-https://opengameart.org/content/512-sound-effects-8-bit-style
+https://feathericons.com/ MIT License
+https://pokeapi.co/ GNU Affero General Public License v3.0
+https://opengameart.org/content/512-sound-effects-8-bit-style https://juhanijunkala.com/ SubspaceAudio CC0 1.0 Universal (CC0 1.0)

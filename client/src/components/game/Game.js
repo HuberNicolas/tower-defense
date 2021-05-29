@@ -1806,9 +1806,9 @@ class Game extends React.Component {
       ctx.strokeStyle = "green";
       ctx.lineWidth = 2.5;
       ctx.stroke();
-      ctx.font = "32px Orbitron";
+      ctx.font = "34px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("Quit", 19.25 * tileSize, 1.5 * tileSize);
+      ctx.fillText("Quit", 19.20 * tileSize, 1.5 * tileSize);
       ctx.stroke();
     }
       
@@ -2203,7 +2203,7 @@ class Game extends React.Component {
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.PLANT.towerCost + " / " + TOWERS3.PLANT.towerCost, tileSize * 18.25, tileSize * 9.5);
             ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.PLANT.damage + " / " + TOWERS3.PLANT.damage, tileSize * 18.25, tileSize * 10.75);
-            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText("Reloading Time:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.PLANT.attackSpeed + " / " + TOWERS3.PLANT.attackSpeed, tileSize * 18.25, tileSize * 12);
             break;
 
@@ -2212,7 +2212,7 @@ class Game extends React.Component {
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.WATER.towerCost + " / " + TOWERS3.WATER.towerCost, tileSize * 18.25, tileSize * 9.5);
             ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.WATER.damage + " / " + TOWERS3.WATER.damage, tileSize * 18.25, tileSize * 10.75);
-            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText("Reloading Time:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.WATER.attackSpeed + " / " + TOWERS3.WATER.attackSpeed, tileSize * 18.25, tileSize * 12);
             break;
           case(2):
@@ -2220,7 +2220,7 @@ class Game extends React.Component {
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.FIRE.towerCost + " / " + TOWERS3.FIRE.towerCost, tileSize * 18.25, tileSize * 9.5);
             ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.FIRE.damage + " / " + TOWERS3.FIRE.damage, tileSize * 18.25, tileSize * 10.75);
-            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText("Reloading Time:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.FIRE.attackSpeed + " / " + TOWERS3.FIRE.attackSpeed, tileSize * 18.25, tileSize * 12);
             break;
 
@@ -2229,7 +2229,7 @@ class Game extends React.Component {
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.PSYCH.towerCost + " / " + TOWERS3.PSYCH.towerCost, tileSize * 18.25, tileSize * 9.5);
             ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.PSYCH.damage + " / " + TOWERS3.PSYCH.damage, tileSize * 18.25, tileSize * 10.75);
-            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText("Reloading Time:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.PSYCH.attackSpeed + " / " + TOWERS3.PSYCH.attackSpeed, tileSize * 18.25, tileSize * 12);
             break;
           case(4):
@@ -2239,7 +2239,7 @@ class Game extends React.Component {
             ctx.font = "18px Orbitron";
             ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.DRAGON.damage + " / " + TOWERS3.DRAGON.damage, tileSize * 18.25, tileSize * 10.75);
-            ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
+            ctx.fillText("Reloading Time:", tileSize * 18.25, tileSize * 11.5);
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.DRAGON.attackSpeed + " / " + TOWERS3.DRAGON.attackSpeed, tileSize * 18.25, tileSize * 12);
             break;
         }
@@ -2269,17 +2269,17 @@ class Game extends React.Component {
       // draw sell button
       ctx.beginPath();
       ctx.rect(18.5 * tileSize, 4.5 * tileSize, tileSize, tileSize);
-      ctx.font = "20px Orbitron";
+      ctx.font = "13px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("Sell", 18.5 * tileSize + 10, 4.5 * tileSize + 38);
+      ctx.fillText("Sell", 18.5 * tileSize + 17, 4.5 * tileSize + 38);
       ctx.stroke();
 
       // draw upgrade button
       ctx.beginPath();
       ctx.rect(20 * tileSize, 4.5 * tileSize, tileSize, tileSize);
-      ctx.font = "12px Orbitron";
+      ctx.font = "13px Orbitron";
       ctx.fillStyle = "green";
-      ctx.fillText("Upgrade", 20 * tileSize + 5, 4.5 * tileSize + 38);
+      ctx.fillText("Upgrade", 20 * tileSize + 1, 4.5 * tileSize + 38);
       ctx.stroke();
 
       // draw ready button
