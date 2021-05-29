@@ -746,7 +746,7 @@ class Game extends React.Component {
       // clicked on quit (quit while playing)
       if (
         18.5*tileSize <= mouse.x &&
-        mouse.x < 19.5*tileSize &&
+        mouse.x < 21*tileSize &&
         50 <= mouse.y &&
         mouse.y < 50+tileSize &&
         !gameOver
