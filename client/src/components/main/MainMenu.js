@@ -10,6 +10,7 @@ import backgroundmusic from "../../backgroundmusic.mp3";
 import { api, handleError } from "../../helpers/api";
 import { store } from "react-notifications-component";
 import tree from "../../assets/img/Tree2.png";
+import manual from "../../assets/pdf/manual.pdf";
 
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
@@ -77,6 +78,9 @@ class Login extends React.Component {
     this.state = {
       play: false,
     };
+  }
+  onResumeClick() {
+    window.open(manual);
   }
 
   // music to be played
@@ -192,9 +196,11 @@ class Login extends React.Component {
                   logout
                 </Button3>
                 <h1> </h1>
-                <Button3 width="50%" onClick={this.togglePlay}>
+
+                {/*<Button3 width="50%" onClick={this.togglePlay}>
                   {this.state.play ? "Pause" : "Play"}
-                </Button3>
+                </Button3> */}
+                <Button3 onClick={this.onResumeClick}> manual </Button3>
               </ButtonContainer>
 
           </div>
