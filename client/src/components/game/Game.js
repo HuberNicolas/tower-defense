@@ -2234,7 +2234,9 @@ class Game extends React.Component {
             break;
           case(4):
             ctx.fillText("Cost:", tileSize * 18.25, tileSize * 9);
+            ctx.font = "16.25px Orbitron";
             ctx.fillText(towerList[towerSelector-1].towerCost + " / " + TOWERS2.DRAGON.towerCost + " / " + TOWERS3.DRAGON.towerCost, tileSize * 18.25, tileSize * 9.5);
+            ctx.font = "18px Orbitron";
             ctx.fillText("Damage:", tileSize * 18.25, tileSize * 10.25);
             ctx.fillText(towerList[towerSelector-1].damage + " / " + TOWERS2.DRAGON.damage + " / " + TOWERS3.DRAGON.damage, tileSize * 18.25, tileSize * 10.75);
             ctx.fillText("Attackspeed:", tileSize * 18.25, tileSize * 11.5);
