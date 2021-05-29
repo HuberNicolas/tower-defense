@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { BaseContainer, DESKTOP_WIDTH } from "../../helpers/layout";
 import { withRouter } from "react-router-dom";
-import LogoSrc from "../../TowerDefense.png";
+import titleMusic from "../../assets/music/3d galax - arrangement nh.mp3";
 
 const FormContainer = styled.div`
   margin-top: 2em;
@@ -13,34 +13,6 @@ const FormContainer = styled.div`
   justify-content: center;
 `;
 
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 60%;
-  height: 375px;
-  font-size: 16px;
-  font-weight: 300;
-  padding-left: 37px;
-  padding-right: 37px;
-  border-radius: 5px;
-  background: linear-gradient(rgb(27, 124, 186), rgb(2, 46, 101));
-  transition: opacity 0.5s ease, transform 0.5s ease;
-`;
-
-const InputField = styled.input`
-  &::placeholder {
-    color: rgba(255, 255, 255, 1);
-  }
-  height: 35px;
-  padding-left: 15px;
-  margin-left: -4px;
-  border: none;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white; 
-`;
 const Text = styled.h1`
   font-weight: bold;
   font-family: "Press Start 2P";
@@ -63,8 +35,12 @@ class Title extends React.Component {
     this.state = {
       canvasWidth: window.innerWidth,
       canvasHeight: window.innerHeight - 200,
+      play : false,
     };
+
+
   }
+  audio = new Audio(titleMusic);
 
   /**
    * If you don’t initialize the state and you don’t bind methods, you don’t need to implement a constructor for your React component.
@@ -108,8 +84,10 @@ class Title extends React.Component {
     var minionImages = [];
     var towerImages = [];
 
-    function init() {
+    this.audio.addEventListener('ended', () => this.setState({ play: false }));
 
+    
+    function init() {
       // TOWERS
     const t1l1 = new Image();
     t1l1.src =
@@ -207,6 +185,7 @@ class Title extends React.Component {
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png"; // Arktos
     minionImages.push(m7);
 
+    
       window.requestAnimationFrame(draw);
     }
     function getRandomInt(min, max) {
@@ -217,16 +196,20 @@ class Title extends React.Component {
 
     function draw() {
       frame++;
-      if (frame % 40  == 0) {
+      if (frame % 30  == 0) {
         ctx.globalCompositeOperation = "destination-over";
         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight-200); // clear whole canvas
 
         // draw random towers and monsters
-        ctx.drawImage(towerImages[getRandomInt(0, 15)], 5*TILE, TILE, 2*TILE, 2*TILE);
-        ctx.drawImage(towerImages[getRandomInt(0, 15)], 11*TILE, TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(towerImages[getRandomInt(0, 15)], 5*TILE, 2*TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(towerImages[getRandomInt(0, 15)], 11*TILE, 2*TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(towerImages[getRandomInt(0, 15)], 5*TILE, 6*TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(towerImages[getRandomInt(0, 15)], 11*TILE, 6*TILE, 2*TILE, 2*TILE);
 
-        ctx.drawImage(minionImages[getRandomInt(0, 7)], 17*TILE, TILE, 2*TILE, 2*TILE);
-        ctx.drawImage(minionImages[getRandomInt(0, 7)], 23*TILE, TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(minionImages[getRandomInt(0, 7)], 17*TILE, 2*TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(minionImages[getRandomInt(0, 7)], 23*TILE, 2*TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(minionImages[getRandomInt(0, 7)], 17*TILE, 6*TILE, 2*TILE, 2*TILE);
+        ctx.drawImage(minionImages[getRandomInt(0, 7)], 23*TILE, 6*TILE, 2*TILE, 2*TILE);
 
         ctx.lineWidth = 2.5;
         ctx.strokeStyle = "green";
@@ -234,7 +217,7 @@ class Title extends React.Component {
 
         // draw grid
         for(var i = 0; i < window.innerWidth; i+= TILE) {
-          for(var j = 0; j < window.innerHeight-250; j+= TILE) {
+          for(var j = 0; j < window.innerHeight-300; j+= TILE) {
             ctx.strokeRect(i, j, TILE, TILE);
           }
         }
@@ -245,12 +228,46 @@ class Title extends React.Component {
           ctx.fillRect(getRandomInt(0, 29)*TILE, getRandomInt(0, 10)*TILE, TILE, TILE);
         }
       }
-
       window.requestAnimationFrame(draw);
     }
 
     init();
   }
+
+  componentWillUnmount() {
+    this.audio.removeEventListener('ended', () => this.setState({ play: false }));  
+  }
+
+
+
+  /*
+  // Attempt to play music with react was not successfull :')
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (nextProps.audio != this.props.audio)
+  }
+  
+
+  togglePlay = () => {
+    this.setState({ play: !this.state.play }, () => {
+      this.state.play ? this.audio.play() : this.audio.pause();
+    });
+    this.audio.loop = true;
+  }
+  
+
+  stopMusic = () => {
+    this.setState(this.audio.pause());
+    this.audio.loop = false;
+  }
+
+  startMusic = () => {
+    this.setState({ play: this.state.play }, () => {
+      this.audio.play();
+    });
+    this.audio.loop = true;
+  }
+  */
 
   render() {
     return (
@@ -261,7 +278,10 @@ class Title extends React.Component {
           left: "0px",
           width: "100%",
           overflow: "hidden",
-        }}
+        }
+      }
+      
+      
         onClick={() => {
         this.props.history.push(`/login`);
         }}
@@ -271,6 +291,7 @@ class Title extends React.Component {
           href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
           rel="stylesheet"
         />
+
         <BaseContainer>
           <FormContainer>
             <canvas
@@ -281,7 +302,11 @@ class Title extends React.Component {
               style={{ backgroundColor: "black", zIndex: 1 }}
             />
             <Text>Towers vs. Monsters</Text>
-            <Text>Click to start</Text>
+            {/*<button onClick={this.startMusic}>{this.state.play ? 'Pause' : 'Play'}</button>*/}
+            <Text>Click here to start</Text>
+            <div>
+            <audio ref="audio_tag" src="https://github.com/sopra-fs21-group-10/td-client/blob/530d6d01266c37e845cc64cc786719a79ff1769d/src/assets/music/3d%20galax%20-%20arrangement%20nh.mp3?raw=true" autoPlay loop/>
+            </div>
           </FormContainer>
         </BaseContainer>
       </body>
