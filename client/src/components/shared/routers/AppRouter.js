@@ -1,8 +1,5 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { GameGuard } from "../routeProtectors/GameGuard";
-import GameRouter from "./GameRouter";
-import { LoginGuard } from "../routeProtectors/LoginGuard";
 import Login from "../../login/Login";
 import MainMenu from "../../main/MainMenu";
 import Registration from "../../registration/Registration";
@@ -30,21 +27,11 @@ class AppRouter extends React.Component {
       <BrowserRouter>
         <Switch>
           <div>
-             {/* <Route
-              path="/game"
-              render={() => (
-                <GameGuard>
-                  <GameRouter base={"/game"} />
-                </GameGuard>
-              )}
-            /> */}
             <Route
               path="/login"
               exact
               render={() => (
-
                   <Login />
-
               )}
             />
               {/* # */}
@@ -63,7 +50,6 @@ class AppRouter extends React.Component {
                       <Registration />
                   )}
               />
-
               {/* # */}
               <Route
                   path="/title"
@@ -105,23 +91,22 @@ class AppRouter extends React.Component {
                   )}
               />
               {/* # */}
-                            <Route
-                                path="/lobby"
-                                exact
-                                render={() => (
-                                    <Lobby />
-                                )}
-                            />
+              <Route
+                  path="/lobby"
+                  exact
+                  render={() => (
+                      <Lobby />
+                  )}
+              />
               {/* # */}
-                            <Route
-                                path="/hostScreen"
-                                exact
-                                render={() => (
-                                    <HostScreen />
-                                )}
-                            />
+              <Route
+                  path="/hostScreen"
+                  exact
+                  render={() => (
+                      <HostScreen />
+                  )}
+              />
               {/* # */}
-
 
               {/* Entry point */}
             <Route path="/" exact render={() => <Redirect to={"/title"} />} />
@@ -131,7 +116,5 @@ class AppRouter extends React.Component {
     );
   }
 }
-/*
-* Don't forget to export your component!
- */
+
 export default AppRouter;

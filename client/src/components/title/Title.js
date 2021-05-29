@@ -37,8 +37,6 @@ class Title extends React.Component {
       canvasHeight: window.innerHeight - 200,
       play : false,
     };
-
-
   }
   audio = new Audio(titleMusic);
 
@@ -154,7 +152,6 @@ class Title extends React.Component {
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/149.png"; // Dragoran 14
     towerImages.push(t5l3);
 
-
     // MINIONS
     const m1 = new Image();
     m1.src =
@@ -184,7 +181,6 @@ class Title extends React.Component {
     m7.src =
       "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/144.png"; // Arktos
     minionImages.push(m7);
-
     
       window.requestAnimationFrame(draw);
     }
@@ -230,7 +226,6 @@ class Title extends React.Component {
       }
       window.requestAnimationFrame(draw);
     }
-
     init();
   }
 
@@ -238,15 +233,12 @@ class Title extends React.Component {
     this.audio.removeEventListener('ended', () => this.setState({ play: false }));  
   }
 
-
-
   /*
   // Attempt to play music with react was not successfull :')
 
   shouldComponentUpdate(nextProps, nextState) {
     return (nextProps.audio != this.props.audio)
   }
-  
 
   togglePlay = () => {
     this.setState({ play: !this.state.play }, () => {
@@ -254,7 +246,6 @@ class Title extends React.Component {
     });
     this.audio.loop = true;
   }
-  
 
   stopMusic = () => {
     this.setState(this.audio.pause());
@@ -280,8 +271,6 @@ class Title extends React.Component {
           overflow: "hidden",
         }
       }
-      
-      
         onClick={() => {
         this.props.history.push(`/login`);
         }}
@@ -291,7 +280,6 @@ class Title extends React.Component {
           href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
           rel="stylesheet"
         />
-
         <BaseContainer>
           <FormContainer>
             <canvas

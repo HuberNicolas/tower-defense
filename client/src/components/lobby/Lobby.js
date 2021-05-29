@@ -2,16 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
 import Player from '../../views/Player';
-import Lobby from "../shared/models/Lobby"
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
-import { component } from "react";
-import "./Lobby.css"
 import lobby from "../../lobby.jpg";
-
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
@@ -133,8 +128,6 @@ class Login extends React.Component {
         token: localStorage.getItem("token"),
         lobbyId: localStorage.getItem("lobbyId")
     };
-
-
   }
 
   handleInputChange(key, value) {
@@ -155,86 +148,86 @@ class Login extends React.Component {
   }
 //tbd invite function prototype
   async selectUser(userid) {
-          try {
+    try {
 
-            this.highlight(userid);
-          } catch (error) {
-            store.addNotification({
-                      title: 'Error',
-                      width:300,
-                      height:100,
-                      message: `Something went wrong during selecting the user: \n${handleError(error)}`,
-                      type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                      container: 'top-left',                // where to position the notifications
-                      animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                      animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                      dismiss: {
-                        duration: 4000
-                      }
-                  })
-          }
+      this.highlight(userid);
+    } catch (error) {
+      store.addNotification({
+        title: 'Error',
+        width:300,
+        height:100,
+        message: `Something went wrong during selecting the user: \n${handleError(error)}`,
+        type: 'warning',                         // 'default', 'success', 'info', 'warning'
+        container: 'top-left',                // where to position the notifications
+        animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+        dismiss: {
+          duration: 4000
         }
+    })
+  }
+}
 //if you leave the lobby it gets deleted if host else you get redirected to lobbyoverview
   async leaveLobby() {
-          try {
-            const requestBody = JSON.stringify({
-                    lobbyId: localStorage.getItem("lobbyId"),
-                    token: localStorage.getItem('token')
-                  });
-            const response = await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
-            this.props.history.push("/multiplayer");
-          } catch (error) {
-            store.addNotification({
-                      title: 'Error',
-                      width:300,
-                      height:100,
-                      message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
-                      type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                      container: 'top-left',                // where to position the notifications
-                      animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                      animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                      dismiss: {
-                        duration: 4000
-                      }
-                  })
+    try {
+      const requestBody = JSON.stringify({
+              lobbyId: localStorage.getItem("lobbyId"),
+              token: localStorage.getItem('token')
+            });
+      const response = await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
+      this.props.history.push("/multiplayer");
+    } catch (error) {
+      store.addNotification({
+          title: 'Error',
+          width:300,
+          height:100,
+          message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
+          type: 'warning',                         // 'default', 'success', 'info', 'warning'
+          container: 'top-left',                // where to position the notifications
+          animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+          animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+          dismiss: {
+            duration: 4000
           }
-        }
+      })
+    }
+  }
 
 //displaying userlist so that the host can invite
    async componentDidMount() {
-         try {
-           const response = await api.get('/users');
-           // delays continuous execution of an async operation for 1 second.
-           // This is just a fake async call, so that the spinner can be displayed
-           // feel free to remove it :)
-           await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const response = await api.get('/users');
+      // delays continuous execution of an async operation for 1 second.
+      // This is just a fake async call, so that the spinner can be displayed
+      // feel free to remove it :)
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-           // Get the returned users and update the state.
-           this.setState({ users: response.data });
+      // Get the returned users and update the state.
+      this.setState({ users: response.data });
 
-           //tracking error
-           console.log('request to:', response.request.responseURL);
-           console.log('status code:', response.status);
-           console.log('status text:', response.statusText);
-           console.log('requested data:', response.data);
-           console.log(response);
+      //tracking error
+      console.log('request to:', response.request.responseURL);
+      console.log('status code:', response.status);
+      console.log('status text:', response.statusText);
+      console.log('requested data:', response.data);
+      console.log(response);
 
-         } catch (error) {
-           store.addNotification({
-                     title: 'Error',
-                     width:300,
-                     height:100,
-                     message: `Something went wrong while fetching users: \n${handleError(error)}`,
-                     type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                     container: 'top-left',                // where to position the notifications
-                     animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                     animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                     dismiss: {
-                       duration: 4000
-                     }
-                 })
-         }
-       }
+    } catch (error) {
+      store.addNotification({
+          title: 'Error',
+          width:300,
+          height:100,
+          message: `Something went wrong while fetching users: \n${handleError(error)}`,
+          type: 'warning',                         // 'default', 'success', 'info', 'warning'
+          container: 'top-left',                // where to position the notifications
+          animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+          animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+          dismiss: {
+            duration: 4000
+          }
+      })
+    }
+  }
 
 
   render() {
@@ -249,31 +242,28 @@ class Login extends React.Component {
         <div id="parent">
           <Player1>
               <Container>
-                      <h2>Userlist</h2>
-
-                      {!this.state.users ? (
-                        <Spinner />
-                      ) : (
-                        <div>
-                          <Users>
-                            {this.state.users.map(user => {
-                              return (
-                                <PlayerContainer key={user.id}
-                                style={{backgroundColor: this.state.bgColor}}
-                                onClick={() => {
-                                                this.selectUser();//highlight it;
-
-                                              }}
-                                >
-                                  <Player user={user} />
-
-                                </PlayerContainer>
-                              );
-                            })}
-                          </Users>
-                        </div>
-                      )}
-                    </Container>
+              <h2>Userlist</h2>
+              {!this.state.users ? (
+                <Spinner />
+              ) : (
+                <div>
+                  <Users>
+                    {this.state.users.map(user => {
+                      return (
+                        <PlayerContainer key={user.id}
+                        style={{backgroundColor: this.state.bgColor}}
+                        onClick={() => {
+                          this.selectUser();//highlight it;
+                        }}
+                        >
+                          <Player user={user} />
+                        </PlayerContainer>
+                      );
+                    })}
+                  </Users>
+                </div>
+              )}
+            </Container>
           </Player1>
           <Player2>
               <p>Readystatus</p>
@@ -284,38 +274,36 @@ class Login extends React.Component {
         <ButtonNext>
         <div id="parent">
                   <div id="wide2"><Button
-                                                         width="50%"
-                                                         onClick={() => {
-                                                         //here comes directory
-                                                         }}
-                                                       >
-                                                         Invite Player
-                                                       </Button></div>
+                    width="50%"
+                    onClick={() => {
+                    //here comes directory
+                    }}
+                  >
+                    Invite Player
+                  </Button></div>
                   <div id="narrow2"><Button
-                                                           width="50%"
-                                                           onClick={() => {
-                                                           this.reload()
-                                                           }}
-                                                         >
-                                                           Reload
-                                                         </Button></div>
+                    width="50%"
+                    onClick={() => {
+                    this.reload()
+                    }}
+                  >
+                    Reload
+                  </Button></div>
                 </div>
                     </ButtonNext>
           <FormContainer>
           <Button
-                                  width="50%"
-                                  onClick={() => {
-                                    this.leaveLobby();
-                                  }}
-                              >
-                                Leave Lobby
-                              </Button>
+            width="50%"
+            onClick={() => {
+              this.leaveLobby();
+            }}
+        >
+          Leave Lobby
+        </Button>
           <Button>
-                                      <a href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}>Testingground (Dont click on it)</a>
-
-                                  </Button>
+              <a href={"https://www.youtube.com/watch?v=dQw4w9WgXcQ"}>Testingground (Dont click on it)</a>
+          </Button>
           </FormContainer>
-
         </BaseContainer>
         </div>
     );

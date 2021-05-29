@@ -2,16 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import Player from '../../views/Player';
 import "./HostScreen.css"
-import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
-import { component } from "react";
 import Lobby from "../shared/models/Lobby"
 import lobby from "../../lobby.jpg";
-
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
@@ -124,8 +119,6 @@ const ButtonNext = styled.div`
   width: 530px;
 `;
 
-
-
 class Login extends React.Component {
 
   constructor() {
@@ -136,8 +129,6 @@ class Login extends React.Component {
         lobbyId: null,
         player2Status: null
     };
-
-
   }
 
   handleInputChange(key, value) {
@@ -147,90 +138,85 @@ class Login extends React.Component {
   }
 
   async leaveLobby() {
-            try {
-              const requestBody = JSON.stringify({
-                      lobbyId: localStorage.getItem("lobbyId"),
-                      token: localStorage.getItem('token')
-                    });
-              const response = await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
-              this.props.history.push("/multiplayer");
-            } catch (error) {
-              store.addNotification({
-                        title: 'Error',
-                        width:300,
-                        height:100,
-                        message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
-                        type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                        container: 'top-left',                // where to position the notifications
-                        animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                        animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                        dismiss: {
-                          duration: 4000
-                        }
-                    })
-            }
-          }
+    try {
+      const requestBody = JSON.stringify({
+        lobbyId: localStorage.getItem("lobbyId"),
+        token: localStorage.getItem('token')
+      });
+      await api.put("lobbies/"+localStorage.getItem("lobbyId"), requestBody);
+      this.props.history.push("/multiplayer");
+    } catch (error) {
+      store.addNotification({
+        title: 'Error',
+        width:300,
+        height:100,
+        message: `Something went wrong during leaving the lobby: \n${handleError(error)}`,
+        type: 'warning',                         // 'default', 'success', 'info', 'warning'
+        container: 'top-left',                // where to position the notifications
+        animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+        dismiss: {
+          duration: 4000
+        }
+    })
+    }
+  }
 
   async displayPlayers(){
         try{
             const response = await api.get("lobbies/"+localStorage.getItem("lobbyId"));
             const lobby = new Lobby(response.data);
             this.setState({lobbyOwner: lobby.lobbyOwner, player2: lobby.player2, player2Status: lobby.player2Status})
-            //console.log(this.state.lobbyOwner)
         }
         catch(error){
          store.addNotification({
-                   title: 'Error',
-                   width:300,
-                   height:100,
-                   message: `Something went wrong while displaying players: \n${handleError(error)}`,
-                   type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                   container: 'top-left',                // where to position the notifications
-                   animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                   animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                   dismiss: {
-                     duration: 4000
-                   }
-               })
-        }
+          title: 'Error',
+          width:300,
+          height:100,
+          message: `Something went wrong while displaying players: \n${handleError(error)}`,
+          type: 'warning',                         // 'default', 'success', 'info', 'warning'
+          container: 'top-left',                // where to position the notifications
+          animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+          animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+          dismiss: {
+            duration: 4000
+          }
+      })
+    }
   }
-
 
    componentDidMount() {
         this.displayPlayers();
    }
 
-
   render() {
     return (
     <div style={sectionStyle}>
-        <BaseContainer>
-        <Title>HostScreen</Title>
-        <div id="parent">
-          <div id="wide">
-          <h1>Hostname: </h1>
-          <p>{this.state.lobbyOwner}</p>
-          </div>
-          <div id="narrow">
-          <h1> player2 name: </h1>
-          <p>{this.state.player2}</p>
-          </div>
+      <BaseContainer>
+      <Title>HostScreen</Title>
+      <div id="parent">
+        <div id="wide">
+        <h1>Hostname: </h1>
+        <p>{this.state.lobbyOwner}</p>
         </div>
-        <ButtonContainer>
-
-                      <Button
-                      disabled={!this.state.player2Status}
-                        width="50%"
-                        onClick={() => {
-                          //push to multiplayer game!
-                        }}
-                      >
-                        Start Game!
-                      </Button>
-                    </ButtonContainer>
-        </BaseContainer>
+        <div id="narrow">
+        <h1> player2 name: </h1>
+        <p>{this.state.player2}</p>
         </div>
-
+      </div>
+      <ButtonContainer>
+        <Button
+        disabled={!this.state.player2Status}
+          width="50%"
+          onClick={() => {
+            //push to multiplayer game!
+          }}
+        >
+          Start Game!
+        </Button>
+      </ButtonContainer>
+      </BaseContainer>
+    </div>
     );
   }
 }

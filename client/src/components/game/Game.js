@@ -19,7 +19,6 @@ class Game extends React.Component {
     };
   }
 
-
   // ########## ASYNC-METHODS ##########
   /*
   * This methods are the REST-bridge to the server
@@ -89,7 +88,6 @@ class Game extends React.Component {
       const response = await api.patch(
         "games/towers/sales/" + localStorage.getItem("token"),
         requestBody
-
       );
       this.setState({ gold: response.data.gold });
     } catch (error) {
@@ -108,7 +106,6 @@ class Game extends React.Component {
           duration: 3000,
         },
       });
-
     }
   }
 
@@ -190,7 +187,6 @@ class Game extends React.Component {
         gold: gold,
         health: health,
       });
-      
       const response = await api.patch(`/games/${localStorage.getItem("token")}`,requestBody);
       const response2 = await api.get('/games/'+localStorage.getItem("gameId"));
       localStorage.setItem("gold", response2.data.player1.gold);
@@ -201,9 +197,7 @@ class Game extends React.Component {
         title: "Error",
         width: 300,
         height: 100,
-        message: `Something went wrong while updating round: \n${handleError(
-          error
-        )}`,
+        message: `Something went wrong while updating round: \n${handleError(error)}`,
         type: "warning", // 'default', 'success', 'info', 'warning'
         container: "top-left", // where to position the notifications
         animationIn: ["animated", "fadeIn"], // animate.css classes that's applied
@@ -446,7 +440,6 @@ class Game extends React.Component {
     windy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/wind.png";
     
     
-    
     // ########## ENTITY-ATTRIBUTES ##########
     /*
     * Attributes of towers and minions
@@ -625,7 +618,6 @@ class Game extends React.Component {
             attackSpeed: 30
           },
         };
-
 
     // MINIONS    
     var MINIONS = {
@@ -1337,7 +1329,6 @@ class Game extends React.Component {
           towerCost=0;
           towerType=null;
         }
-        
         else {
           store.addNotification({
             title: "Error",
@@ -1355,22 +1346,6 @@ class Game extends React.Component {
         }
       }
     }
-
-    // ragequit is to slow
-    /*
-    window.addEventListener("keydown", (e) => {
-      var keyCode = e.key;
-      if(keyCode == "Escape") {
-        if (window.confirm('Do you really want to quit?')) {
-            console.log("Quit");
-            this.rageQuit();
-        } else {
-          console.log("Not Quit")
-          return;
-        }
-      }
-    });
-    */
     );
 
     // ########## CLASSES ##########
@@ -1422,7 +1397,6 @@ class Game extends React.Component {
       }
     }
 
-
     class Path {
       constructor(x, y) {
         this.x = x;
@@ -1435,13 +1409,6 @@ class Game extends React.Component {
         // highlights current tile
         ctx.fillStyle = "silver";
         ctx.fillRect(this.x, this.y, this.width, this.height);
-        /*
-        // DEBUG ONLY 
-        // writes coordinates of tile (upper left corner)
-        ctx.fillStyle = "blue";
-        ctx.font = "10px Arial";
-        ctx.fillText("y:" + this.y + " x:" + this.x, this.x + 5, this.y + 25);
-        */
       }
     }
 
@@ -1451,46 +1418,37 @@ class Game extends React.Component {
       for (let k = 2; k <= 4; k++) {
         pathTiles.push(new Path(1 * tileSize, k * tileSize));
       }
-
       // 12 right
       for (let k = 2; k <= 13; k++) {
         pathTiles.push(new Path(k * tileSize, 4 * tileSize));
       }
-
       // 2 down
       for (let k = 5; k <= 6; k++) {
         pathTiles.push(new Path(13 * tileSize, k * tileSize));
       }
-
       // 7 left
       for (let k = 13; k >= 6; k--) {
         pathTiles.push(new Path(k * tileSize, 6 * tileSize));
       }
-
       // 1 left
       for (let k = 6; k >= 5; k--) {
         pathTiles.push(new Path(k * tileSize, 7 * tileSize));
       }
-
       // 4 left
       for (let k = 5; k >= 1; k--) {
         pathTiles.push(new Path(k * tileSize, 8 * tileSize));
       }
-
       // 2 down
       for (let k = 9; k <= 10; k++) {
         pathTiles.push(new Path(1 * tileSize, k * tileSize));
       }
-
       // 9 left
       for (let k = 2; k <= 10; k++) {
         pathTiles.push(new Path(k * tileSize, 10 * tileSize));
       }
-
       // 1 down
       pathTiles.push(new Path(10 * tileSize, 11 * tileSize));
     }
-
 
     class Tower {
       constructor(
@@ -1533,7 +1491,6 @@ class Game extends React.Component {
         // draw damage
         ctx.fillStyle = "black";
         ctx.font = "20px Arial";
-        //ctx.fillText(this.damage, this.x + 15, this.y + 30);
       }
 
       update() {
@@ -1617,8 +1574,6 @@ class Game extends React.Component {
         minionImage
       ) {
         // minionSize, minionColor, minionDamage, minionHP, minionSpeed, minionCost
-        //this.x = canvas.width;
-        //this.y = verticalPosition;
         this.x = tileSize; // spawn point
         this.y = spawnPoint; // spawn point
         this.width = tileSize - tileGap * 2;
@@ -1696,7 +1651,6 @@ class Game extends React.Component {
         ctx.restore();
       }
     }
-
 
     class Projectiles {
       constructor(x, y, damage, projectileColor, speed, direction) {
@@ -1795,8 +1749,6 @@ class Game extends React.Component {
         ctx.fillStyle = "red";  
       }
       ctx.fillRect(0*tileSize, 0.5*tileSize, 2*tileSize*(HP/50), 16);
-      //ctx.fillStyle = "gray" make grey health
-      //ctx.fillRect(3*tileSize, 1.5*tileSize, 3*tileSize*(HP/50), 16);
       ctx.closePath();
 
      // display quit button for leaving game
@@ -2034,7 +1986,6 @@ class Game extends React.Component {
         ctx.fillText("Mainmenu", 18.75 * tileSize, 11.20 * tileSize);
         ctx.stroke();
       }
-
     }
 
     // draw grid
@@ -2243,7 +2194,6 @@ class Game extends React.Component {
             ctx.fillText(towerList[towerSelector-1].attackSpeed + " / " + TOWERS2.DRAGON.attackSpeed + " / " + TOWERS3.DRAGON.attackSpeed, tileSize * 18.25, tileSize * 12);
             break;
         }
-
       }
 
       // draw towers in game board
@@ -2378,7 +2328,6 @@ class Game extends React.Component {
       );
     }
 
-
     // ########## ANIMATE-FUNCTION ##########
     /*
     *  game loop calls all the different handlers
@@ -2458,7 +2407,6 @@ class Game extends React.Component {
           width={this.state.canvasWidth}
           height={this.state.canvasHeight}
           id={"gameboard"}
-          //styles={"z-index:1"}
           style={{ backgroundColor: "black", zIndex: 1 }}
         />
       </div>

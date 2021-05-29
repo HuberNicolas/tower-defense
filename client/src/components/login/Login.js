@@ -4,10 +4,7 @@ import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import { Button } from '../../views/design/Button';
-import { Button2 } from '../../views/design/Button2';
 import { Button3 } from '../../views/design/Button3';
-import login from "../../login.jpg";
 import { store } from 'react-notifications-component';
 
 import 'react-notifications-component/dist/theme.css';
@@ -170,14 +167,12 @@ class Login extends React.Component {
       />
       <BaseContainer>
       <TerminalContainer>
-
         <p style={typewriterStyle}>
           <div id="header"> 
               <p> player@towers-vs-monsters:~/game$</p>
               <div id="cursor"> </div>
           </div>
       </p>
-
       </TerminalContainer>
         <FormContainer>
         <Title>Login</Title>

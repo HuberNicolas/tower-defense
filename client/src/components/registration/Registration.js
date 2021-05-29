@@ -4,14 +4,10 @@ import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
 import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import { Button } from '../../views/design/Button';
-import { Button2 } from '../../views/design/Button2';
 import { Button3 } from '../../views/design/Button3';
-import login from "../../login.jpg";
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
-
 import Typewriter from "typewriter-effect";
 
 var sectionStyle = {
@@ -112,7 +108,6 @@ class Login extends React.Component {
     this.state = {
       username: null,
       password: null
-
     };
   }
 
@@ -167,7 +162,6 @@ class Login extends React.Component {
           rel="stylesheet"
       />
       <BaseContainer>
-
         <TerminalContainer>
           <p style={typewriterStyle}>
             <div id="header"> 
@@ -188,7 +182,6 @@ class Login extends React.Component {
             </div>
         </p>
         </TerminalContainer>
-
         <FormContainer>
         <Title>Registration</Title>
           <Form>
@@ -206,7 +199,6 @@ class Login extends React.Component {
                 this.handleInputChange('password', e.target.value);
               }}
             />
-
             <ButtonContainer>
             <Button3
               width="50%"

@@ -1,17 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { BaseContainer } from "../../helpers/layout";
 import { withRouter } from "react-router-dom";
-import { Button } from "../../views/design/Button";
-import { Button2 } from "../../views/design/Button2";
 import { Button3 } from "../../views/design/Button3";
-import mainmenu from "../../mainmenu.jpg";
 import backgroundmusic from "../../backgroundmusic.mp3";
 import { api, handleError } from "../../helpers/api";
 import { store } from "react-notifications-component";
 import tree from "../../assets/img/Tree2.png";
 import manual from "../../assets/pdf/manual.pdf";
-
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
 
@@ -23,7 +18,6 @@ const FormContainer = styled.div`
   min-height: 300px;
   justify-content: center;
 `;
-
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -69,7 +63,6 @@ const background = styled.img`
   justify-content: center;
   backgroundimage: mainmenu;
 `;
-
 
 
 class Login extends React.Component {
@@ -187,6 +180,8 @@ class Login extends React.Component {
                   Edit User Settings
                 </Button3>
                 <h1> </h1>
+                <Button3 onClick={this.onResumeClick}> manual </Button3>
+                <h1> </h1>
                 <Button3
                   width="50%"
                   onClick={() => {
@@ -195,12 +190,9 @@ class Login extends React.Component {
                 >
                   logout
                 </Button3>
-                <h1> </h1>
-
                 {/*<Button3 width="50%" onClick={this.togglePlay}>
                   {this.state.play ? "Pause" : "Play"}
                 </Button3> */}
-                <Button3 onClick={this.onResumeClick}> manual </Button3>
               </ButtonContainer>
 
           </div>

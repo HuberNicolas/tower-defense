@@ -2,11 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { BaseContainer } from '../../helpers/layout';
 import { api, handleError } from '../../helpers/api';
-import User from '../shared/models/User';
 import { withRouter } from 'react-router-dom';
-import { Button } from '../../views/design/Button';
 import { Button3 } from '../../views/design/Button3';
-import settings from "../../settings.jpg";
 
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
@@ -133,18 +130,18 @@ class UserSettings extends React.Component {
       this.props.history.push(`/main`);
     } catch (error) {
       store.addNotification({
-                title: 'Error',
-                width:300,
-                height:100,
-                message: `Something went wrong during editing the user settings: \n${handleError(error)}`,
-                type: 'warning',                         // 'default', 'success', 'info', 'warning'
-                container: 'top-left',                // where to position the notifications
-                animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
-                animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
-                dismiss: {
-                  duration: 4000
-                }
-            })
+        title: 'Error',
+        width:300,
+        height:100,
+        message: `Something went wrong during editing the user settings: \n${handleError(error)}`,
+        type: 'warning',                         // 'default', 'success', 'info', 'warning'
+        container: 'top-left',                // where to position the notifications
+        animationIn: ["animated", "fadeIn"],     // animate.css classes that's applied
+        animationOut: ["animated", "fadeOut"],   // animate.css classes that's applied
+        dismiss: {
+          duration: 4000
+        }
+    })
     }
   }
 
@@ -171,7 +168,6 @@ class UserSettings extends React.Component {
   render() {
     return (
     <div style={sectionStyle}>
-
       <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
           href="https://fonts.googleapis.com/css2?family=Orbitron&family=Press+Start+2P&display=swap"
