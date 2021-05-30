@@ -277,6 +277,7 @@ class Game extends React.Component {
     const weather = localStorage.getItem("weather");
     let round = 1;
     var survived = 0;
+    var playMusic = true;
 
     // status bar
     let score = 0;
@@ -418,6 +419,10 @@ class Game extends React.Component {
 
     var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); 
     sounds.push(upgradeTower1);
+
+    var audio = new Audio();
+    const audioPath =  "https://github.com/sopra-fs21-group-10/td-client/blob/530d6d01266c37e845cc64cc786719a79ff1769d/src/assets/music/3d%20galax%20-%20arrangement%20nh.mp3?raw=true";
+    audio.src = audioPath;
 
 
     // WEATHER
@@ -711,6 +716,21 @@ class Game extends React.Component {
       canvasPosition = canvas.getBoundingClientRect();
     });
 
+
+    // muting background music
+    window.addEventListener("keydown", function toggleAudio(e) {
+      var keyCode = e.key;
+      if(keyCode == "m") {
+        if(playMusic) {
+          audio.pause();
+          playMusic = false;
+        }
+        else {
+          playMusic = true;
+        }
+      }
+    });
+
     // get mouse position
     canvas.addEventListener("mousemove", function (e) {
       mouse.x = e.x - canvasPosition.left;
@@ -743,6 +763,9 @@ class Game extends React.Component {
         mouse.y < 50+tileSize &&
         !gameOver
       ) {
+        audio.pause();
+        audio.src = "";
+        playMusic = false;
         this.rageQuit();
         return;
       }
@@ -755,6 +778,9 @@ class Game extends React.Component {
         mouse.y < 11.5*tileSize &&
         (gameOver || won)
       ) {
+        audio.pause();
+        audio.src = "";
+        playMusic = false;
         this.rageQuit();
         return;
       }
@@ -1752,7 +1778,7 @@ class Game extends React.Component {
       ctx.closePath();
 
      // display quit button for leaving game
-     if(!gameOver) {
+     if(!gameOver && !won) {
       ctx.beginPath();
       ctx.rect(18.5 * tileSize, 50, 2.5*tileSize, tileSize);
       ctx.strokeStyle = "green";
@@ -2341,6 +2367,12 @@ class Game extends React.Component {
       frame++;
 
       if (!gameOver) {
+        if(playMusic) {
+          audio.play();
+        }
+        if(!playMusic) {
+          audio.pause();
+        }
         requestAnimationFrame(animate);
       }
 
@@ -2354,7 +2386,7 @@ class Game extends React.Component {
       handleGame();
       handleGameStatus();
     }
-
+    playMusic = true;
     // actual sequence
     createGrid();
     createPath();
