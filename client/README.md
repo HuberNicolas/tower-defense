@@ -74,7 +74,7 @@ After entering your credentials successfully you get to the main menu.
 ![Mainmenu](https://cdn.discordapp.com/attachments/835848514495971338/848487754665164800/mainmenu.PNG)
 This is a screenshot from the mainmenu. 
 
-As you can see there are 4 options from here. Edit user settings lets you to edit your username, password and your location. Logout brings you back to the loginscreen from before. If you have never played a towerdefense game before or want to look at the tutorial you can click on the "manual" button which opens a pdf in a new tab.
+As you can see there are 4 options from here. Edit user settings lets you edit your username, password and your location. Logout brings you back to the loginscreen from before. If you have never played a towerdefense game before or want to look at the tutorial you can click on the "manual" button which opens a pdf in a new tab.
 
 ![Manual](https://cdn.discordapp.com/attachments/835848514495971338/848487756685377546/manual.PNG)
 This is a part of the manual.
