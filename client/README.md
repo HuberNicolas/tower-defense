@@ -64,7 +64,24 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 
 ## Illustrations
+You start at the titlescreen. Upon clicking on the screen you get to the login screen. If you have not created an account yet you can go to the register screen.
 
+![Login](https://cdn.discordapp.com/attachments/835848514495971338/848487753339109386/login.PNG)
+This is what the login screen looks like.
+
+After entering your credentials successfully you get to the main menu.
+
+![Mainmenu](https://cdn.discordapp.com/attachments/835848514495971338/848487754665164800/mainmenu.PNG)
+This is a screenshot from the mainmenu. 
+
+As you can see there are 4 options from here. Edit user settings lets you edit your username, password and your location. Logout brings you back to the loginscreen from before. If you have never played a towerdefense game before or want to look at the tutorial you can click on the "manual" button which opens a pdf in a new tab.
+
+![Manual](https://cdn.discordapp.com/attachments/835848514495971338/848487756685377546/manual.PNG)
+This is a part of the manual.
+
+If you decided to play the game, click on "singleplayer" and afterwards "start game". This brings you into the actual game which looks like this:
+![Game](https://cdn.discordapp.com/attachments/835848514495971338/848487752726872104/game.PNG)
+If you quit the game, you get back to the screen before the game.
 ## Roadmap
 Here is a list with ideas to improve/extend the project further:
 - Adding a Multiplayer (and/or design an AI such that you can play vs. the computer)
