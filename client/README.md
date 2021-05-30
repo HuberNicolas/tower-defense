@@ -107,7 +107,7 @@ The weather icons we used for the weather indicator are from [feathericons.com](
 
 The pokemon sprite images (.png) are from the [pokeapi](https://pokeapi.co/) project. It is licensed under the GNU Affero General Public License v3.0 License.
 
-The game sounds we've used are from [soundpack](https://opengameart.org/content/512-sound-effects-8-bit-style). We found the soundpack on the website on [opengameart.org](opengameart.org) The author's name is Juhani Junkala aka. Subspace Audio. Feel free to visit [his website](https://juhanijunkala.com/). The soundpack is  under the CC0 1.0 Universal (CC0 1.0) licence.
+The game sounds we've used are from [soundpack](https://opengameart.org/content/512-sound-effects-8-bit-style). We found the soundpack on the website on [opengameart.org](https://opengameart.org) The author's name is Juhani Junkala aka. Subspace Audio. Feel free to visit [his website](https://juhanijunkala.com/). The soundpack is  under the CC0 1.0 Universal (CC0 1.0) licence.
 
 Finally, Nicoals created with [beepbox.co](https://www.beepbox.co/), a program to create melodies an arrangment of the ingame song 3D Galax, the soundtrack of the name 3D Galax on the Atari (1987). The original composer [Ben Daglish](http://www.ben-daglish.net/) died recently, rest in peace Ben! Nicolas used the [midi sheet of the youtuber](https://www.youtube.com/watch?v=yqhdHYVXyck&list=RDyqhdHYVXyck) "ZdrytchX -{Reference", feel free to check his [channel](https://www.youtube.com/channel/UCgeotTTb4AW_l2w8cNPRssA) out.
 
