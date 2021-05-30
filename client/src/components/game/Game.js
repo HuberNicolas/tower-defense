@@ -1098,6 +1098,7 @@ class Game extends React.Component {
                     TOWERS2.PLANT.attackSpeed,
                     TOWERS2.PLANT.id
                   ))
+                  sounds[2].play();
                   break;
                 case 2:
                   towers.push(new Tower(
@@ -1113,6 +1114,7 @@ class Game extends React.Component {
                     TOWERS2.WATER.attackSpeed,
                     TOWERS2.WATER.id
                   ))
+                  sounds[2].play();
                   break;
                 case 3:
                   towers.push(new Tower(
@@ -1128,6 +1130,7 @@ class Game extends React.Component {
                     TOWERS2.FIRE.attackSpeed,
                     TOWERS2.FIRE.id
                   ))
+                  sounds[2].play();
                   break;
                 case 4:
                   towers.push(new Tower(
@@ -1143,6 +1146,7 @@ class Game extends React.Component {
                     TOWERS2.PSYCH.attackSpeed,
                     TOWERS2.PSYCH.id
                   ))
+                  sounds[2].play();
                   break;
                 case 5:
                   towers.push(new Tower(
@@ -1158,6 +1162,7 @@ class Game extends React.Component {
                     TOWERS2.DRAGON.attackSpeed,
                     TOWERS2.DRAGON.id
                   ))
+                  sounds[2].play();
                   break;
                 case 6:
                   towers.push(new Tower(
@@ -1173,6 +1178,7 @@ class Game extends React.Component {
                     TOWERS3.PLANT.attackSpeed,
                     TOWERS3.PLANT.id
                   ))
+                  sounds[7].play();
                   break;
                 case 7:
                   towers.push(new Tower(
@@ -1188,6 +1194,7 @@ class Game extends React.Component {
                     TOWERS3.WATER.attackSpeed,
                     TOWERS3.WATER.id
                   ))
+                  sounds[7].play();
                   break;
                 case 8:
                   towers.push(new Tower(
@@ -1203,6 +1210,7 @@ class Game extends React.Component {
                     TOWERS3.FIRE.attackSpeed,
                     TOWERS3.FIRE.id
                   ))
+                  sounds[7].play();
                   break;
                 case 9:
                   towers.push(new Tower(
@@ -1218,6 +1226,7 @@ class Game extends React.Component {
                     TOWERS3.PSYCH.attackSpeed,
                     TOWERS3.PSYCH.id
                   ))
+                  sounds[7].play();
                   break;
                 case 10:
                   towers.push(new Tower(
@@ -1233,17 +1242,12 @@ class Game extends React.Component {
                     TOWERS3.DRAGON.attackSpeed,
                     TOWERS3.DRAGON.id
                   ))
+                  sounds[7].play();
                   break;
               }
               gold -=upgradecost;
             }
             this.upgrade(coordArray);
-            if(towerType <=5 ) {
-              sounds[2].play();
-            }
-            else if(towerType >= 6) {
-              sounds[7].play();
-            } 
             return;
           }
           if(sellSelector && !upgradeSelctor && prepPhase) {
