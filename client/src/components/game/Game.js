@@ -1057,6 +1057,7 @@ class Game extends React.Component {
                 break;
               case 3:
                 upgradecost=TOWERS2.FIRE.towerCost;
+                break;
               case 4:
                 upgradecost=TOWERS2.PSYCH.towerCost;
                 break;
@@ -1395,13 +1396,6 @@ class Game extends React.Component {
           // highlights current tile
           ctx.strokeStyle = "dodgerblue";
           ctx.strokeRect(this.x, this.y, this.width, this.height);
-          /*     
-          // DEBUG ONLY 
-          // writes coordinates of tile (upper left corner)
-          ctx.fillStyle = "white";
-          ctx.font = "10px Arial";
-          ctx.fillText("y:" + this.y + " x:" + this.x, this.x + 5, this.y + 25);
-          */
         }
         ctx.strokeStyle = "dodgerblue";
         ctx.rect(this.x, this.y, this.width, this.height);
