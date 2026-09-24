@@ -293,7 +293,7 @@ class Title extends React.Component {
             {/*<button onClick={this.startMusic}>{this.state.play ? 'Pause' : 'Play'}</button>*/}
             <Text>Click here to start</Text>
             <div>
-            <audio ref="audio_tag" src="https://github.com/sopra-fs21-group-10/td-client/blob/530d6d01266c37e845cc64cc786719a79ff1769d/src/assets/music/3d%20galax%20-%20arrangement%20nh.mp3?raw=true" autoPlay loop/>
+            <audio ref="audio_tag" src={titleMusic} autoPlay loop/>
             </div>
           </FormContainer>
         </BaseContainer>

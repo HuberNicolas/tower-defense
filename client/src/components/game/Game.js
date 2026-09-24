@@ -5,6 +5,21 @@ import { withRouter } from "react-router-dom";
 import { store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
+import titleMusicUrl from "../../assets/music/3d galax - arrangement nh.mp3";
+import cloudLightningUrl from "../../assets/img/cloud-lightning.png";
+import cloudRainUrl from "../../assets/img/cloud-rain.png";
+import cloudSnowUrl from "../../assets/img/cloud-snow.png";
+import cloudUrl from "../../assets/img/cloud.png";
+import sfxAlarmLoop3Url from "../../assets/sounds/sfx_alarm_loop3.mp3";
+import sfxCoinCluster3Url from "../../assets/sounds/sfx_coin_cluster3.mp3";
+import sfxCoinDouble3Url from "../../assets/sounds/sfx_coin_double3.mp3";
+import sfxDamageHit1Url from "../../assets/sounds/sfx_damage_hit1.mp3";
+import sfxMenuMove3Url from "../../assets/sounds/sfx_menu_move3.mp3";
+import sfxSoundShutdown2Url from "../../assets/sounds/sfx_sound_shutdown2.mp3";
+import sfxSoundsFanfare1Url from "../../assets/sounds/sfx_sounds_fanfare1.mp3";
+import sfxSoundsPowerup5Url from "../../assets/sounds/sfx_sounds_powerup5.mp3";
+import sunUrl from "../../assets/img/sun.png";
+import windUrl from "../../assets/img/wind.png";
 
 class Game extends React.Component {
   constructor() {
@@ -395,54 +410,53 @@ class Game extends React.Component {
 
 
     // SOUNDS
-    // don't forget raw=true
-    var damage1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_damage_hit1.mp3?raw=true'); 
+    var damage1 = new Audio(sfxDamageHit1Url); 
     sounds.push(damage1);
 
-    var click1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_menu_move3.mp3?raw=true'); 
+    var click1 = new Audio(sfxMenuMove3Url); 
     sounds.push(click1);
 
-    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_powerup5.mp3?raw=true'); 
+    var upgradeTower1 = new Audio(sfxSoundsPowerup5Url); 
     sounds.push(upgradeTower1);
 
-    var lost = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sound_shutdown2.mp3?raw=true'); 
+    var lost = new Audio(sfxSoundShutdown2Url); 
     sounds.push(lost);
 
-    var sellTower = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_double3.mp3?raw=true'); 
+    var sellTower = new Audio(sfxCoinDouble3Url); 
     sounds.push(sellTower);
 
-    var earnMinionGold = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_coin_cluster3.mp3?raw=true'); 
+    var earnMinionGold = new Audio(sfxCoinCluster3Url); 
     sounds.push(earnMinionGold);
 
-    var waveStarts = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_alarm_loop3.mp3?raw=true');
+    var waveStarts = new Audio(sfxAlarmLoop3Url);
     sounds.push(waveStarts);
 
-    var upgradeTower1 = new Audio('https://github.com/sopra-fs21-group-10/td-client/blob/master/src/assets/sounds/sfx_sounds_fanfare1.mp3?raw=true'); 
+    var upgradeTower1 = new Audio(sfxSoundsFanfare1Url); 
     sounds.push(upgradeTower1);
 
     var audio = new Audio();
-    const audioPath =  "https://github.com/sopra-fs21-group-10/td-client/blob/530d6d01266c37e845cc64cc786719a79ff1769d/src/assets/music/3d%20galax%20-%20arrangement%20nh.mp3?raw=true";
+    const audioPath =  titleMusicUrl;
     audio.src = audioPath;
 
 
     // WEATHER
     const thunderstorm = new Image();
-    thunderstorm.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud-lightning.png";
+    thunderstorm.src = cloudLightningUrl;
     
     const cloudy = new Image();
-    cloudy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud.png";
+    cloudy.src = cloudUrl;
       
     const rainy = new Image();
-    rainy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud-rain.png";
+    rainy.src = cloudRainUrl;
     
     const snowy = new Image();
-    snowy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/cloud-snow.png";
+    snowy.src = cloudSnowUrl;
     
     const sunny = new Image();
-    sunny.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/sun.png";
+    sunny.src = sunUrl;
     
     const windy = new Image();
-    windy.src = "https://raw.githubusercontent.com/sopra-fs21-group-10/td-client/master/src/assets/img/wind.png";
+    windy.src = windUrl;
     
     
     // ########## ENTITY-ATTRIBUTES ##########
