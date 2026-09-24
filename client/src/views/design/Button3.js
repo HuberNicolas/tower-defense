@@ -1,5 +1,15 @@
 import styled, { keyframes } from "styled-components";
 
+// does not work yet
+const changeColor = keyframes `
+    from {
+        background: rgb(0, 0, 0);;
+    }
+    to {
+        background: rgb(120, 0, 0);;
+    }
+`;
+
 export const Button3 = styled.button`
   &:hover {
     transform: translateY(-2px);
@@ -25,13 +35,3 @@ export const Button3 = styled.button`
   transition: all 0.1s ease;
   animation-name: ${changeColor};
 `;
-
-// does not work yet
-const changeColor = keyframes `
-    from {
-        background: rgb(0, 0, 0);;
-    }
-    to {
-        background: rgb(120, 0, 0);;
-    }
-`
