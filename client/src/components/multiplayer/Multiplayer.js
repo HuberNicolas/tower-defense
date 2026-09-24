@@ -8,15 +8,13 @@ import Lobby from '../shared/models/Lobby';
 import Lobby1 from '../../views/Lobby1';
 import "./Multiplayer.css"
 import { Spinner } from '../../views/design/Spinner';
-import multiplayer from "../../multiplayer.jpg";
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 
 var sectionStyle = {
   width: "100%",
-  height: "768px",
-  backgroundImage: "url(" +  multiplayer  + ")"
+  height: "768px"
 };
 
 const Container = styled(BaseContainer)`

@@ -7,11 +7,9 @@ import { withRouter } from 'react-router-dom';
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
 import Lobby from "../shared/models/Lobby"
-import lobby from "../../lobby.jpg";
 var sectionStyle = {
   width: "100%",
-  height: "768px",
-  backgroundImage: "url(" +  lobby  + ")"
+  height: "768px"
 };
 const Container = styled(BaseContainer)`
   color: black;

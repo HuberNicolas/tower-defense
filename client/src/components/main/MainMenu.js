@@ -2,10 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { Button3 } from "../../views/design/Button3";
-import backgroundmusic from "../../backgroundmusic.mp3";
 import { api, handleError } from "../../helpers/api";
 import { store } from "react-notifications-component";
-import tree from "../../assets/img/Tree2.png";
 import manual from "../../assets/pdf/manual.pdf";
 import "react-notifications-component/dist/theme.css";
 import "animate.css";
@@ -55,8 +53,6 @@ var colStyle1 = {
   marginTop: "120px",
   float: "left",
   width: "20%",
-  borderStyle: "solid solid solid none",
-  borderColor: "rgba(16, 89, 0, 1)",
 };
 const background = styled.img`
   display: flex;
@@ -68,31 +64,11 @@ const background = styled.img`
 class Login extends React.Component {
   constructor() {
     super();
-    this.state = {
-      play: false,
-    };
   }
   onResumeClick() {
     window.open(manual);
   }
 
-  // music to be played
-  audio = new Audio(backgroundmusic);
-  componentDidMount() {
-    this.audio.addEventListener("ended", () => this.setState({ play: false }));
-  }
-
-  componentWillUnmount() {
-    this.audio.removeEventListener("ended", () =>
-      this.setState({ play: false })
-    );
-  }
-
-  togglePlay = () => {
-    this.setState({ play: !this.state.play }, () => {
-      this.state.play ? this.audio.play() : this.audio.pause();
-    });
-  };
   //refreshes the website
   reload() {
     window.location.reload(false);
@@ -143,9 +119,7 @@ class Login extends React.Component {
           />
         </div>
         <div style={rowStyle}>
-          <div style={colStyle1}>
-            <img src={tree} height="600px"></img>
-          </div>
+          <div style={colStyle1}></div>
           <div style={colStyle}>
           
               <Title>Main Menu</Title>
@@ -190,9 +164,6 @@ class Login extends React.Component {
                 >
                   logout
                 </Button3>
-                {/*<Button3 width="50%" onClick={this.togglePlay}>
-                  {this.state.play ? "Pause" : "Play"}
-                </Button3> */}
               </ButtonContainer>
 
           </div>

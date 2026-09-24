@@ -6,15 +6,13 @@ import { withRouter } from 'react-router-dom';
 import Player from '../../views/Player';
 import { Spinner } from '../../views/design/Spinner';
 import { Button } from '../../views/design/Button';
-import lobby from "../../lobby.jpg";
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css';
 import 'animate.css';
 
 var sectionStyle = {
   width: "100%",
-  height: "768px",
-  backgroundImage: "url(" +  lobby  + ")"
+  height: "768px"
 };
 const Container = styled(BaseContainer)`
   color: black;
