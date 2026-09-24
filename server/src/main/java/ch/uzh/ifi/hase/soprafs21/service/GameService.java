@@ -675,9 +675,14 @@ public class GameService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user with userId was not found");
         }
 
+        String weatherKey = System.getenv("WeatherKey");
+        if (weatherKey == null || weatherKey.isBlank()) {// no OpenWeather key configured: play with clear weather
+            return "Clear";
+        }
+
         try {// location should always exist because it is checked before being entered, but for safety
             URL jsonUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q="
-                    +user.getLocation()+"&appid="+System.getenv("WeatherKey"));//last part is the key
+                    +user.getLocation()+"&appid="+weatherKey);//last part is the key
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

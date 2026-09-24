@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -77,6 +78,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
     @Test
+    @EnabledIfEnvironmentVariable(named = "WeatherKey", matches = ".+") // needs the OpenWeather API
      void editProfile_invalidLocation_throwsException() {
         // given
         assertNull(userRepository.findByUsername("testUsername"));

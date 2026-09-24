@@ -138,10 +138,14 @@ public class UserService {
             log.debug("User changed Password: {}", found);
         }
 
-        if(location!=null){// this will change,  we need to check if valid location
+        String weatherKey = System.getenv("WeatherKey");
+        if(location!=null && (weatherKey == null || weatherKey.isBlank())){// no OpenWeather key configured: accept the location unchecked
+            found.setLocation(location);
+        }
+        else if(location!=null){// this will change,  we need to check if valid location
             try {
                 // test if location exists by making a request
-                URL jsonUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q="+location+"&appid="+System.getenv("WeatherKey"));//last part is the key
+                URL jsonUrl = new URL("http://api.openweathermap.org/data/2.5/weather?q="+location+"&appid="+weatherKey);//last part is the key
 
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
