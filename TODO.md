@@ -32,14 +32,15 @@ Open tasks before the repository is made public. See also [Known issues](README.
 - [x] README with features, architecture, quick start, configuration, known issues, authors and credits
 - [x] Guides in `docs/`: gameplay, architecture, API, development
 - [x] New screenshots in `docs/images` (the old README linked to expired Discord attachments)
-- [ ] Confirm Mauro's full name (the old server README says "Mauro Dörig", the GitHub account is `maurohirt`)
+- [x] Credit Mauro by first name and GitHub account (`maurohirt`); his last name is uncertain
 
 ## 5. Before publishing
 
 - [x] License: MIT with the team copyright (2021) and Nicolas Huber (2026); third-party assets listed separately
 - [x] Credit third parties (sound effects, Feather icons, 3D Galax, Pokémon sprites, OpenWeather, fonts)
-- [ ] Decide whether to keep the title music: it is an arrangement of Ben Daglish's copyrighted "3D Galax" soundtrack
-- [ ] Check for secrets in the files and the git history, right before publishing. Known: an OpenWeather API key
-      in commits `baf413c`/`07b58a6` (td-server history, April 2021). It has been public in the original repository
-      since 2021; make sure it is revoked
+- [x] Keep the title music (own arrangement by Nicolas Huber of Ben Daglish's "3D Galax"), credited and excluded from
+      the MIT License
+- [x] Check for secrets in the files and the git history. Known: an OpenWeather API key of a former team member in
+      commits `baf413c`/`07b58a6` (td-server history, April 2021). It has been public in the original repository since
+      2021 and is left as is
 - [ ] Set the GitHub description and topics
